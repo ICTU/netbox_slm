@@ -1,0 +1,5 @@
+**/netbox-docker
+**/*.pyc
+**/__pycache__
+**/.idea
+**/.vscode
