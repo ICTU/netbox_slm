@@ -3,3 +3,5 @@
 **/__pycache__
 **/.idea
 **/.vscode
+**/dist
+**/netbox_slm.egg-info
