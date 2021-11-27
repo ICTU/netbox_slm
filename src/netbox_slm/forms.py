@@ -1,4 +1,5 @@
 from django import forms
+from django.urls import reverse_lazy
 from extras.forms import (
     CustomFieldModelForm,
     CustomFieldModelCSVForm,
@@ -9,11 +10,8 @@ from extras.forms import (
 from dcim.models import Manufacturer
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
 from utilities.forms import (
-    BootstrapMixin, DynamicModelChoiceField,
+    BootstrapMixin, DynamicModelChoiceField, APISelect, DynamicModelMultipleChoiceField
 )
-
-
-from netbox_slm.fields import CustomDynamicModelMultipleChoiceField
 
 
 class SoftwareProductForm(BootstrapMixin, CustomFieldModelForm):
@@ -71,12 +69,12 @@ class SoftwareProductBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomField
 class SoftwareProductVersionForm(BootstrapMixin, CustomFieldModelForm):
     """Form for creating a new SoftwareProductVersion object."""
 
-    software_product = CustomDynamicModelMultipleChoiceField(
+    software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=False,
-        # initial_params={
-        #     'device_types': 'device_type'
-        # }
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
+        ),
     )
 
     # tags = DynamicModelMultipleChoiceField(
@@ -87,6 +85,10 @@ class SoftwareProductVersionForm(BootstrapMixin, CustomFieldModelForm):
     class Meta:
         model = SoftwareProductVersion
         fields = ("name", "software_product",)  # "tags")
+
+    # def clean(self):
+    #     import pdb;pdb.set_trace()
+    #     return super(SoftwareProductVersionForm, self).clean()
 
 
 class SoftwareProductVersionFilterForm(BootstrapMixin, CustomFieldModelFilterForm):

@@ -21,6 +21,7 @@ class CustomDynamicModelMultipleChoiceField(DynamicModelMultipleChoiceField):
         # Modify the QuerySet of the field before we return it. Limit choices to any data already bound: Options
         # will be populated on-demand via the APISelect widget.
         data = bound_field.value()
+
         if data:
             field_name = getattr(self, "to_field_name") or "pk"
             filter = self.filter(field_name=field_name)
