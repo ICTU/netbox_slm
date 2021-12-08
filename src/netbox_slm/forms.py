@@ -69,6 +69,7 @@ class SoftwareProductBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomField
 
 class SoftwareProductVersionForm(BootstrapMixin, CustomFieldModelForm):
     """Form for creating a new SoftwareProductVersion object."""
+    name = forms.CharField(label=_("Version"))
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
