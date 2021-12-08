@@ -4,9 +4,9 @@ from rest_framework.response import Response
 from rest_framework.routers import APIRootView
 
 from extras.api.views import CustomFieldModelViewSet
-from netbox_slm.api.serializers import SoftwareProductSerializer
-from netbox_slm.filters import SoftwareProductFilter
-from netbox_slm.models import SoftwareProduct
+from netbox_slm.api.serializers import SoftwareProductSerializer, SoftwareProductVersionSerializer
+from netbox_slm.filters import SoftwareProductFilter, SoftwareProductVersionFilter
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
 
 
 class NetboxSLMRootView(APIRootView):
@@ -22,6 +22,18 @@ class SoftwareProductViewSet(CustomFieldModelViewSet):
     queryset = SoftwareProduct.objects.all()
     serializer_class = SoftwareProductSerializer
     filterset_class = SoftwareProductFilter
+
+    # @action(detail=True, methods=["get"])
+    # def records(self, request, pk=None):
+    #     records = Record.objects.filter(zone=pk)
+    #     serializer = RecordSerializer(records, many=True, context={"request": request})
+    #     return Response(serializer.data)
+
+
+class SoftwareProductVersionViewSet(CustomFieldModelViewSet):
+    queryset = SoftwareProductVersion.objects.all()
+    serializer_class = SoftwareProductVersionSerializer
+    filterset_class = SoftwareProductVersionFilter
 
     # @action(detail=True, methods=["get"])
     # def records(self, request, pk=None):

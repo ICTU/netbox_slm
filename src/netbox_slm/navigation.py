@@ -42,4 +42,24 @@ menu_items = (
             ),
         )
     ),
+    PluginMenuItem(
+        link='plugins:netbox_slm:softwareproductinstallation_list',
+        link_text='Installations',
+        buttons=(
+            PluginMenuButton(
+                "plugins:netbox_slm:softwareproductinstallation_add",
+                "Add",
+                "mdi mdi-plus-thick",
+                ButtonColorChoices.GREEN,
+                permissions=["netbox_slm.add_softwareproductinstallation"],
+            ),
+            PluginMenuButton(
+                "plugins:netbox_slm:softwareproductinstallation_import",
+                "Import",
+                "mdi mdi-upload",
+                ButtonColorChoices.CYAN,
+                permissions=["netbox_slm.add_softwareproductinstallation"],
+            ),
+        )
+    ),
 )

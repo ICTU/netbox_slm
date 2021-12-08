@@ -1,14 +1,15 @@
 from netbox.views import generic
-from netbox_slm.filters import SoftwareProductFilter, SoftwareProductVersionFilter
+from netbox_slm.filters import SoftwareProductFilter, SoftwareProductVersionFilter, SoftwareProductInstallationFilter
 from netbox_slm.forms import (
     SoftwareProductForm, SoftwareProductFilterForm, SoftwareProductCSVForm, SoftwareProductBulkEditForm,
     SoftwareProductVersionForm, SoftwareProductVersionFilterForm, SoftwareProductVersionCSVForm,
-    SoftwareProductVersionBulkEditForm
+    SoftwareProductVersionBulkEditForm, SoftwareProductInstallationForm, SoftwareProductInstallationFilterForm,
+    SoftwareProductInstallationCSVForm, SoftwareProductInstallationBulkEditForm
 )
 from netbox_slm.models import (
-    SoftwareProduct, SoftwareProductVersion
+    SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 )
-from netbox_slm.tables import SoftwareProductTable, SoftwareProductVersionTable
+from netbox_slm.tables import SoftwareProductTable, SoftwareProductVersionTable, SoftwareProductInstallationTable
 
 
 class SoftwareProductListView(generic.ObjectListView):
@@ -111,3 +112,54 @@ class SoftwareProductVersionBulkEditView(generic.BulkEditView):
 class SoftwareProductVersionBulkDeleteView(generic.BulkDeleteView):
     queryset = SoftwareProductVersion.objects.all()
     table = SoftwareProductVersionTable
+
+
+class SoftwareProductInstallationListView(generic.ObjectListView):
+    """View for listing all existing SoftwareProductInstallations."""
+
+    queryset = SoftwareProductInstallation.objects.all()
+    filterset = SoftwareProductInstallationFilter
+    filterset_form = SoftwareProductInstallationFilterForm
+    table = SoftwareProductInstallationTable
+    template_name = "netbox_slm/object_list.html"
+
+
+class SoftwareProductInstallationView(generic.ObjectView):
+    """Display SoftwareProductInstallation details"""
+
+    queryset = SoftwareProductVersion.objects.all()
+
+    # def get_extra_context(self, request, instance):
+    #     records = instance.record_set.all()
+    #     return {"records": records}
+
+
+class SoftwareProductInstallationEditView(generic.ObjectEditView):
+    """View for editing and creating a SoftwareProductInstallation instance."""
+
+    queryset = SoftwareProductInstallation.objects.all()
+    model_form = SoftwareProductInstallationForm
+
+
+class SoftwareProductInstallationDeleteView(generic.ObjectDeleteView):
+    """View for deleting a SoftwareProductInstallation instance"""
+
+    queryset = SoftwareProductInstallation.objects.all()
+
+
+class SoftwareProductInstallationBulkImportView(generic.BulkImportView):
+    queryset = SoftwareProductInstallation.objects.all()
+    model_form = SoftwareProductInstallationCSVForm
+    table = SoftwareProductInstallationTable
+
+
+class SoftwareProductInstallationBulkEditView(generic.BulkEditView):
+    queryset = SoftwareProductInstallation.objects.all()
+    filterset = SoftwareProductInstallationFilter
+    table = SoftwareProductInstallationTable
+    form = SoftwareProductInstallationBulkEditForm
+
+
+class SoftwareProductInstallationBulkDeleteView(generic.BulkDeleteView):
+    queryset = SoftwareProductInstallation.objects.all()
+    table = SoftwareProductInstallationTable

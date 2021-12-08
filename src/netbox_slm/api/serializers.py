@@ -5,7 +5,7 @@ from netbox.api.serializers import PrimaryModelSerializer, OrganizationalModelSe
 #     NestedRecordSerializer,
 #     NestedNameServerSerializer,
 # )
-from netbox_slm.models import SoftwareProduct
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
 
 
 class SoftwareProductSerializer(PrimaryModelSerializer):
@@ -18,6 +18,22 @@ class SoftwareProductSerializer(PrimaryModelSerializer):
         model = SoftwareProduct
         fields = [
             'id', 'display', 'url', 'name', 'tags', 'custom_field_data', 'created', 'last_updated',
+        ]
+
+    def get_display(self, obj):
+        return obj.name
+
+
+class SoftwareProductVersionSerializer(PrimaryModelSerializer):
+    display = serializers.SerializerMethodField()
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_slm-api:softwareproductversion-detail"
+    )
+
+    class Meta:
+        model = SoftwareProductVersion
+        fields = [
+            'id', 'display', 'url', 'name', 'software_product', 'tags', 'custom_field_data', 'created', 'last_updated',
         ]
 
     def get_display(self, obj):

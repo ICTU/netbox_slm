@@ -1,7 +1,7 @@
 from django.urls import path
 from extras.views import ObjectChangeLogView
 from netbox_slm import views
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 
 urlpatterns = [
     # Software Products
@@ -34,5 +34,21 @@ urlpatterns = [
         ObjectChangeLogView.as_view(),
         name="softwareproductversion_changelog",
         kwargs={"model": SoftwareProductVersion},
+    ),
+
+    # Software Product Versions
+    path("installations/", views.SoftwareProductInstallationListView.as_view(), name='softwareproductinstallation_list'),
+    path("installations/add/", views.SoftwareProductInstallationEditView.as_view(), name='softwareproductinstallation_add'),
+    path("installations/import/", views.SoftwareProductInstallationBulkImportView.as_view(), name="softwareproductinstallation_import"),
+    path("installations/edit/", views.SoftwareProductInstallationBulkEditView.as_view(), name="softwareproductinstallation_bulk_edit"),
+    path("installations/delete/", views.SoftwareProductInstallationBulkDeleteView.as_view(), name="softwareproductinstallation_bulk_delete"),
+    path("installations/<int:pk>/", views.SoftwareProductInstallationView.as_view(), name="softwareproductinstallation"),
+    path("installations/<int:pk>/delete/", views.SoftwareProductInstallationDeleteView.as_view(), name="softwareproductinstallation_delete"),
+    path("installations/<int:pk>/edit/", views.SoftwareProductInstallationEditView.as_view(), name="softwareproductinstallation_edit"),
+    path(
+        "installations/<int:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="softwareproductinstallation_changelog",
+        kwargs={"model": SoftwareProductInstallation},
     ),
 ]

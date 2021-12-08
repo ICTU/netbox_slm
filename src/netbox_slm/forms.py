@@ -1,5 +1,6 @@
 from django import forms
 from django.urls import reverse_lazy
+from django.utils.translation import gettext as _
 from extras.forms import (
     CustomFieldModelForm,
     CustomFieldModelCSVForm,
@@ -7,8 +8,8 @@ from extras.forms import (
     CustomFieldModelBulkEditForm,
     CustomFieldModelFilterForm,
 )
-from dcim.models import Manufacturer
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
+from dcim.models import Manufacturer, Device
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 from utilities.forms import (
     BootstrapMixin, DynamicModelChoiceField, APISelect, DynamicModelMultipleChoiceField
 )
@@ -115,6 +116,76 @@ class SoftwareProductVersionCSVForm(CustomFieldModelCSVForm):
 class SoftwareProductVersionBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomFieldModelBulkEditForm):
     pk = forms.ModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
+        widget=forms.MultipleHiddenInput(),
+    )
+
+    class Meta:
+        nullable_fields = []
+
+
+class SoftwareProductInstallationForm(BootstrapMixin, CustomFieldModelForm):
+    """Form for creating a new SoftwareProductInstallation object."""
+
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        # initial_params={
+        #     'device_types': 'device_type'
+        # }
+    )
+    software_product = DynamicModelChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False,
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
+        ),
+    )
+    version = DynamicModelChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False,
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}
+        ),
+        query_params={
+            'software_product': '$software_product',
+        }
+    )
+
+    # todo need version and device ?
+
+    # tags = DynamicModelMultipleChoiceField(
+    #     queryset=Tag.objects.all(),
+    #     required=False,
+    # )
+
+    class Meta:
+        model = SoftwareProductInstallation
+        fields = ("device", "software_product", "version",)  # "tags")
+
+    # def clean(self):
+    #     import pdb;pdb.set_trace()
+    #     return super(SoftwareProductInstallationForm, self).clean()
+
+
+class SoftwareProductInstallationFilterForm(BootstrapMixin, CustomFieldModelFilterForm):
+    """Form for filtering SoftwareProductInstallation instances."""
+
+    model = SoftwareProductInstallation
+
+    q = forms.CharField(required=False, label="Search")
+
+    # tag = TagFilterField(SoftwareProduct)
+
+
+class SoftwareProductInstallationCSVForm(CustomFieldModelCSVForm):
+    class Meta:
+        model = SoftwareProductInstallation
+        fields = tuple()
+
+
+class SoftwareProductInstallationBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomFieldModelBulkEditForm):
+    pk = forms.ModelMultipleChoiceField(
+        queryset=SoftwareProductInstallation.objects.all(),
         widget=forms.MultipleHiddenInput(),
     )
 
