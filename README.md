@@ -71,6 +71,24 @@ $ ./start-netbox.sh
 
 This will start Netbox locally (requires Docker) and forward the redis and postgres ports to the localhost (make sure there's no processes using these ports or change the dockerfiles accordingly)
 
+Note, you can also start and stop netbox by hand:
+```
+$ cd netbox-docker
+$ docker-compose up -d
+
+or stop the stack with
+
+$ docker-compose down
+
+# to start fresh:
+
+$ docker-compose down
+$ docker volume rm netbox-docker_netbox-postgres-data  # et cetera
+$ docker-compose up -d --force-recreate
+
+this will require you to re-run the migrate commando's for netbox-slm, see further down below
+```
+
 Go back to the netbox configuration.py file and update the postgres and redis connection strings (username, password) to the ones the netbox docker backend is using, for example (using default user and passwords from the netbox docker example):
 
 ```
@@ -122,7 +140,7 @@ REDIS = {
 <<collapsed>>
 ```
 
-Now you can run commands from the netbox_slm repository like this;
+Now you can run commands from the netbox repository like this;
 
 ```
 $ cd netbox/netbox
