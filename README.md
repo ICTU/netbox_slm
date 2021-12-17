@@ -71,9 +71,9 @@ $ ./start-netbox.sh
 
 This will start Netbox locally (requires Docker) and forward the redis and postgres ports to the localhost (make sure there's no processes using these ports or change the dockerfiles accordingly)
 
-```
-go back to the netbox configuration.py file and update the postgres and redis connection strings (username, password) to the ones the netbox docker backend is using, for example:
+Go back to the netbox configuration.py file and update the postgres and redis connection strings (username, password) to the ones the netbox docker backend is using, for example (using default user and passwords from the netbox docker example):
 
+```
 <<collapsed>>
 
 # PostgreSQL database configuration. See the Django documentation for a complete list of available parameters:
