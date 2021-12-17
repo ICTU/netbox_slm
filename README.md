@@ -4,6 +4,20 @@
 
 ---
 
+### Installation Guide
+
+Depending on running in Docker (see the netbox-docker repository) add netbox_slm to the plugin_requirements.txt and change the configuration.py to include the plugin:
+
+```
+PLUGINS = [
+    'netbox_slm',
+]
+```
+
+### Releasing Guide
+
+_TODO_
+
 ### Developer Guide (local installation)
 
 _Follow the steps below on your local system to run netbox and the netbox_slm plugin in developer mode_
@@ -109,4 +123,4 @@ $ python3 manage.py migrate netbox_slm
 $ python3 manage.py runserver 8001
 ```
 
-and visit 127.0.0.1:8001 in the browesr to see the auto reloading version of the netbox UI. Port 8000 is taken by the docker ran variant.
+Visit http://127.0.0.1:8001 in the browesr to see the auto reloading version of the netbox UI. Port 8000 is taken by the docker ran variant.
