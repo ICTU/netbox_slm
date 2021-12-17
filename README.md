@@ -36,6 +36,8 @@ The goal below is to run all Netbox components in Docker and run a local Netbox 
 
 _Netbox's exception handler seems to supress initial Exceptions, obfuscating missing imports or other Django related issues by re-raising an opague error, e.g. netbox_slm plugin namespace doesnotexist. It's recommended to often check the runtime server or patch Netbox's global exception handler._
 
+### Steps
+
 ```
 from your projects directory clone the netbox repository
 
