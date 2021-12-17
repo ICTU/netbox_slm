@@ -6,13 +6,13 @@
 
 ### Installation Guide
 
-Depending on running in Docker (see the netbox-docker repository) add netbox_slm to the plugin_requirements.txt 
+Depending on running in Docker (see the netbox-docker repository) add netbox_slm to the plugin_requirements.txt (requires a valid pypi version)
 
 ```
 netbox-slm==0.1
 ```
 
-(requires a valid pypi version) and change the configuration.py to include the plugin:
+Change the configuration.py to include the plugin:
 
 ```
 PLUGINS = [
