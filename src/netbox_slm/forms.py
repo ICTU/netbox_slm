@@ -13,6 +13,7 @@ from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareP
 from utilities.forms import (
     BootstrapMixin, DynamicModelChoiceField, APISelect, DynamicModelMultipleChoiceField
 )
+from virtualization.models import VirtualMachine
 
 
 class SoftwareProductForm(BootstrapMixin, CustomFieldModelForm):
@@ -33,7 +34,7 @@ class SoftwareProductForm(BootstrapMixin, CustomFieldModelForm):
 
     class Meta:
         model = SoftwareProduct
-        fields = ("name", "manufacturer",)  # "tags")
+        fields = ("name", "manufacturer", "description",)  # "tags")
 
 
 class SoftwareProductFilterForm(BootstrapMixin, CustomFieldModelFilterForm):
@@ -134,16 +135,23 @@ class SoftwareProductInstallationForm(BootstrapMixin, CustomFieldModelForm):
         #     'device_types': 'device_type'
         # }
     )
+    virtualmachine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        # initial_params={
+        #     'device_types': 'device_type'
+        # }
+    )
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
-        required=False,
+        required=True,
         widget=APISelect(
             attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
         ),
     )
     version = DynamicModelChoiceField(
         queryset=SoftwareProductVersion.objects.all(),
-        required=False,
+        required=True,
         widget=APISelect(
             attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}
         ),
@@ -161,7 +169,7 @@ class SoftwareProductInstallationForm(BootstrapMixin, CustomFieldModelForm):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = ("device", "software_product", "version",)  # "tags")
+        fields = ("device", "virtualmachine", "software_product", "version",)  # "tags")
 
     # def clean(self):
     #     import pdb;pdb.set_trace()

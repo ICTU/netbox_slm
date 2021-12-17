@@ -13,6 +13,7 @@ class SoftwareProductTable(BaseTable):
         accessor=Accessor('manufacturer'),
         linkify=True
     )
+    installations = tables.Column(accessor='get_installation_count', verbose_name='Installations')
 
     # tags = TagColumn(
     #     url_name="plugins:netbox_dns:zone_list",
@@ -24,12 +25,16 @@ class SoftwareProductTable(BaseTable):
             "pk",
             "name",
             "manufacturer",
+            "description",
+            "installations",
             # "tags",
         )
         default_columns = (
             "pk",
             "name",
             "manufacturer",
+            "description",
+            "installations",
             # "tags",
         )
 
@@ -38,7 +43,7 @@ class SoftwareProductVersionTable(BaseTable):
     """Table for displaying SoftwareProductVersion objects."""
 
     pk = ToggleColumn()
-    name = tables.LinkColumn()
+    name = tables.LinkColumn(verbose_name='Version')
     software_product = tables.Column(
         accessor=Accessor('software_product'),
         linkify=True
@@ -47,6 +52,7 @@ class SoftwareProductVersionTable(BaseTable):
         accessor=Accessor('software_product__manufacturer'),
         linkify=True
     )
+    installations = tables.Column(accessor='get_installation_count', verbose_name='Installations')
 
     # tags = TagColumn(
     #     url_name="plugins:netbox_dns:zone_list",
@@ -59,6 +65,7 @@ class SoftwareProductVersionTable(BaseTable):
             "name",
             "software_product",
             "manufacturer",
+            "installations",
             # "tags",
         )
         default_columns = (
@@ -66,6 +73,7 @@ class SoftwareProductVersionTable(BaseTable):
             "name",
             "software_product",
             "manufacturer",
+            "installations",
             # "tags",
         )
 
@@ -77,6 +85,10 @@ class SoftwareProductInstallationTable(BaseTable):
     name = tables.LinkColumn()
     device = tables.Column(
         accessor=Accessor('device'),
+        linkify=True
+    )
+    virtualmachine = tables.Column(
+        accessor=Accessor('virtualmachine'),
         linkify=True
     )
     software_product = tables.Column(
@@ -98,6 +110,7 @@ class SoftwareProductInstallationTable(BaseTable):
             "pk",
             "name",
             "device",
+            "virtualmachine",
             "software_product",
             "version",
             # "tags",
@@ -105,6 +118,7 @@ class SoftwareProductInstallationTable(BaseTable):
         default_columns = (
             "pk",
             "device",
+            "virtualmachine",
             "software_product",
             "version",
             # "tags",

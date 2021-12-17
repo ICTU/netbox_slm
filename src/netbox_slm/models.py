@@ -11,7 +11,7 @@ class SoftwareProduct(PrimaryModel):
     A SoftwareProduct represents ...
     """
     name = models.CharField(max_length=128)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True, blank=True)
     
     manufacturer = models.ForeignKey(
         to='dcim.Manufacturer',
@@ -26,6 +26,9 @@ class SoftwareProduct(PrimaryModel):
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproduct", kwargs={"pk": self.pk})
+
+    def get_installation_count(self):
+        return SoftwareProductInstallation.objects.filter(software_product_id=self.pk).count()
 
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
@@ -45,19 +48,26 @@ class SoftwareProductVersion(PrimaryModel):
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproductversion", kwargs={"pk": self.pk})
 
+    def get_installation_count(self):
+        return SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
+
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
 class SoftwareProductInstallation(PrimaryModel):
     device = models.ForeignKey(
         to='dcim.Device',
         on_delete=models.PROTECT,
-        related_name='softwareproduct_installations'
+        related_name='softwareproduct_installations',
+        null=True,
+        blank=True
     )
-    # virtualmachine = models.ForeignKey(
-    #     to='virtualization.VirtualMachine',
-    #     on_delete=models.PROTECT,
-    #     related_name='softwareproduct_installations'
-    # )
+    virtualmachine = models.ForeignKey(
+        to='virtualization.VirtualMachine',
+        on_delete=models.PROTECT,
+        related_name='softwareproduct_installations',
+        null = True,
+        blank = True
+    )
     software_product = models.ForeignKey(
         to='netbox_slm.SoftwareProduct',
         on_delete=models.PROTECT,

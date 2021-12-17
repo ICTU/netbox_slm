@@ -36,7 +36,7 @@ class SoftwareProductFilter(BaseFilter):
 
 class SoftwareProductVersionFilter(BaseFilter):
     name = django_filters.CharFilter(
-        lookup_expr="icontains",
+        lookup_expr="icontains", label="Version"
     )
     # software_product_id = django_filters.ModelMultipleChoiceFilter(
     #     queryset=SoftwareProduct.objects.all(),
