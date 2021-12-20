@@ -66,3 +66,10 @@ class SoftwareProductInstallationFilter(BaseFilter):
     class Meta:
         model = SoftwareProductInstallation
         fields = tuple()  # "tag")
+
+    def search(self, queryset, name, value):
+        """Perform the filtered search."""
+        if not value.strip():
+            return queryset
+        qs_filter = Q(software_product__name__icontains=value) | Q(version__name__icontains=value)
+        return queryset.filter(qs_filter)

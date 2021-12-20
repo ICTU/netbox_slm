@@ -1,5 +1,6 @@
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.utils import safestring
 from extras.utils import extras_features
 from netbox.models import PrimaryModel
 from utilities.querysets import RestrictedQuerySet
@@ -28,7 +29,11 @@ class SoftwareProduct(PrimaryModel):
         return reverse("plugins:netbox_slm:softwareproduct", kwargs={"pk": self.pk})
 
     def get_installation_count(self):
-        return SoftwareProductInstallation.objects.filter(software_product_id=self.pk).count()
+        count = SoftwareProductInstallation.objects.filter(software_product_id=self.pk).count()
+        return safestring.mark_safe("<a href=\"{url}\">{count}</a>".format(
+            url=reverse_lazy("plugins:netbox_slm:softwareproductinstallation_list") + f"?q={self.name}",
+            count=count
+        )) if count else "0"
 
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
@@ -49,7 +54,11 @@ class SoftwareProductVersion(PrimaryModel):
         return reverse("plugins:netbox_slm:softwareproductversion", kwargs={"pk": self.pk})
 
     def get_installation_count(self):
-        return SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
+        count = SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
+        return safestring.mark_safe("<a href=\"{url}\">{count}</a>".format(
+            url=reverse_lazy("plugins:netbox_slm:softwareproductinstallation_list") + f"?q={self.name}",
+            count=count
+        )) if count else "0"
 
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
