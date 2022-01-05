@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='netbox-slm',
-    version='0.2',
+    version='0.9',
     description='Software Lifecycle Management Netbox Plugin',
     url='https://github.com/ICTU/netbox_slm',
     author='Hedde van der Heide',
