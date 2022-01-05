@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 
 [dev-packages]
+twine = "3.7.1"
 
 [requires]
 python_version = "3.9"
