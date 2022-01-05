@@ -22,7 +22,18 @@ PLUGINS = [
 
 ### Releasing Guide
 
-_TODO_
+To draft a release;
+
+update the setup.py file to reflect the new version, then from the *src* directory run
+
+```
+$ python setup.py sdist
+$ twine upload dist/*
+```
+
+On Github.com create a similar tag and version. These steps could be automated with a github workflow.
+
+n.b. Currently the plugin is configured to use a personal pypi account, this should be changed.
 
 ### Developer Guide (local installation)
 
