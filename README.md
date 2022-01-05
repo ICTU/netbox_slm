@@ -9,7 +9,7 @@
 Depending on running in Docker (see the netbox-docker repository) add netbox_slm to the plugin_requirements.txt (requires a valid pypi version)
 
 ```
-netbox-slm==0.1
+netbox-slm==0.9
 ```
 
 Change the configuration.py to include the plugin:
