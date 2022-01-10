@@ -6,19 +6,42 @@
 
 ### Installation Guide
 
-Depending on running in Docker (see the netbox-docker repository) add netbox_slm to the plugin_requirements.txt (requires a valid pypi version)
+When using the Docker version of Netbox, first follow the [netbox-docker quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the netbox-docker repo and set up the `docker-compose.override.yml`.
 
-```
-netbox-slm==0.9
+Next, follow these instructions (based on the generic [Netbox plugin instructions](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins)) to install the Netbox SLM plugin:
+
+1. Add `netbox_slm` to the `PLUGINS` list in `configuration/configuration.py`.
+2. Create a `plugin_requirements.txt` with `netbox-slm==0.9` as contents.
+3. Create a `Dockerfile-SLM` with contents:
+
+```Dockerfile
+FROM netboxcommunity/netbox:v3.0.9  # The Netbox SLM plugin currently only works with v3.0.9 of Netbox due to backwards incompatible changes in newer version of Netbox
+
+COPY ./plugin_requirements.txt /
+RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /plugin_requirements.txt
 ```
 
-Change the configuration.py to include the plugin:
+4. Create a `docker-compose.override.yml` with contents:
 
+```yaml
+version: '3.4'
+services:
+  netbox:
+    ports:
+      - 8000:8080
+    build:
+      context: .
+      dockerfile: Dockerfile-SLM
+    image: netbox:slm
+  netbox-worker:
+    image: netbox:slm
+  netbox-housekeeping:
+    image: netbox:slm
 ```
-PLUGINS = [
-    'netbox_slm',
-]
-```
+
+Now, build the image: `docker compose build --no-cache`
+
+And finally, run Netbox with the SLM plugin: `docker compose up`
 
 ### Releasing Guide
 
