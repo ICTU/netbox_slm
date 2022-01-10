@@ -8,7 +8,7 @@
 
 When using the Docker version of Netbox, first follow the [netbox-docker quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the netbox-docker repo and set up the `docker-compose.override.yml`.
 
-Next, follow the following instructions (based on these generic [plugin instructions](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins)) to install the Netbox SLM plugin:
+Next, follow these instructions (based on the generic [Netbox plugin instructions](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins)) to install the Netbox SLM plugin:
 
 1. Add `netbox_slm` to the `PLUGINS` list in `configuration/configuration.py`.
 2. Create a `plugin_requirements.txt` with `netbox-slm==0.9` as contents.
