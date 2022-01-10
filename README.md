@@ -6,19 +6,25 @@
 
 ### Installation Guide
 
-Depending on running in Docker (see the netbox-docker repository) add netbox_slm to the plugin_requirements.txt (requires a valid pypi version)
+When using the Docker version of Netbox, first follow the [netbox-docker quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the netbox-docker repo and set up the `docker-compose.override.yml`.
 
-```
-netbox-slm==0.9
+Next, follow the [plugin instructions](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins) to install the Netbox SLM plugin.
+
+After following these instructions, you should have:
+
+- added `netbox_slm` to the `PLUGINS` list in `configuration/configuration.py`,
+- created a `plugin_requirements.txt` with `netbox-slm==0.9` as contents, and
+- created a `Dockerfile-SLM` with contents:
+
+```Dockerfile
+FROM netboxcommunity/netbox:v3.0.9  # The Netbox SLM plugin currently only works with v3.0.9 of Netbox due to backwards incompatible changes in newer version of Netbox
+
+COPY ./plugin_requirements.txt /
+RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /plugin_requirements.txt
 ```
 
-Change the configuration.py to include the plugin:
-
-```
-PLUGINS = [
-    'netbox_slm',
-]
-```
+Build the image: `docker compose build --no-cache`
+Run Netbox with the SLM plugin: `docker compose up -d`
 
 ### Releasing Guide
 
