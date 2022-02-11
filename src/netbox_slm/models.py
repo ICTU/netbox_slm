@@ -17,7 +17,8 @@ class SoftwareProduct(PrimaryModel):
     manufacturer = models.ForeignKey(
         to='dcim.Manufacturer',
         on_delete=models.PROTECT,
-        related_name='software_products'
+        related_name='software_products',
+        null=True, blank=True
     )
 
     objects = RestrictedQuerySet.as_manager()

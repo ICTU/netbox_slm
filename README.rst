@@ -20,7 +20,7 @@ to install the Netbox SLM plugin:
 
 1. Add ``netbox_slm`` to the ``PLUGINS`` list in
    ``configuration/configuration.py``.
-2. Create a ``plugin_requirements.txt`` with ``netbox-slm==0.9`` as
+2. Create a ``plugin_requirements.txt`` with ``netbox-slm==0.93`` as
    contents.
 3. Create a ``Dockerfile-SLM`` with contents:
 
@@ -63,6 +63,7 @@ directory run
 
 ::
 
+   # make sure to update the version in netbox_slm/__init__.py
    $ python setup.py sdist
    $ twine upload dist/*
 

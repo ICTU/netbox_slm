@@ -74,7 +74,6 @@ class SoftwareProductVersionForm(BootstrapMixin, CustomFieldModelForm):
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
-        required=False,
         widget=APISelect(
             attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
         ),
@@ -171,9 +170,10 @@ class SoftwareProductInstallationForm(BootstrapMixin, CustomFieldModelForm):
         model = SoftwareProductInstallation
         fields = ("device", "virtualmachine", "software_product", "version",)  # "tags")
 
-    # def clean(self):
-    #     import pdb;pdb.set_trace()
-    #     return super(SoftwareProductInstallationForm, self).clean()
+    def clean(self):
+        if not any([self.cleaned_data['device'], self.cleaned_data['virtualmachine']]):
+            raise forms.ValidationError(_("Installation requires atleast one virtualmachine or device destination."))
+        return super(SoftwareProductInstallationForm, self).clean()
 
 
 class SoftwareProductInstallationFilterForm(BootstrapMixin, CustomFieldModelFilterForm):
