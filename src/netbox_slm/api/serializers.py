@@ -21,7 +21,7 @@ class SoftwareProductSerializer(PrimaryModelSerializer):
         ]
 
     def get_display(self, obj):
-        return obj.name
+        return f"{obj.manufacturer.name} - {obj.name}"
 
 
 class SoftwareProductVersionSerializer(PrimaryModelSerializer):

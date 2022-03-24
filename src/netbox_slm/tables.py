@@ -91,6 +91,11 @@ class SoftwareProductInstallationTable(BaseTable):
         accessor=Accessor('virtualmachine'),
         linkify=True
     )
+    platform = tables.Column(
+        accessor='get_platform',
+        linkify=True
+    )
+    type = tables.Column(accessor='render_type')
     software_product = tables.Column(
         accessor=Accessor('software_product'),
         linkify=True
@@ -109,17 +114,20 @@ class SoftwareProductInstallationTable(BaseTable):
         fields = (
             "pk",
             "name",
-            "device",
-            "virtualmachine",
+            "platform",
+            "type",
             "software_product",
             "version",
             # "tags",
         )
         default_columns = (
             "pk",
-            "device",
-            "virtualmachine",
+            "platform",
+            "type",
             "software_product",
             "version",
             # "tags",
         )
+
+    def render_software_product(self, value, **kwargs):
+        return f"{kwargs['record'].software_product.manufacturer.name} - {value}"

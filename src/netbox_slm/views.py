@@ -78,9 +78,9 @@ class SoftwareProductVersionView(generic.ObjectView):
 
     queryset = SoftwareProductVersion.objects.all()
 
-    # def get_extra_context(self, request, instance):
-    #     records = instance.record_set.all()
-    #     return {"records": records}
+    def get_extra_context(self, request, instance):
+        installation_count = instance.get_installation_count()
+        return {"installations": installation_count}
 
 
 class SoftwareProductVersionEditView(generic.ObjectEditView):
