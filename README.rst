@@ -14,7 +14,7 @@ quickstart <https://github.com/netbox-community/netbox-docker#quickstart>`__
 instructions to clone the netbox-docker repo and set up the
 ``docker-compose.override.yml``.
 
-Next, follow these instructions (based on the generic `Netbox plugin
+Next, follow these instructions (based on the `Netbox docker variant
 instructions <https://github.com/netbox-community/netbox-docker/wiki/Configuration#custom-configuration-files>`__)
 to install the Netbox SLM plugin:
 
