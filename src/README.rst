@@ -63,7 +63,7 @@ directory run
 
 ::
 
-   # make sure to update the version in netbox_slm/__init__.py
+   # make sure to update the version in netbox_slm/__init__.py and setup.cfg
    $ python setup.py sdist
    $ twine upload dist/*
 
