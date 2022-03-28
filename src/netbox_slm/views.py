@@ -127,7 +127,7 @@ class SoftwareProductInstallationListView(generic.ObjectListView):
 class SoftwareProductInstallationView(generic.ObjectView):
     """Display SoftwareProductInstallation details"""
 
-    queryset = SoftwareProductVersion.objects.all()
+    queryset = SoftwareProductInstallation.objects.all()
 
     # def get_extra_context(self, request, instance):
     #     records = instance.record_set.all()

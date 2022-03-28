@@ -55,7 +55,6 @@ class SoftwareProductVersion(PrimaryModel):
         return reverse("plugins:netbox_slm:softwareproductversion", kwargs={"pk": self.pk})
 
     def get_installation_count(self):
-        print("ACCESSED")
         count = SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
         return safestring.mark_safe("<a href=\"{url}\">{count}</a>".format(
             url=reverse_lazy("plugins:netbox_slm:softwareproductinstallation_list") + f"?q={self.name}",

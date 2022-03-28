@@ -37,6 +37,12 @@ class SoftwareProductTable(BaseTable):
             "installations",
             # "tags",
         )
+        sequence = (
+            "manufacturer",
+            "name",
+            "description",
+            "installations",
+        )
 
 
 class SoftwareProductVersionTable(BaseTable):
@@ -75,6 +81,12 @@ class SoftwareProductVersionTable(BaseTable):
             "manufacturer",
             "installations",
             # "tags",
+        )
+        sequence = (
+            "manufacturer",
+            "software_product",
+            "name",
+            "installations",
         )
 
 
