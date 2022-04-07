@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils import safestring
-from extras.utils import extras_features
+# from extras.utils import extras_features  # todo this changed in netbox 3.1.X and higher, currently not used but checkout why
 from netbox.models import PrimaryModel
 from utilities.querysets import RestrictedQuerySet
 
