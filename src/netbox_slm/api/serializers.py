@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import PrimaryModelSerializer, OrganizationalModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 # from netbox_slm.api.nested_serializers import (
 #     NestedRecordSerializer,
 #     NestedNameServerSerializer,

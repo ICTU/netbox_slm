@@ -16,7 +16,7 @@ from utilities.forms import (
 from virtualization.models import VirtualMachine
 
 
-class SoftwareProductForm(BootstrapMixin, CustomFieldModelForm):
+class SoftwareProductForm(CustomFieldModelForm):
     """Form for creating a new SoftwareProduct object."""
 
     manufacturer = DynamicModelChoiceField(
@@ -37,7 +37,7 @@ class SoftwareProductForm(BootstrapMixin, CustomFieldModelForm):
         fields = ("name", "manufacturer", "description",)  # "tags")
 
 
-class SoftwareProductFilterForm(BootstrapMixin, CustomFieldModelFilterForm):
+class SoftwareProductFilterForm(CustomFieldModelFilterForm):
     """Form for filtering SoftwareProduct instances."""
 
     model = SoftwareProduct
@@ -58,7 +58,7 @@ class SoftwareProductCSVForm(CustomFieldModelCSVForm):
         fields = ("name",)
 
 
-class SoftwareProductBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomFieldModelBulkEditForm):
+class SoftwareProductBulkEditForm(AddRemoveTagsForm, CustomFieldModelBulkEditForm):
     pk = forms.ModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         widget=forms.MultipleHiddenInput(),
@@ -68,7 +68,7 @@ class SoftwareProductBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomField
         nullable_fields = []
 
 
-class SoftwareProductVersionForm(BootstrapMixin, CustomFieldModelForm):
+class SoftwareProductVersionForm(CustomFieldModelForm):
     """Form for creating a new SoftwareProductVersion object."""
     name = forms.CharField(label=_("Version"))
 
@@ -93,7 +93,7 @@ class SoftwareProductVersionForm(BootstrapMixin, CustomFieldModelForm):
     #     return super(SoftwareProductVersionForm, self).clean()
 
 
-class SoftwareProductVersionFilterForm(BootstrapMixin, CustomFieldModelFilterForm):
+class SoftwareProductVersionFilterForm(CustomFieldModelFilterForm):
     """Form for filtering SoftwareProductVersion instances."""
 
     model = SoftwareProductVersion
@@ -114,7 +114,7 @@ class SoftwareProductVersionCSVForm(CustomFieldModelCSVForm):
         fields = ("name",)
 
 
-class SoftwareProductVersionBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomFieldModelBulkEditForm):
+class SoftwareProductVersionBulkEditForm(AddRemoveTagsForm, CustomFieldModelBulkEditForm):
     pk = forms.ModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         widget=forms.MultipleHiddenInput(),
@@ -124,7 +124,7 @@ class SoftwareProductVersionBulkEditForm(BootstrapMixin, AddRemoveTagsForm, Cust
         nullable_fields = []
 
 
-class SoftwareProductInstallationForm(BootstrapMixin, CustomFieldModelForm):
+class SoftwareProductInstallationForm(CustomFieldModelForm):
     """Form for creating a new SoftwareProductInstallation object."""
 
     device = DynamicModelChoiceField(
@@ -176,7 +176,7 @@ class SoftwareProductInstallationForm(BootstrapMixin, CustomFieldModelForm):
         return super(SoftwareProductInstallationForm, self).clean()
 
 
-class SoftwareProductInstallationFilterForm(BootstrapMixin, CustomFieldModelFilterForm):
+class SoftwareProductInstallationFilterForm(CustomFieldModelFilterForm):
     """Form for filtering SoftwareProductInstallation instances."""
 
     model = SoftwareProductInstallation
@@ -192,7 +192,7 @@ class SoftwareProductInstallationCSVForm(CustomFieldModelCSVForm):
         fields = tuple()
 
 
-class SoftwareProductInstallationBulkEditForm(BootstrapMixin, AddRemoveTagsForm, CustomFieldModelBulkEditForm):
+class SoftwareProductInstallationBulkEditForm(AddRemoveTagsForm, CustomFieldModelBulkEditForm):
     pk = forms.ModelMultipleChoiceField(
         queryset=SoftwareProductInstallation.objects.all(),
         widget=forms.MultipleHiddenInput(),
