@@ -87,15 +87,6 @@ Netbox Django copy with auto-reload to develop the plugin pointing to
 the Dockerized postgres and redis instances, basically ignoring the
 netbox docker runtime server.
 
-Gotcha’s
-~~~~~~~~
-
-*Netbox’s exception handler seems to supress initial Exceptions,
-obfuscating missing imports or other Django related issues by re-raising
-an opague error, e.g. netbox_slm plugin namespace doesnotexist. It’s
-recommended to often check the runtime server or patch Netbox’s global
-exception handler.*
-
 Steps
 ~~~~~
 
