@@ -1,12 +1,11 @@
 from django import forms
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
-from extras.forms import (
-    CustomFieldModelForm,
-    CustomFieldModelCSVForm,
-    AddRemoveTagsForm,
-    CustomFieldModelBulkEditForm,
-    CustomFieldModelFilterForm,
+from netbox.forms import (
+    NetBoxModelForm,
+    NetBoxModelCSVForm,
+    NetBoxModelBulkEditForm,
+    NetBoxModelFilterSetForm,
 )
 from dcim.models import Manufacturer, Device
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
@@ -16,7 +15,7 @@ from utilities.forms import (
 from virtualization.models import VirtualMachine
 
 
-class SoftwareProductForm(CustomFieldModelForm):
+class SoftwareProductForm(NetBoxModelForm):
     """Form for creating a new SoftwareProduct object."""
 
     manufacturer = DynamicModelChoiceField(
@@ -27,17 +26,12 @@ class SoftwareProductForm(CustomFieldModelForm):
         # }
     )
 
-    # tags = DynamicModelMultipleChoiceField(
-    #     queryset=Tag.objects.all(),
-    #     required=False,
-    # )
-
     class Meta:
         model = SoftwareProduct
-        fields = ("name", "manufacturer", "description",)  # "tags")
+        fields = ("name", "manufacturer", "description", "tags")
 
 
-class SoftwareProductFilterForm(CustomFieldModelFilterForm):
+class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     """Form for filtering SoftwareProduct instances."""
 
     model = SoftwareProduct
@@ -52,23 +46,24 @@ class SoftwareProductFilterForm(CustomFieldModelFilterForm):
     # tag = TagFilterField(SoftwareProduct)
 
 
-class SoftwareProductCSVForm(CustomFieldModelCSVForm):
+class SoftwareProductCSVForm(NetBoxModelCSVForm):
     class Meta:
         model = SoftwareProduct
         fields = ("name",)
 
 
-class SoftwareProductBulkEditForm(AddRemoveTagsForm, CustomFieldModelBulkEditForm):
+class SoftwareProductBulkEditForm(NetBoxModelBulkEditForm):
     pk = forms.ModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         widget=forms.MultipleHiddenInput(),
     )
 
     class Meta:
+        model = SoftwareProduct
         nullable_fields = []
 
 
-class SoftwareProductVersionForm(CustomFieldModelForm):
+class SoftwareProductVersionForm(NetBoxModelForm):
     """Form for creating a new SoftwareProductVersion object."""
     name = forms.CharField(label=_("Version"))
 
@@ -79,21 +74,16 @@ class SoftwareProductVersionForm(CustomFieldModelForm):
         ),
     )
 
-    # tags = DynamicModelMultipleChoiceField(
-    #     queryset=Tag.objects.all(),
-    #     required=False,
-    # )
-
     class Meta:
         model = SoftwareProductVersion
-        fields = ("name", "software_product",)  # "tags")
+        fields = ("name", "software_product", "tags")
 
     # def clean(self):
     #     import pdb;pdb.set_trace()
     #     return super(SoftwareProductVersionForm, self).clean()
 
 
-class SoftwareProductVersionFilterForm(CustomFieldModelFilterForm):
+class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     """Form for filtering SoftwareProductVersion instances."""
 
     model = SoftwareProductVersion
@@ -108,23 +98,24 @@ class SoftwareProductVersionFilterForm(CustomFieldModelFilterForm):
     # tag = TagFilterField(SoftwareProduct)
 
 
-class SoftwareProductVersionCSVForm(CustomFieldModelCSVForm):
+class SoftwareProductVersionCSVForm(NetBoxModelCSVForm):
     class Meta:
         model = SoftwareProductVersion
         fields = ("name",)
 
 
-class SoftwareProductVersionBulkEditForm(AddRemoveTagsForm, CustomFieldModelBulkEditForm):
+class SoftwareProductVersionBulkEditForm(NetBoxModelBulkEditForm):
     pk = forms.ModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         widget=forms.MultipleHiddenInput(),
     )
 
     class Meta:
+        model = SoftwareProductVersion
         nullable_fields = []
 
 
-class SoftwareProductInstallationForm(CustomFieldModelForm):
+class SoftwareProductInstallationForm(NetBoxModelForm):
     """Form for creating a new SoftwareProductInstallation object."""
 
     device = DynamicModelChoiceField(
@@ -159,16 +150,9 @@ class SoftwareProductInstallationForm(CustomFieldModelForm):
         }
     )
 
-    # todo need version and device ?
-
-    # tags = DynamicModelMultipleChoiceField(
-    #     queryset=Tag.objects.all(),
-    #     required=False,
-    # )
-
     class Meta:
         model = SoftwareProductInstallation
-        fields = ("device", "virtualmachine", "software_product", "version",)  # "tags")
+        fields = ("device", "virtualmachine", "software_product", "version", "tags")
 
     def clean(self):
         if not any([self.cleaned_data['device'], self.cleaned_data['virtualmachine']]):
@@ -176,7 +160,7 @@ class SoftwareProductInstallationForm(CustomFieldModelForm):
         return super(SoftwareProductInstallationForm, self).clean()
 
 
-class SoftwareProductInstallationFilterForm(CustomFieldModelFilterForm):
+class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     """Form for filtering SoftwareProductInstallation instances."""
 
     model = SoftwareProductInstallation
@@ -186,17 +170,23 @@ class SoftwareProductInstallationFilterForm(CustomFieldModelFilterForm):
     # tag = TagFilterField(SoftwareProduct)
 
 
-class SoftwareProductInstallationCSVForm(CustomFieldModelCSVForm):
+class SoftwareProductInstallationCSVForm(NetBoxModelCSVForm):
     class Meta:
         model = SoftwareProductInstallation
         fields = tuple()
 
 
-class SoftwareProductInstallationBulkEditForm(AddRemoveTagsForm, CustomFieldModelBulkEditForm):
-    pk = forms.ModelMultipleChoiceField(
-        queryset=SoftwareProductInstallation.objects.all(),
-        widget=forms.MultipleHiddenInput(),
+class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
+    software_product = DynamicModelChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False
     )
-
-    class Meta:
-        nullable_fields = []
+    version = DynamicModelChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False
+    )
+    model = SoftwareProductInstallation
+    fieldsets = (
+        (None, ('software_product', 'version',)),
+    )
+    # nullable_fields = ('',)

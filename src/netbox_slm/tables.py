@@ -1,10 +1,11 @@
 import django_tables2 as tables
+
 from django_tables2.utils import Accessor
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
-from utilities.tables import BaseTable, ChoiceFieldColumn, ToggleColumn
+from netbox.tables import NetBoxTable, ChoiceFieldColumn, ToggleColumn, columns
 
 
-class SoftwareProductTable(BaseTable):
+class SoftwareProductTable(NetBoxTable):
     """Table for displaying SoftwareProduct objects."""
 
     pk = ToggleColumn()
@@ -15,11 +16,11 @@ class SoftwareProductTable(BaseTable):
     )
     installations = tables.Column(accessor='get_installation_count', verbose_name='Installations')
 
-    # tags = TagColumn(
-    #     url_name="plugins:netbox_dns:zone_list",
-    # )
+    tags = columns.TagColumn(
+        url_name="plugins:netbox_slm:softwareproduct_list",
+    )
 
-    class Meta(BaseTable.Meta):
+    class Meta(NetBoxTable.Meta):
         model = SoftwareProduct
         fields = (
             "pk",
@@ -27,7 +28,7 @@ class SoftwareProductTable(BaseTable):
             "manufacturer",
             "description",
             "installations",
-            # "tags",
+            "tags",
         )
         default_columns = (
             "pk",
@@ -35,7 +36,7 @@ class SoftwareProductTable(BaseTable):
             "manufacturer",
             "description",
             "installations",
-            # "tags",
+            "tags",
         )
         sequence = (
             "manufacturer",
@@ -45,7 +46,7 @@ class SoftwareProductTable(BaseTable):
         )
 
 
-class SoftwareProductVersionTable(BaseTable):
+class SoftwareProductVersionTable(NetBoxTable):
     """Table for displaying SoftwareProductVersion objects."""
 
     pk = ToggleColumn()
@@ -60,11 +61,11 @@ class SoftwareProductVersionTable(BaseTable):
     )
     installations = tables.Column(accessor='get_installation_count', verbose_name='Installations')
 
-    # tags = TagColumn(
-    #     url_name="plugins:netbox_dns:zone_list",
-    # )
+    tags = columns.TagColumn(
+        url_name="plugins:netbox_slm:softwareproductversion_list",
+    )
 
-    class Meta(BaseTable.Meta):
+    class Meta(NetBoxTable.Meta):
         model = SoftwareProductVersion
         fields = (
             "pk",
@@ -72,7 +73,7 @@ class SoftwareProductVersionTable(BaseTable):
             "software_product",
             "manufacturer",
             "installations",
-            # "tags",
+            "tags",
         )
         default_columns = (
             "pk",
@@ -80,7 +81,7 @@ class SoftwareProductVersionTable(BaseTable):
             "software_product",
             "manufacturer",
             "installations",
-            # "tags",
+            "tags",
         )
         sequence = (
             "manufacturer",
@@ -90,7 +91,7 @@ class SoftwareProductVersionTable(BaseTable):
         )
 
 
-class SoftwareProductInstallationTable(BaseTable):
+class SoftwareProductInstallationTable(NetBoxTable):
     """Table for displaying SoftwareProductInstallation objects."""
 
     pk = ToggleColumn()
@@ -117,11 +118,11 @@ class SoftwareProductInstallationTable(BaseTable):
         linkify=True
     )
 
-    # tags = TagColumn(
-    #     url_name="plugins:netbox_dns:zone_list",
-    # )
+    tags = columns.TagColumn(
+        url_name="plugins:netbox_slm:softwareproductinstallation_list",
+    )
 
-    class Meta(BaseTable.Meta):
+    class Meta(NetBoxTable.Meta):
         model = SoftwareProductInstallation
         fields = (
             "pk",
@@ -130,7 +131,7 @@ class SoftwareProductInstallationTable(BaseTable):
             "type",
             "software_product",
             "version",
-            # "tags",
+            "tags",
         )
         default_columns = (
             "pk",
@@ -138,7 +139,7 @@ class SoftwareProductInstallationTable(BaseTable):
             "type",
             "software_product",
             "version",
-            # "tags",
+            "tags",
         )
 
     def render_software_product(self, value, **kwargs):

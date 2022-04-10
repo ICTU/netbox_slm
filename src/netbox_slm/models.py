@@ -2,12 +2,12 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils import safestring
 # from extras.utils import extras_features  # todo this changed in netbox 3.1.X and higher, currently not used but checkout why
-from netbox.models import PrimaryModel
+from netbox.models import NetBoxModel
 from utilities.querysets import RestrictedQuerySet
 
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
-class SoftwareProduct(PrimaryModel):
+class SoftwareProduct(NetBoxModel):
     """
     A SoftwareProduct represents ...
     """
@@ -38,7 +38,7 @@ class SoftwareProduct(PrimaryModel):
 
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
-class SoftwareProductVersion(PrimaryModel):
+class SoftwareProductVersion(NetBoxModel):
     software_product = models.ForeignKey(
         to='netbox_slm.SoftwareProduct',
         on_delete=models.PROTECT,
@@ -63,7 +63,7 @@ class SoftwareProductVersion(PrimaryModel):
 
 
 # @extras_features('custom_fields', 'custom_links', 'export_templates', 'tags', 'webhooks')
-class SoftwareProductInstallation(PrimaryModel):
+class SoftwareProductInstallation(NetBoxModel):
     device = models.ForeignKey(
         to='dcim.Device',
         on_delete=models.PROTECT,

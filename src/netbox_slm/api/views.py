@@ -3,10 +3,16 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.routers import APIRootView
 
-from extras.api.views import CustomFieldModelViewSet
-from netbox_slm.api.serializers import SoftwareProductSerializer, SoftwareProductVersionSerializer
-from netbox_slm.filters import SoftwareProductFilter, SoftwareProductVersionFilter
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
+from netbox.api.viewsets import NetBoxModelViewSet
+from netbox_slm.api.serializers import (
+    SoftwareProductSerializer, SoftwareProductVersionSerializer, SoftwareProductInstallationSerializer,
+)
+from netbox_slm.filters import (
+    SoftwareProductFilter, SoftwareProductVersionFilter, SoftwareProductInstallationFilter,
+)
+from netbox_slm.models import (
+    SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation,
+)
 
 
 class NetboxSLMRootView(APIRootView):
@@ -18,27 +24,19 @@ class NetboxSLMRootView(APIRootView):
         return "NetboxSLM"
 
 
-class SoftwareProductViewSet(CustomFieldModelViewSet):
+class SoftwareProductViewSet(NetBoxModelViewSet):
     queryset = SoftwareProduct.objects.all()
     serializer_class = SoftwareProductSerializer
     filterset_class = SoftwareProductFilter
 
-    # @action(detail=True, methods=["get"])
-    # def records(self, request, pk=None):
-    #     records = Record.objects.filter(zone=pk)
-    #     serializer = RecordSerializer(records, many=True, context={"request": request})
-    #     return Response(serializer.data)
 
-
-class SoftwareProductVersionViewSet(CustomFieldModelViewSet):
+class SoftwareProductVersionViewSet(NetBoxModelViewSet):
     queryset = SoftwareProductVersion.objects.all()
     serializer_class = SoftwareProductVersionSerializer
     filterset_class = SoftwareProductVersionFilter
 
-    # @action(detail=True, methods=["get"])
-    # def records(self, request, pk=None):
-    #     records = Record.objects.filter(zone=pk)
-    #     serializer = RecordSerializer(records, many=True, context={"request": request})
-    #     return Response(serializer.data)
 
-# for reference: https://github.com/auroraresearchlab/netbox-dns/blob/main/netbox_dns/api/views.py
+class SoftwareProductInstallationViewSet(NetBoxModelViewSet):
+    queryset = SoftwareProductInstallation.objects.all()
+    serializer_class = SoftwareProductInstallationSerializer
+    filterset_class = SoftwareProductInstallationFilter

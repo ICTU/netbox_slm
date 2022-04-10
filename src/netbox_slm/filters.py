@@ -2,12 +2,12 @@ import django_filters
 from django.db.models import Q
 from django.utils.translation import gettext as _
 from extras.filters import TagFilter
-from netbox.filtersets import PrimaryModelFilterSet
+from netbox.filtersets import NetBoxModelFilterSet
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 from utilities.forms import DynamicModelMultipleChoiceField
 
 
-class BaseFilter(PrimaryModelFilterSet):
+class BaseFilter(NetBoxModelFilterSet):
     q = django_filters.CharFilter(
         method="search",
         label="Search",

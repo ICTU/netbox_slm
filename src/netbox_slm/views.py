@@ -19,7 +19,7 @@ class SoftwareProductListView(generic.ObjectListView):
     filterset = SoftwareProductFilter
     filterset_form = SoftwareProductFilterForm
     table = SoftwareProductTable
-    template_name = "netbox_slm/object_list.html"
+    # template_name = "netbox_slm/object_list.html"
 
 
 class SoftwareProductView(generic.ObjectView):
@@ -36,7 +36,7 @@ class SoftwareProductEditView(generic.ObjectEditView):
     """View for editing and creating a SoftwareProduct instance."""
 
     queryset = SoftwareProduct.objects.all()
-    model_form = SoftwareProductForm
+    form = SoftwareProductForm
 
 
 class SoftwareProductDeleteView(generic.ObjectDeleteView):
@@ -70,7 +70,7 @@ class SoftwareProductVersionListView(generic.ObjectListView):
     filterset = SoftwareProductVersionFilter
     filterset_form = SoftwareProductVersionFilterForm
     table = SoftwareProductVersionTable
-    template_name = "netbox_slm/object_list.html"
+    # template_name = "netbox_slm/object_list.html"
 
 
 class SoftwareProductVersionView(generic.ObjectView):
@@ -87,7 +87,7 @@ class SoftwareProductVersionEditView(generic.ObjectEditView):
     """View for editing and creating a SoftwareProductVersion instance."""
 
     queryset = SoftwareProductVersion.objects.all()
-    model_form = SoftwareProductVersionForm
+    form = SoftwareProductVersionForm
 
 
 class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
@@ -121,7 +121,7 @@ class SoftwareProductInstallationListView(generic.ObjectListView):
     filterset = SoftwareProductInstallationFilter
     filterset_form = SoftwareProductInstallationFilterForm
     table = SoftwareProductInstallationTable
-    template_name = "netbox_slm/object_list.html"
+    # template_name = "netbox_slm/object_list.html"
 
 
 class SoftwareProductInstallationView(generic.ObjectView):
@@ -138,7 +138,7 @@ class SoftwareProductInstallationEditView(generic.ObjectEditView):
     """View for editing and creating a SoftwareProductInstallation instance."""
 
     queryset = SoftwareProductInstallation.objects.all()
-    model_form = SoftwareProductInstallationForm
+    form = SoftwareProductInstallationForm
 
 
 class SoftwareProductInstallationDeleteView(generic.ObjectDeleteView):
