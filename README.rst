@@ -20,7 +20,7 @@ to install the Netbox SLM plugin:
 
 1. Add ``netbox_slm`` to the ``PLUGINS`` list in
    ``configuration/extra.py``.
-2. Create a ``plugin_requirements.txt`` with ``netbox-slm==0.94`` as
+2. Create a ``plugin_requirements.txt`` with ``netbox-slm==0.95`` as
    contents.
 3. Create a ``Dockerfile-SLM`` with contents:
 
@@ -96,7 +96,6 @@ Steps
 
    $ git clone https://github.com/netbox-community/netbox
    $ cd netbox
-   $ git checkout f5356b8 (to pin 3.0.9)
 
    install the virtual environment
 
