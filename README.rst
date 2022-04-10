@@ -9,6 +9,8 @@ Software Lifecycle Management
 Installation Guide
 ~~~~~~~~~~~~~~~~~~
 
+WARNING: This plugin requires Netbox 3.1.X or higher!
+
 When using the Docker version of Netbox, first follow the `netbox-docker
 quickstart <https://github.com/netbox-community/netbox-docker#quickstart>`__
 instructions to clone the netbox-docker repo and set up the
