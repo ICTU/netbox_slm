@@ -142,5 +142,13 @@ class SoftwareProductInstallationTable(NetBoxTable):
             "tags",
         )
 
+    def order_platform(self, queryset, is_descending):
+        queryset = queryset.order_by(("device" if is_descending else "virtualmachine"))
+        return queryset, True
+
+    def order_type(self, queryset, is_descending):
+        queryset = queryset.order_by(("device" if is_descending else "virtualmachine"))
+        return queryset, True
+
     def render_software_product(self, value, **kwargs):
         return f"{kwargs['record'].software_product.manufacturer.name} - {value}"

@@ -96,7 +96,6 @@ Steps
 
    $ git clone https://github.com/netbox-community/netbox
    $ cd netbox
-   $ git checkout f5356b8 (to pin 3.0.9)
 
    install the virtual environment
 
