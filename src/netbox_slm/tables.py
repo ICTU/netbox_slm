@@ -1,5 +1,6 @@
 import django_tables2 as tables
 
+from django.db.models import Count
 from django_tables2.utils import Accessor
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 from netbox.tables import NetBoxTable, ChoiceFieldColumn, ToggleColumn, columns
@@ -45,6 +46,12 @@ class SoftwareProductTable(NetBoxTable):
             "installations",
         )
 
+    def order_installations(self, queryset, is_descending):
+        queryset = queryset.annotate(
+            count=Count('softwareproductinstallation__id')
+        ).order_by(("-" if is_descending else "") + "count")
+        return queryset, True
+
 
 class SoftwareProductVersionTable(NetBoxTable):
     """Table for displaying SoftwareProductVersion objects."""
@@ -89,6 +96,12 @@ class SoftwareProductVersionTable(NetBoxTable):
             "name",
             "installations",
         )
+
+    def order_installations(self, queryset, is_descending):
+        queryset = queryset.annotate(
+            count=Count('softwareproductinstallation__id')
+        ).order_by(("-" if is_descending else "") + "count")
+        return queryset, True
 
 
 class SoftwareProductInstallationTable(NetBoxTable):

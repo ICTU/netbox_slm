@@ -17,7 +17,6 @@ class SoftwareProduct(NetBoxModel):
     manufacturer = models.ForeignKey(
         to='dcim.Manufacturer',
         on_delete=models.PROTECT,
-        related_name='software_products',
         null=True, blank=True
     )
 
@@ -42,7 +41,6 @@ class SoftwareProductVersion(NetBoxModel):
     software_product = models.ForeignKey(
         to='netbox_slm.SoftwareProduct',
         on_delete=models.PROTECT,
-        related_name='softwareproduct_versions'
     )
     name = models.CharField(max_length=64)
 
@@ -67,26 +65,22 @@ class SoftwareProductInstallation(NetBoxModel):
     device = models.ForeignKey(
         to='dcim.Device',
         on_delete=models.PROTECT,
-        related_name='softwareproduct_installations',
         null=True,
         blank=True
     )
     virtualmachine = models.ForeignKey(
         to='virtualization.VirtualMachine',
         on_delete=models.PROTECT,
-        related_name='softwareproduct_installations',
         null = True,
         blank = True
     )
     software_product = models.ForeignKey(
         to='netbox_slm.SoftwareProduct',
         on_delete=models.PROTECT,
-        related_name='software_products'
     )
     version = models.ForeignKey(
         to='netbox_slm.SoftwareProductVersion',
         on_delete=models.PROTECT,
-        related_name='softwareproduct_versions'
     )
 
     objects = RestrictedQuerySet.as_manager()

@@ -28,7 +28,7 @@ class SoftwareProductView(generic.ObjectView):
     queryset = SoftwareProduct.objects.all()
 
     def get_extra_context(self, request, instance):
-        versions = instance.softwareproduct_versions.all()
+        versions = instance.softwareproductversion_set.all()
         return {"versions": versions}
 
 
