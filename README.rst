@@ -6,10 +6,13 @@ Software Lifecycle Management
 
 --------------
 
+Known Issues
+~~~~~~~~~~~~~~~~~~
+- WARNING: This plugin is only tested with Netbox 3.2 at this time.
+- CSV/Bulk imports for SoftwareProduct, Version and Installation are currently broken (WIP)
+
 Installation Guide
 ~~~~~~~~~~~~~~~~~~
-
-WARNING: This plugin is only tested with Netbox 3.2 at this time.
 
 When using the Docker version of Netbox, first follow the `netbox-docker
 quickstart <https://github.com/netbox-community/netbox-docker#quickstart>`__
@@ -22,7 +25,7 @@ to install the Netbox SLM plugin:
 
 1. Add ``netbox_slm`` to the ``PLUGINS`` list in
    ``configuration/extra.py``.
-2. Create a ``plugin_requirements.txt`` with ``netbox-slm==0.98`` as
+2. Create a ``plugin_requirements.txt`` with ``netbox-slm==0.99`` as
    contents.
 3. Create a ``Dockerfile-SLM`` with contents:
 
