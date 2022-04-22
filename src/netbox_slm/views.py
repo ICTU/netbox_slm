@@ -1,25 +1,19 @@
 from netbox.views import generic
-from netbox_slm.filters import SoftwareProductFilter, SoftwareProductVersionFilter, SoftwareProductInstallationFilter
-from netbox_slm.forms import (
-    SoftwareProductForm, SoftwareProductFilterForm, SoftwareProductCSVForm, SoftwareProductBulkEditForm,
-    SoftwareProductVersionForm, SoftwareProductVersionFilterForm, SoftwareProductVersionCSVForm,
-    SoftwareProductVersionBulkEditForm, SoftwareProductInstallationForm, SoftwareProductInstallationFilterForm,
-    SoftwareProductInstallationCSVForm, SoftwareProductInstallationBulkEditForm
-)
+from netbox_slm import filtersets
+from netbox_slm import forms
+from netbox_slm import tables
 from netbox_slm.models import (
     SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 )
-from netbox_slm.tables import SoftwareProductTable, SoftwareProductVersionTable, SoftwareProductInstallationTable
 
 
 class SoftwareProductListView(generic.ObjectListView):
     """View for listing all existing SoftwareProducts."""
 
     queryset = SoftwareProduct.objects.all()
-    filterset = SoftwareProductFilter
-    filterset_form = SoftwareProductFilterForm
-    table = SoftwareProductTable
-    # template_name = "netbox_slm/object_list.html"
+    filterset = filtersets.SoftwareProductFilterSet
+    filterset_form = forms.SoftwareProductFilterForm
+    table = tables.SoftwareProductTable
 
 
 class SoftwareProductView(generic.ObjectView):
@@ -36,7 +30,7 @@ class SoftwareProductEditView(generic.ObjectEditView):
     """View for editing and creating a SoftwareProduct instance."""
 
     queryset = SoftwareProduct.objects.all()
-    form = SoftwareProductForm
+    form = forms.SoftwareProductForm
 
 
 class SoftwareProductDeleteView(generic.ObjectDeleteView):
@@ -47,30 +41,30 @@ class SoftwareProductDeleteView(generic.ObjectDeleteView):
 
 class SoftwareProductBulkImportView(generic.BulkImportView):
     queryset = SoftwareProduct.objects.all()
-    model_form = SoftwareProductCSVForm
-    table = SoftwareProductTable
+    model_form = forms.SoftwareProductCSVForm
+    table = tables.SoftwareProductTable
 
 
 class SoftwareProductBulkEditView(generic.BulkEditView):
     queryset = SoftwareProduct.objects.all()
-    filterset = SoftwareProductFilter
-    table = SoftwareProductTable
-    form = SoftwareProductBulkEditForm
+    filterset = filtersets.SoftwareProductFilterSet
+    filterset_form = forms.SoftwareProductFilterForm
+    table = tables.SoftwareProductTable
+    form = forms.SoftwareProductBulkEditForm
 
 
 class SoftwareProductBulkDeleteView(generic.BulkDeleteView):
     queryset = SoftwareProduct.objects.all()
-    table = SoftwareProductTable
+    table = tables.SoftwareProductTable
 
 
 class SoftwareProductVersionListView(generic.ObjectListView):
     """View for listing all existing SoftwareProductVersions."""
 
     queryset = SoftwareProductVersion.objects.all()
-    filterset = SoftwareProductVersionFilter
-    filterset_form = SoftwareProductVersionFilterForm
-    table = SoftwareProductVersionTable
-    # template_name = "netbox_slm/object_list.html"
+    filterset = filtersets.SoftwareProductVersionFilterSet
+    filterset_form = forms.SoftwareProductVersionFilterForm
+    table = tables.SoftwareProductVersionTable
 
 
 class SoftwareProductVersionView(generic.ObjectView):
@@ -87,7 +81,7 @@ class SoftwareProductVersionEditView(generic.ObjectEditView):
     """View for editing and creating a SoftwareProductVersion instance."""
 
     queryset = SoftwareProductVersion.objects.all()
-    form = SoftwareProductVersionForm
+    form = forms.SoftwareProductVersionForm
 
 
 class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
@@ -98,30 +92,29 @@ class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
 
 class SoftwareProductVersionBulkImportView(generic.BulkImportView):
     queryset = SoftwareProductVersion.objects.all()
-    model_form = SoftwareProductVersionCSVForm
-    table = SoftwareProductVersionTable
+    model_form = forms.SoftwareProductVersionCSVForm
+    table = tables.SoftwareProductVersionTable
 
 
 class SoftwareProductVersionBulkEditView(generic.BulkEditView):
     queryset = SoftwareProductVersion.objects.all()
-    filterset = SoftwareProductVersionFilter
-    table = SoftwareProductVersionTable
-    form = SoftwareProductVersionBulkEditForm
+    filterset = filtersets.SoftwareProductVersionFilterSet
+    table = tables.SoftwareProductVersionTable
+    form = forms.SoftwareProductVersionBulkEditForm
 
 
 class SoftwareProductVersionBulkDeleteView(generic.BulkDeleteView):
     queryset = SoftwareProductVersion.objects.all()
-    table = SoftwareProductVersionTable
+    table = tables.SoftwareProductVersionTable
 
 
 class SoftwareProductInstallationListView(generic.ObjectListView):
     """View for listing all existing SoftwareProductInstallations."""
 
     queryset = SoftwareProductInstallation.objects.all()
-    filterset = SoftwareProductInstallationFilter
-    filterset_form = SoftwareProductInstallationFilterForm
-    table = SoftwareProductInstallationTable
-    # template_name = "netbox_slm/object_list.html"
+    filterset = filtersets.SoftwareProductInstallationFilterSet
+    filterset_form = forms.SoftwareProductInstallationFilterForm
+    table = tables.SoftwareProductInstallationTable
 
 
 class SoftwareProductInstallationView(generic.ObjectView):
@@ -129,16 +122,12 @@ class SoftwareProductInstallationView(generic.ObjectView):
 
     queryset = SoftwareProductInstallation.objects.all()
 
-    # def get_extra_context(self, request, instance):
-    #     records = instance.record_set.all()
-    #     return {"records": records}
-
 
 class SoftwareProductInstallationEditView(generic.ObjectEditView):
     """View for editing and creating a SoftwareProductInstallation instance."""
 
     queryset = SoftwareProductInstallation.objects.all()
-    form = SoftwareProductInstallationForm
+    form = forms.SoftwareProductInstallationForm
 
 
 class SoftwareProductInstallationDeleteView(generic.ObjectDeleteView):
@@ -149,17 +138,17 @@ class SoftwareProductInstallationDeleteView(generic.ObjectDeleteView):
 
 class SoftwareProductInstallationBulkImportView(generic.BulkImportView):
     queryset = SoftwareProductInstallation.objects.all()
-    model_form = SoftwareProductInstallationCSVForm
-    table = SoftwareProductInstallationTable
+    model_form = forms.SoftwareProductInstallationCSVForm
+    table = tables.SoftwareProductInstallationTable
 
 
 class SoftwareProductInstallationBulkEditView(generic.BulkEditView):
     queryset = SoftwareProductInstallation.objects.all()
-    filterset = SoftwareProductInstallationFilter
-    table = SoftwareProductInstallationTable
-    form = SoftwareProductInstallationBulkEditForm
+    filterset = filtersets.SoftwareProductInstallationFilterSet
+    table = tables.SoftwareProductInstallationTable
+    form = forms.SoftwareProductInstallationBulkEditForm
 
 
 class SoftwareProductInstallationBulkDeleteView(generic.BulkDeleteView):
     queryset = SoftwareProductInstallation.objects.all()
-    table = SoftwareProductInstallationTable
+    table = tables.SoftwareProductInstallationTable

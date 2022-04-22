@@ -1,16 +1,18 @@
 from django import forms
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
+
+from dcim.models import Manufacturer, Device
 from netbox.forms import (
     NetBoxModelForm,
     NetBoxModelCSVForm,
     NetBoxModelBulkEditForm,
     NetBoxModelFilterSetForm,
 )
-from dcim.models import Manufacturer, Device
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 from utilities.forms import (
-    BootstrapMixin, DynamicModelChoiceField, APISelect, DynamicModelMultipleChoiceField
+    DynamicModelChoiceField, APISelect, TagFilterField
 )
 from virtualization.models import VirtualMachine
 
@@ -21,9 +23,6 @@ class SoftwareProductForm(NetBoxModelForm):
     manufacturer = DynamicModelChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
-        # initial_params={
-        #     'device_types': 'device_type'
-        # }
     )
 
     class Meta:
@@ -32,24 +31,26 @@ class SoftwareProductForm(NetBoxModelForm):
 
 
 class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
-    """Form for filtering SoftwareProduct instances."""
-
     model = SoftwareProduct
-
-    q = forms.CharField(required=False, label="Search")
-
-    name = forms.CharField(
-        required=False,
-        label="Name",
+    fieldsets = (
+        (None, ('q', 'tag')),
     )
 
-    # tag = TagFilterField(SoftwareProduct)
+    tag = TagFilterField(model)
+
+    def search(self, queryset, name, value):
+        """Perform the filtered search."""
+        if not value.strip():
+            return queryset
+        qs_filter = Q(name__icontains=value) | \
+                    Q(manufacturer__name__icontains=value)
+        return queryset.filter(qs_filter)
 
 
 class SoftwareProductCSVForm(NetBoxModelCSVForm):
     class Meta:
         model = SoftwareProduct
-        fields = ("name",)
+        fields = ("name", "manufacturer",)
 
 
 class SoftwareProductBulkEditForm(NetBoxModelBulkEditForm):
@@ -78,24 +79,23 @@ class SoftwareProductVersionForm(NetBoxModelForm):
         model = SoftwareProductVersion
         fields = ("name", "software_product", "tags")
 
-    # def clean(self):
-    #     import pdb;pdb.set_trace()
-    #     return super(SoftwareProductVersionForm, self).clean()
-
 
 class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
-    """Form for filtering SoftwareProductVersion instances."""
-
     model = SoftwareProductVersion
-
-    q = forms.CharField(required=False, label="Search")
-
-    name = forms.CharField(
-        required=False,
-        label="Name",
+    fieldsets = (
+        (None, ('q', 'tag')),
     )
 
-    # tag = TagFilterField(SoftwareProduct)
+    tag = TagFilterField(model)
+
+    def search(self, queryset, name, value):
+        """Perform the filtered search."""
+        if not value.strip():
+            return queryset
+        qs_filter = Q(name__icontains=value) | \
+                    Q(software_product__name__icontains=value) | \
+                    Q(software_product__manufacturer__name__icontains=value)
+        return queryset.filter(qs_filter)
 
 
 class SoftwareProductVersionCSVForm(NetBoxModelCSVForm):
@@ -121,16 +121,10 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
     device = DynamicModelChoiceField(
         queryset=Device.objects.all(),
         required=False,
-        # initial_params={
-        #     'device_types': 'device_type'
-        # }
     )
     virtualmachine = DynamicModelChoiceField(
         queryset=VirtualMachine.objects.all(),
         required=False,
-        # initial_params={
-        #     'device_types': 'device_type'
-        # }
     )
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
@@ -154,6 +148,14 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         model = SoftwareProductInstallation
         fields = ("device", "virtualmachine", "software_product", "version", "tags")
 
+    def clean_version(self):
+        version = self.cleaned_data['version']
+        software_product = self.cleaned_data['software_product']
+        if version not in software_product.softwareproductversion_set.all():
+            raise forms.ValidationError(_(f"Version `{version}` doesn't exist on {software_product}, make sure you've "
+                                          f"selected a compatible version or first select the software product."))
+        return version
+
     def clean(self):
         if not any([self.cleaned_data['device'], self.cleaned_data['virtualmachine']]):
             raise forms.ValidationError(_("Installation requires atleast one virtualmachine or device destination."))
@@ -161,13 +163,21 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 
 
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
-    """Form for filtering SoftwareProductInstallation instances."""
-
     model = SoftwareProductInstallation
+    fieldsets = (
+        (None, ('q', 'tag')),
+    )
 
-    q = forms.CharField(required=False, label="Search")
+    tag = TagFilterField(model)
 
-    # tag = TagFilterField(SoftwareProduct)
+    def search(self, queryset, name, value):
+        """Perform the filtered search."""
+        if not value.strip():
+            return queryset
+        qs_filter = Q(software_product__name__icontains=value) | \
+                    Q(software_product__manufacturer__name__icontains=value) | \
+                    Q(version__name__icontains=value)
+        return queryset.filter(qs_filter)
 
 
 class SoftwareProductInstallationCSVForm(NetBoxModelCSVForm):
@@ -189,4 +199,3 @@ class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
     fieldsets = (
         (None, ('software_product', 'version',)),
     )
-    # nullable_fields = ('',)
