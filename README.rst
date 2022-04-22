@@ -210,7 +210,7 @@ Now you can run commands from the netbox repository like this;
 ::
 
    $ cd netbox/netbox
-   $ export PYTHONPATH=../../netbox-slm/src/
+   $ export PYTHONPATH=../../netbox-slm/
    $ python3 manage.py migrate netbox_slm
    $ python3 manage.py runserver 8001
 
