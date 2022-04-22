@@ -210,9 +210,9 @@ Now you can run commands from the netbox repository like this;
 ::
 
    $ cd netbox/netbox
-   $ export PYTHONPATH=../../netbox_slm/netbox_slm/
+   $ export PYTHONPATH=../../netbox_slm/netbox_slm/  # or with the pipenv activated run `python3 setup.py develop` from the netbox_slm directory
    $ python3 manage.py migrate netbox_slm
    $ python3 manage.py runserver 8001
 
-Visit http://127.0.0.1:8001 in the browesr to see the auto reloading
+Visit http://127.0.0.1:8001 in the browser to see the auto reloading
 version of the netbox UI. Port 8000 is taken by the docker ran variant.
