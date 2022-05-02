@@ -220,6 +220,6 @@ Now you can run commands from the netbox repository like this;
    $ python3 manage.py migrate netbox_slm
    $ python3 manage.py runserver 8001
    ```
-   
+
 Visit http://127.0.0.1:8001 in the browser to see the auto reloading
 version of the netbox UI. Port 8000 is taken by the docker ran variant.
