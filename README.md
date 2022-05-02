@@ -9,7 +9,7 @@
 <a href="https://github.com/ICTU/netbox_slm/pulls"><img src="https://img.shields.io/github/issues-pr/ICTU/netbox_slm" alt="Pull Requests Badge"/></a>
 <a href="https://github.com/ICTU/netbox_slm/issues"><img src="https://img.shields.io/github/issues/ICTU/netbox_slm" alt="Issues Badge"/></a>
 <a href="https://github.com/ICTU/netbox_slm/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/ICTU/netbox_slm?color=2b9348"></a>
-<a href="https://github.com/ICTU/netbox_slm/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/ICTU/netbox_slm?color=2b9348" alt="License Badge"/></a>
+<a href="https://github.com/ICTU/netbox_slm/blob/master/LICENSE"><img src="https://img.shields.io/github/license/ICTU/netbox_slm?color=2b9348" alt="License Badge"/></a>
 </div>
 
 
