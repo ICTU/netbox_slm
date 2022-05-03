@@ -1,5 +1,4 @@
 from django import forms
-from django.db.models import Q
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 
@@ -12,7 +11,7 @@ from netbox.forms import (
 )
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 from utilities.forms import (
-    DynamicModelChoiceField, APISelect, TagFilterField
+    DynamicModelChoiceField, APISelect, TagFilterField, ChoiceField
 )
 from virtualization.models import VirtualMachine
 
@@ -37,14 +36,6 @@ class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     )
 
     tag = TagFilterField(model)
-
-    def search(self, queryset, name, value):
-        """Perform the filtered search."""
-        if not value.strip():
-            return queryset
-        qs_filter = Q(name__icontains=value) | \
-                    Q(manufacturer__name__icontains=value)
-        return queryset.filter(qs_filter)
 
 
 class SoftwareProductCSVForm(NetBoxModelCSVForm):
@@ -87,15 +78,6 @@ class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     )
 
     tag = TagFilterField(model)
-
-    def search(self, queryset, name, value):
-        """Perform the filtered search."""
-        if not value.strip():
-            return queryset
-        qs_filter = Q(name__icontains=value) | \
-                    Q(software_product__name__icontains=value) | \
-                    Q(software_product__manufacturer__name__icontains=value)
-        return queryset.filter(qs_filter)
 
 
 class SoftwareProductVersionCSVForm(NetBoxModelCSVForm):
@@ -165,19 +147,10 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
     fieldsets = (
-        (None, ('q', 'tag')),
+        (None, ('q', 'tag',)),
     )
 
     tag = TagFilterField(model)
-
-    def search(self, queryset, name, value):
-        """Perform the filtered search."""
-        if not value.strip():
-            return queryset
-        qs_filter = Q(software_product__name__icontains=value) | \
-                    Q(software_product__manufacturer__name__icontains=value) | \
-                    Q(version__name__icontains=value)
-        return queryset.filter(qs_filter)
 
 
 class SoftwareProductInstallationCSVForm(NetBoxModelCSVForm):
