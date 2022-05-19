@@ -21,7 +21,7 @@ class SoftwareProductForm(NetBoxModelForm):
 
     manufacturer = DynamicModelChoiceField(
         queryset=Manufacturer.objects.all(),
-        required=False,
+        required=True,
     )
 
     class Meta:

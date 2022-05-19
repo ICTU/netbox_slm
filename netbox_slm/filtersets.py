@@ -23,7 +23,9 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProductVersion instances."""
     class Meta:
         model = SoftwareProductVersion
-        fields = tuple()
+        fields = (
+            "software_product",
+        )
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
