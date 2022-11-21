@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+  netbox:
+    ports:
+      - "8001:8080"
+    build:
+      context: .
+      dockerfile: Dockerfile-SLM
+    image: netbox:slm
+  netbox-worker:
+    image: netbox:slm
+  netbox-housekeeping:
+    image: netbox:slm
+  postgres:
+    ports:
+      - "5432:5432"
+  redis:
+    ports:
+      - "6379:6379"

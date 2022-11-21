@@ -5,3 +5,4 @@
 **/.vscode
 **/dist
 **/netbox_slm.egg-info
+out/production
