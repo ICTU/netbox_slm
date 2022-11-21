@@ -1,6 +1,5 @@
 FROM netboxcommunity/netbox:v3.2.3
 
 COPY ./plugin_requirements.txt /
-COPY ./extra.py /etc/netbox/config/
 
 RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /plugin_requirements.txt
