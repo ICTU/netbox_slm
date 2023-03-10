@@ -9,7 +9,8 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build the Docker image
-      run: docker compose build --no-cache # -f ci/docker-compose.yml -f ci/docker-compose.override.yml
+      run: docker compose build --no-cache
 
-    - name: Run the Docker image
-      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py help" # -f ci/docker-compose.yml -f ci/docker-compose.override.yml
+    - name: Verify the Docker image
+      # clearcache is provided by Django extras, which is not loaded if netbox-slm cannot be loaded
+      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py clearcache"
