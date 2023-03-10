@@ -1,0 +1,16 @@
+ARG PYTHON_VERSION=3.9
+FROM python:${PYTHON_VERSION}-alpine AS compile-image
+
+WORKDIR /build
+RUN python -m venv /opt/netbox/venv
+ENV PATH="/opt/netbox/venv/bin:$PATH"
+
+COPY ../ /build
+
+RUN python setup.py sdist
+RUN pip install --no-index /build
+
+FROM netboxcommunity/netbox:v3.2.3
+
+ARG PYTHON_VERSION=3.9
+COPY --from=compile-image /opt/netbox/venv/lib/python${PYTHON_VERSION}/site-packages/netbox_slm /opt/netbox/venv/lib/python${PYTHON_VERSION}/site-packages/netbox_slm
