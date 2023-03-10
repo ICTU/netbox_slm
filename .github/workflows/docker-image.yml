@@ -3,18 +3,13 @@ name: Docker Image CI
 on: [push, pull_request]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./ci
-
     steps:
     - uses: actions/checkout@v3
+
     - name: Build the Docker image
-      run: docker compose build --no-cache
+      run: docker compose build --no-cache # -f ci/docker-compose.yml -f ci/docker-compose.override.yml
+
     - name: Run the Docker image
-      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py help"
+      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py help" # -f ci/docker-compose.yml -f ci/docker-compose.override.yml
