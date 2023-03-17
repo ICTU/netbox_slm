@@ -14,3 +14,6 @@ jobs:
     - name: Verify the Docker image
       # clearcache is provided by Django extras, which is not loaded if netbox-slm cannot be loaded
       run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py clearcache"
+
+    - name: Run Django tests for netbox_slm
+      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py test netbox_slm"

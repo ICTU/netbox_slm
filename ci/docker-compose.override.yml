@@ -5,7 +5,7 @@ services:
       - "8001:8080"
     build:
       context: ..
-      dockerfile: ci/Dockerfile
+      dockerfile: ci/Dockerfile-CI
     image: netbox:slm
   netbox-worker:
     image: netbox:slm
