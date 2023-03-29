@@ -42,7 +42,7 @@ to install the Netbox SLM plugin:
 4. Create a ``docker-compose.override.yml`` with contents:
 
    ```
-   version: '3.4'
+   version: '3.7'
    services:
      netbox:
        ports:
