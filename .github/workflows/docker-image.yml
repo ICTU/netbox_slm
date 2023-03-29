@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build the Docker image
+      run: docker compose build --no-cache
+
+    - name: Verify the Docker image
+      # clearcache is provided by Django extras, which is not loaded if netbox-slm cannot be loaded
+      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py clearcache"
+
+    - name: Run Django tests for netbox_slm
+      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py test netbox_slm"
