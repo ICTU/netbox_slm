@@ -15,7 +15,7 @@
 
 ## Known Issues
 
-- WARNING: This plugin is only tested with Netbox 3.2 at this time.
+- WARNING: This plugin is only tested with a single Netbox version at this time.
 - CSV/Bulk imports for SoftwareProduct, Version and Installation are currently broken (WIP)
 
 ## Installation Guide
@@ -33,7 +33,7 @@ to install the Netbox SLM plugin:
 3. Create a ``Dockerfile-SLM`` with contents:
 
    ```
-   FROM netboxcommunity/netbox:v3.2.X
+   FROM netboxcommunity/netbox:vX.Y.Z
 
    COPY ./plugin_requirements.txt /
    RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /plugin_requirements.txt
