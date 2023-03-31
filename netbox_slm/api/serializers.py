@@ -19,7 +19,7 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
         ]
 
     def get_display(self, obj):
-        return f"{obj.manufacturer.name} - {obj.name}"
+        return f"{obj.manufacturer} - {obj}"
 
 
 class SoftwareProductVersionSerializer(NetBoxModelSerializer):
@@ -35,7 +35,7 @@ class SoftwareProductVersionSerializer(NetBoxModelSerializer):
         ]
 
     def get_display(self, obj):
-        return obj.name
+        return f"{obj}"
 
 
 class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
@@ -52,4 +52,4 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
         ]
 
     def get_display(self, obj):
-        return obj
+        return f"{obj}"

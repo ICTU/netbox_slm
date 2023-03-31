@@ -89,4 +89,4 @@ class SoftwareProductInstallation(NetBoxModel):
         return self.device or self.virtualmachine
 
     def render_type(self):
-        return f"{'device' if self.device else 'virtualmachine'}"
+        return 'device' if self.device else 'virtualmachine'
