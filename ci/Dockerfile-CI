@@ -1,3 +1,3 @@
-FROM netboxcommunity/netbox:v3.2.3
+FROM netboxcommunity/netbox:v3.4.7
 
 COPY ../netbox_slm /opt/netbox/netbox/netbox_slm
