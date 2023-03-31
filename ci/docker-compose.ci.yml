@@ -7,6 +7,10 @@ services:
       context: ..
       dockerfile: ci/Dockerfile-CI
     image: netbox:slm
+    environment:
+      - COVERAGE_FILE=/ci/.coverage
+    volumes:
+      - ./reports:/ci/reports
   netbox-worker:
     image: netbox:slm
   netbox-housekeeping:

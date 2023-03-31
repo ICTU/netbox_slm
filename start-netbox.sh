@@ -1,7 +1,7 @@
 git clone -b release https://github.com/netbox-community/netbox-docker.git
 cd netbox-docker
 tee docker-compose.override.yml <<EOF
-version: '3.4'
+version: '3.7'
 services:
   netbox:
     ports:
