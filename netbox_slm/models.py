@@ -9,7 +9,7 @@ from utilities.querysets import RestrictedQuerySet
 class SoftwareProduct(NetBoxModel):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=255, null=True, blank=True)
-    
+
     manufacturer = models.ForeignKey(
         to='dcim.Manufacturer',
         on_delete=models.PROTECT,

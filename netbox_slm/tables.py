@@ -1,9 +1,9 @@
 import django_tables2 as tables
-
 from django.db.models import Count
 from django_tables2.utils import Accessor
+
+from netbox.tables import NetBoxTable, ToggleColumn, columns
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
-from netbox.tables import NetBoxTable, ChoiceFieldColumn, ToggleColumn, columns
 
 
 class SoftwareProductTable(NetBoxTable):

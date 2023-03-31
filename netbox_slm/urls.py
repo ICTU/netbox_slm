@@ -1,6 +1,6 @@
 from django.urls import path
-from netbox.views.generic import ObjectChangeLogView
 
+from netbox.views.generic import ObjectChangeLogView
 from netbox_slm import views
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 

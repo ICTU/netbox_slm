@@ -14,4 +14,5 @@ class SLMConfig(PluginConfig):
         'version_info': False
     }
 
+
 config = SLMConfig

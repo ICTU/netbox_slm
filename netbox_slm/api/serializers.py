@@ -1,9 +1,7 @@
 from rest_framework import serializers
 
 from netbox.api.serializers import NetBoxModelSerializer
-from netbox_slm.models import (
-    SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation,
-)
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 
 
 class SoftwareProductSerializer(NetBoxModelSerializer):

@@ -1,15 +1,13 @@
-from netbox.api.viewsets import NetBoxModelViewSet
 from rest_framework.routers import APIRootView
 
+from netbox.api.viewsets import NetBoxModelViewSet
 from netbox_slm.api.serializers import (
     SoftwareProductSerializer, SoftwareProductVersionSerializer, SoftwareProductInstallationSerializer,
 )
 from netbox_slm.filtersets import (
     SoftwareProductFilterSet, SoftwareProductVersionFilterSet, SoftwareProductInstallationFilterSet,
 )
-from netbox_slm.models import (
-    SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation,
-)
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 
 
 class NetboxSLMRootView(APIRootView):
