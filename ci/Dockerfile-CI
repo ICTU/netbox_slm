@@ -1,3 +1,7 @@
 FROM netboxcommunity/netbox:v3.4.7
 
+RUN mkdir /ci && chmod go+w /ci
+COPY ../ci/requirements_ci.txt /ci/
+RUN pip install -r /ci/requirements_ci.txt
+
 COPY ../netbox_slm /opt/netbox/netbox/netbox_slm

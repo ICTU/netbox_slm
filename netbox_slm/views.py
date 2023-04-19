@@ -1,10 +1,6 @@
 from netbox.views import generic
-from netbox_slm import filtersets
-from netbox_slm import forms
-from netbox_slm import tables
-from netbox_slm.models import (
-    SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
-)
+from netbox_slm import filtersets, forms, tables
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 
 
 class SoftwareProductListView(generic.ObjectListView):

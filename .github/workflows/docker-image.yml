@@ -1,6 +1,11 @@
 name: Docker Image CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -15,5 +20,17 @@ jobs:
       # clearcache is provided by Django extras, which is not loaded if netbox-slm cannot be loaded
       run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py clearcache"
 
-    - name: Run Django tests for netbox_slm
-      run: docker compose run netbox sh -c "/opt/netbox/venv/bin/python manage.py test netbox_slm"
+    - name: Run Django tests with coverage for netbox_slm
+      run: |
+        chmod go+w ci/reports
+        docker compose run netbox sh -c " \
+          /opt/netbox/venv/bin/coverage run --source='netbox_slm' manage.py test netbox_slm && \
+          /opt/netbox/venv/bin/coverage report --fail-under=0 && \
+          /opt/netbox/venv/bin/coverage xml -o /ci/reports/coverage.xml"
+
+    - name: Sonarcloud scan
+      if: env.SONAR_TOKEN != null
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

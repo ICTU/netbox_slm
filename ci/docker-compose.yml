@@ -11,8 +11,6 @@ services:
     user: 'unit:root'
     volumes:
     - ./configuration:/etc/netbox/config:z,ro
-#    - ./reports:/etc/netbox/reports:z,ro
-#    - ./scripts:/etc/netbox/scripts:z,ro
     - netbox-media-files:/opt/netbox/netbox/media:z
   netbox-worker:
     <<: *netbox
