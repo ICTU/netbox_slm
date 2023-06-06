@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 
 from dcim.models import Manufacturer, Device
-from netbox.forms import NetBoxModelForm, NetBoxModelCSVForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
 from utilities.forms import DynamicModelChoiceField, APISelect, TagFilterField
 from virtualization.models import VirtualMachine
@@ -31,7 +31,7 @@ class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     tag = TagFilterField(model)
 
 
-class SoftwareProductCSVForm(NetBoxModelCSVForm):
+class SoftwareProductImportForm(NetBoxModelImportForm):
     class Meta:
         model = SoftwareProduct
         fields = ("name", "manufacturer",)
@@ -73,7 +73,7 @@ class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     tag = TagFilterField(model)
 
 
-class SoftwareProductVersionCSVForm(NetBoxModelCSVForm):
+class SoftwareProductVersionImportForm(NetBoxModelImportForm):
     class Meta:
         model = SoftwareProductVersion
         fields = ("name",)
@@ -146,7 +146,7 @@ class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     tag = TagFilterField(model)
 
 
-class SoftwareProductInstallationCSVForm(NetBoxModelCSVForm):
+class SoftwareProductInstallationImportForm(NetBoxModelImportForm):
     class Meta:
         model = SoftwareProductInstallation
         fields = tuple()
