@@ -62,4 +62,24 @@ menu_items = (
             ),
         )
     ),
+    PluginMenuItem(
+        link='plugins:netbox_slm:softwarelicense_list',
+        link_text='Licenses',
+        buttons=(
+            PluginMenuButton(
+                "plugins:netbox_slm:softwarelicense_add",
+                "Add",
+                "mdi mdi-plus-thick",
+                ButtonColorChoices.GREEN,
+                permissions=["netbox_slm.add_softwarelicense"],
+            ),
+            PluginMenuButton(
+                "plugins:netbox_slm:softwarelicense_import",
+                "Import",
+                "mdi mdi-upload",
+                ButtonColorChoices.CYAN,
+                permissions=["netbox_slm.add_softwarelicense"],
+            ),
+        )
+    ),
 )

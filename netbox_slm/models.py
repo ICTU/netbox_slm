@@ -33,11 +33,12 @@ class SoftwareProduct(NetBoxModel):
 
 
 class SoftwareProductVersion(NetBoxModel):
+    name = models.CharField(max_length=64)
+
     software_product = models.ForeignKey(
         to='netbox_slm.SoftwareProduct',
         on_delete=models.PROTECT,
     )
-    name = models.CharField(max_length=64)
 
     objects = RestrictedQuerySet.as_manager()
 
@@ -80,13 +81,49 @@ class SoftwareProductInstallation(NetBoxModel):
     objects = RestrictedQuerySet.as_manager()
 
     def __str__(self):
-        return f"{self.pk}"
+        return f"{self.pk} ({self.platform})"
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproductinstallation", kwargs={"pk": self.pk})
 
-    def get_platform(self):
+    @property
+    def platform(self):
         return self.device or self.virtualmachine
 
     def render_type(self):
         return 'device' if self.device else 'virtualmachine'
+
+
+class SoftwareLicense(NetBoxModel):
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(max_length=128)
+
+    stored_location = models.CharField(max_length=255, null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
+
+    software_product = models.ForeignKey(
+        to='netbox_slm.SoftwareProduct',
+        on_delete=models.PROTECT,
+    )
+    version = models.ForeignKey(
+        to='netbox_slm.SoftwareProductVersion',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+    installation = models.ForeignKey(
+        to='netbox_slm.SoftwareProductInstallation',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    objects = RestrictedQuerySet.as_manager()
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("plugins:netbox_slm:softwarelicense", kwargs={"pk": self.pk})

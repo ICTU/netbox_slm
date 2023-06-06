@@ -129,6 +129,7 @@ CSRF_TRUSTED_ORIGINS = list(filter(None, environ.get('CSRF_TRUSTED_ORIGINS', '')
 # sensitive information about your installation. Only enable debugging while performing testing. Never enable debugging
 # on a production system.
 DEBUG = environ.get('DEBUG', 'False').lower() == 'true'
+DEVELOPER = environ.get('DEVELOPER', 'False').lower() == 'true'
 
 # Email settings
 EMAIL = {

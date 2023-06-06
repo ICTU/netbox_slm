@@ -3,7 +3,7 @@ from django.db.models import Count
 from django_tables2.utils import Accessor
 
 from netbox.tables import NetBoxTable, ToggleColumn, columns
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 
 
 class SoftwareProductTable(NetBoxTable):
@@ -118,7 +118,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
         linkify=True
     )
     platform = tables.Column(
-        accessor='get_platform',
+        accessor=Accessor('platform'),
         linkify=True
     )
     type = tables.Column(accessor='render_type')
@@ -165,3 +165,58 @@ class SoftwareProductInstallationTable(NetBoxTable):
 
     def render_software_product(self, value, **kwargs):
         return f"{kwargs['record'].software_product.manufacturer.name} - {value}"
+
+
+class SoftwareLicenseTable(NetBoxTable):
+    """Table for displaying SoftwareLicense objects."""
+
+    pk = ToggleColumn()
+    name = tables.LinkColumn()
+
+    type = tables.Column(accessor='render_type')
+    software_product = tables.Column(
+        accessor=Accessor('software_product'),
+        linkify=True
+    )
+    version = tables.Column(
+        accessor=Accessor('version'),
+        linkify=True
+    )
+    installation = tables.Column(
+        accessor=Accessor('installation'),
+        linkify=True
+    )
+
+    tags = columns.TagColumn(
+        url_name="plugins:netbox_slm:softwarelicense_list",
+    )
+
+    class Meta(NetBoxTable.Meta):
+        model = SoftwareLicense
+        fields = (
+            "pk",
+            "name",
+            "description",
+            "type",
+            "stored_location",
+            "start_date",
+            "expiration_date",
+            "software_product",
+            "version",
+            "installation",
+            "tags",
+        )
+        default_columns = (
+            "pk",
+            "name",
+            "expiration_date",
+            "software_product",
+            "installation",
+            "tags",
+        )
+
+    def render_software_product(self, value, **kwargs):
+        return f"{kwargs['record'].software_product.manufacturer.name} - {value}"
+
+    def render_installation(self, **kwargs):
+        return f"{kwargs['record'].installation.platform}"

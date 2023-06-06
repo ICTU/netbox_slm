@@ -1,7 +1,7 @@
 from django.db.models import Q
 
 from netbox.filtersets import NetBoxModelFilterSet
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 
 
 class SoftwareProductFilterSet(NetBoxModelFilterSet):
@@ -43,7 +43,9 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = tuple()
+        fields = (
+            "software_product",
+        )
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
@@ -52,4 +54,23 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
         qs_filter = Q(software_product__name__icontains=value) | \
                     Q(software_product__manufacturer__name__icontains=value) | \
                     Q(version__name__icontains=value)
+        return queryset.filter(qs_filter)
+
+
+class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
+    """Filter capabilities for SoftwareLicense instances."""
+
+    class Meta:
+        model = SoftwareLicense
+        fields = tuple()
+
+    def search(self, queryset, name, value):
+        """Perform the filtered search."""
+        if not value.strip():
+            return queryset
+        qs_filter = Q(name__icontains=value) | \
+                    Q(software_product__name__icontains=value) | \
+                    Q(version__name__icontains=value) | \
+                    Q(installation__device__name__icontains=value) | \
+                    Q(installation__virtualmachine__name__icontains=value)
         return queryset.filter(qs_filter)
