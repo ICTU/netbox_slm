@@ -37,7 +37,7 @@ class SoftwareProductDeleteView(generic.ObjectDeleteView):
 
 class SoftwareProductBulkImportView(generic.BulkImportView):
     queryset = SoftwareProduct.objects.all()
-    model_form = forms.SoftwareProductCSVForm
+    model_form = forms.SoftwareProductImportForm
     table = tables.SoftwareProductTable
 
 
@@ -88,7 +88,7 @@ class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
 
 class SoftwareProductVersionBulkImportView(generic.BulkImportView):
     queryset = SoftwareProductVersion.objects.all()
-    model_form = forms.SoftwareProductVersionCSVForm
+    model_form = forms.SoftwareProductVersionImportForm
     table = tables.SoftwareProductVersionTable
 
 
@@ -134,7 +134,7 @@ class SoftwareProductInstallationDeleteView(generic.ObjectDeleteView):
 
 class SoftwareProductInstallationBulkImportView(generic.BulkImportView):
     queryset = SoftwareProductInstallation.objects.all()
-    model_form = forms.SoftwareProductInstallationCSVForm
+    model_form = forms.SoftwareProductInstallationImportForm
     table = tables.SoftwareProductInstallationTable
 
 
