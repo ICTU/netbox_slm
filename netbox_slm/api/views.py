@@ -2,12 +2,18 @@ from rest_framework.routers import APIRootView
 
 from netbox.api.viewsets import NetBoxModelViewSet
 from netbox_slm.api.serializers import (
-    SoftwareProductSerializer, SoftwareProductVersionSerializer, SoftwareProductInstallationSerializer,
+    SoftwareProductSerializer,
+    SoftwareProductVersionSerializer,
+    SoftwareProductInstallationSerializer,
+    SoftwareLicenseSerializer,
 )
 from netbox_slm.filtersets import (
-    SoftwareProductFilterSet, SoftwareProductVersionFilterSet, SoftwareProductInstallationFilterSet,
+    SoftwareProductFilterSet,
+    SoftwareProductVersionFilterSet,
+    SoftwareProductInstallationFilterSet,
+    SoftwareLicenseFilterSet,
 )
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
+from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 
 
 class NetboxSLMRootView(APIRootView):
@@ -35,3 +41,9 @@ class SoftwareProductInstallationViewSet(NetBoxModelViewSet):
     queryset = SoftwareProductInstallation.objects.all()
     serializer_class = SoftwareProductInstallationSerializer
     filterset_class = SoftwareProductInstallationFilterSet
+
+
+class SoftwareLicenseViewSet(NetBoxModelViewSet):
+    queryset = SoftwareLicense.objects.all()
+    serializer_class = SoftwareLicenseSerializer
+    filterset_class = SoftwareLicenseFilterSet

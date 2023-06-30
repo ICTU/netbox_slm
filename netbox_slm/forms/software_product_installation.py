@@ -2,92 +2,11 @@ from django import forms
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 
-from dcim.models import Manufacturer, Device
+from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation
+from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
 from utilities.forms import DynamicModelChoiceField, APISelect, TagFilterField
 from virtualization.models import VirtualMachine
-
-
-class SoftwareProductForm(NetBoxModelForm):
-    """Form for creating a new SoftwareProduct object."""
-
-    manufacturer = DynamicModelChoiceField(
-        queryset=Manufacturer.objects.all(),
-        required=True,
-    )
-
-    class Meta:
-        model = SoftwareProduct
-        fields = ("name", "manufacturer", "description", "tags")
-
-
-class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
-    model = SoftwareProduct
-    fieldsets = (
-        (None, ('q', 'tag')),
-    )
-
-    tag = TagFilterField(model)
-
-
-class SoftwareProductImportForm(NetBoxModelImportForm):
-    class Meta:
-        model = SoftwareProduct
-        fields = ("name", "manufacturer",)
-
-
-class SoftwareProductBulkEditForm(NetBoxModelBulkEditForm):
-    pk = forms.ModelMultipleChoiceField(
-        queryset=SoftwareProduct.objects.all(),
-        widget=forms.MultipleHiddenInput(),
-    )
-
-    class Meta:
-        model = SoftwareProduct
-        nullable_fields = []
-
-
-class SoftwareProductVersionForm(NetBoxModelForm):
-    """Form for creating a new SoftwareProductVersion object."""
-    name = forms.CharField(label=_("Version"))
-
-    software_product = DynamicModelChoiceField(
-        queryset=SoftwareProduct.objects.all(),
-        widget=APISelect(
-            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
-        ),
-    )
-
-    class Meta:
-        model = SoftwareProductVersion
-        fields = ("name", "software_product", "tags")
-
-
-class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
-    model = SoftwareProductVersion
-    fieldsets = (
-        (None, ('q', 'tag')),
-    )
-
-    tag = TagFilterField(model)
-
-
-class SoftwareProductVersionImportForm(NetBoxModelImportForm):
-    class Meta:
-        model = SoftwareProductVersion
-        fields = ("name",)
-
-
-class SoftwareProductVersionBulkEditForm(NetBoxModelBulkEditForm):
-    pk = forms.ModelMultipleChoiceField(
-        queryset=SoftwareProduct.objects.all(),
-        widget=forms.MultipleHiddenInput(),
-    )
-
-    class Meta:
-        model = SoftwareProductVersion
-        nullable_fields = []
 
 
 class SoftwareProductInstallationForm(NetBoxModelForm):
