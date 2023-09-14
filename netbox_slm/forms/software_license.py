@@ -2,7 +2,8 @@ from django.urls import reverse_lazy
 
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
-from utilities.forms import DynamicModelChoiceField, APISelect, TagFilterField
+from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
+from utilities.forms.widgets import APISelect
 
 
 class SoftwareLicenseForm(NetBoxModelForm):

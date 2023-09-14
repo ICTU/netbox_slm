@@ -5,7 +5,8 @@ from django.utils.translation import gettext as _
 from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
-from utilities.forms import DynamicModelChoiceField, APISelect, TagFilterField
+from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
+from utilities.forms.widgets import APISelect
 from virtualization.models import VirtualMachine
 
 

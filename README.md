@@ -27,8 +27,8 @@ Next, follow these instructions (based on the Netbox docker variant
 to install the Netbox SLM plugin:
 
 1. Add ``netbox_slm`` to the ``PLUGINS`` list in
-   ``configuration/extra.py``.
-2. Create a ``plugin_requirements.txt`` with ``netbox-slm==1.2`` as
+   ``configuration/plugins.py``.
+2. Create a ``plugin_requirements.txt`` with ``netbox-slm`` as
    contents.
 3. Create a ``Dockerfile-SLM`` with contents:
 

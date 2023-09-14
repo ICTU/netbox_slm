@@ -4,7 +4,8 @@ from django.utils.translation import gettext as _
 
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
-from utilities.forms import DynamicModelChoiceField, APISelect, TagFilterField
+from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
+from utilities.forms.widgets import APISelect
 
 
 class SoftwareProductVersionForm(NetBoxModelForm):
