@@ -1,9 +1,11 @@
+from django.forms import DateField
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
-from utilities.forms.widgets import APISelect
+from utilities.forms.widgets import APISelect, DatePicker
 
 
 class SoftwareLicenseForm(NetBoxModelForm):
@@ -35,6 +37,16 @@ class SoftwareLicenseForm(NetBoxModelForm):
         query_params={
             'software_product': '$software_product',
         }
+    )
+    start_date = DateField(
+        label=_('Start date'),
+        required=False,
+        widget=DatePicker()
+    )
+    expiration_date = DateField(
+        label=_('Expiration date'),
+        required=False,
+        widget=DatePicker()
     )
 
     class Meta:
