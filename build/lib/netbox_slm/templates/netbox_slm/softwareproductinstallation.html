@@ -1,0 +1,48 @@
+{% extends 'generic/object.html' %}
+{% load buttons %}
+{% load static %}
+{% load helpers %}
+{% load plugins %}
+
+{% block content %}
+<div class="row my-3">
+	<div class="col col-md-6">
+        <div class="card">
+            <h5 class="card-header">
+                Software Product Installation
+            </h5>
+            <div class="card-body">
+                <table class="table table-hover attr-table">
+{% if object.device %}
+                    <tr>
+                        <th scope="row">Device</th>
+                        <td>{{ object.device }}</td>
+                    </tr>
+{% else %}
+                    <tr>
+                        <th scope="row">Virtualmachine</th>
+                        <td>{{ object.virtualmachine }}</td>
+                    </tr>
+{% endif %}
+                    <tr>
+                        <th scope="row">Software Product</th>
+                        <td>{{ object.software_product }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Version</th>
+                        <td>{{ object.version }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% include 'inc/panels/custom_fields.html' %}
+        {% include 'inc/panels/tags.html' %}
+        {% plugin_left_page object %}
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-12">
+        {% plugin_full_width_page object %}
+    </div>
+</div>
+{% endblock %}

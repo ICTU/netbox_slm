@@ -10,12 +10,13 @@ from utilities.forms.widgets import APISelect
 
 class SoftwareProductVersionForm(NetBoxModelForm):
     """Form for creating a new SoftwareProductVersion object."""
-
     name = forms.CharField(label=_("Version"))
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
-        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
+        ),
     )
 
     class Meta:
@@ -25,7 +26,9 @@ class SoftwareProductVersionForm(NetBoxModelForm):
 
 class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductVersion
-    fieldsets = ((None, ("q", "tag")),)
+    fieldsets = (
+        (None, ('q', 'tag')),
+    )
 
     tag = TagFilterField(model)
 

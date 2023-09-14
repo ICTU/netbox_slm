@@ -13,20 +13,30 @@ from virtualization.models import VirtualMachine
 class SoftwareProductInstallationForm(NetBoxModelForm):
     """Form for creating a new SoftwareProductInstallation object."""
 
-    device = DynamicModelChoiceField(queryset=Device.objects.all(), required=False)
-    virtualmachine = DynamicModelChoiceField(queryset=VirtualMachine.objects.all(), required=False)
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+    )
+    virtualmachine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+    )
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=True,
-        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}
+        ),
     )
     version = DynamicModelChoiceField(
         queryset=SoftwareProductVersion.objects.all(),
         required=True,
-        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}
+        ),
         query_params={
-            "software_product": "$software_product",
-        },
+            'software_product': '$software_product',
+        }
     )
 
     class Meta:
@@ -34,19 +44,15 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         fields = ("device", "virtualmachine", "software_product", "version", "tags")
 
     def clean_version(self):
-        version = self.cleaned_data["version"]
-        software_product = self.cleaned_data["software_product"]
+        version = self.cleaned_data['version']
+        software_product = self.cleaned_data['software_product']
         if version not in software_product.softwareproductversion_set.all():
-            raise forms.ValidationError(
-                _(
-                    f"Version `{version}` doesn't exist on {software_product}, make sure you've "
-                    f"selected a compatible version or first select the software product."
-                )
-            )
+            raise forms.ValidationError(_(f"Version `{version}` doesn't exist on {software_product}, make sure you've "
+                                          f"selected a compatible version or first select the software product."))
         return version
 
     def clean(self):
-        if not any([self.cleaned_data["device"], self.cleaned_data["virtualmachine"]]):
+        if not any([self.cleaned_data['device'], self.cleaned_data['virtualmachine']]):
             raise forms.ValidationError(_("Installation requires atleast one virtualmachine or device destination."))
         return super(SoftwareProductInstallationForm, self).clean()
 
@@ -54,13 +60,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
     fieldsets = (
-        (
-            None,
-            (
-                "q",
-                "tag",
-            ),
-        ),
+        (None, ('q', 'tag',)),
     )
 
     tag = TagFilterField(model)
@@ -73,15 +73,15 @@ class SoftwareProductInstallationImportForm(NetBoxModelImportForm):
 
 
 class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
-    software_product = DynamicModelChoiceField(queryset=SoftwareProduct.objects.all(), required=False)
-    version = DynamicModelChoiceField(queryset=SoftwareProductVersion.objects.all(), required=False)
+    software_product = DynamicModelChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False
+    )
+    version = DynamicModelChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False
+    )
     model = SoftwareProductInstallation
     fieldsets = (
-        (
-            None,
-            (
-                "software_product",
-                "version",
-            ),
-        ),
+        (None, ('software_product', 'version',)),
     )

@@ -7,7 +7,8 @@ ENV PATH="/opt/netbox/venv/bin:$PATH"
 
 COPY ../ /build
 
-RUN python setup.py sdist
+RUN pip install -U .[build]
+RUN python -m build
 RUN pip install --no-index /build
 
 FROM netboxcommunity/netbox:v3.6.1

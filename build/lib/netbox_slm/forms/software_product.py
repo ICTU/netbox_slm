@@ -21,7 +21,9 @@ class SoftwareProductForm(NetBoxModelForm):
 
 class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProduct
-    fieldsets = ((None, ("q", "tag")),)
+    fieldsets = (
+        (None, ('q', 'tag')),
+    )
 
     tag = TagFilterField(model)
 
@@ -29,10 +31,7 @@ class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
 class SoftwareProductImportForm(NetBoxModelImportForm):
     class Meta:
         model = SoftwareProduct
-        fields = (
-            "name",
-            "manufacturer",
-        )
+        fields = ("name", "manufacturer",)
 
 
 class SoftwareProductBulkEditForm(NetBoxModelBulkEditForm):
