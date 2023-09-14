@@ -27,8 +27,8 @@ Next, follow these instructions (based on the Netbox docker variant
 to install the Netbox SLM plugin:
 
 1. Add ``netbox_slm`` to the ``PLUGINS`` list in
-   ``configuration/extra.py``.
-2. Create a ``plugin_requirements.txt`` with ``netbox-slm==1.2`` as
+   ``configuration/plugins.py``.
+2. Create a ``plugin_requirements.txt`` with ``netbox-slm`` as
    contents.
 3. Create a ``Dockerfile-SLM`` with contents:
 
@@ -65,20 +65,17 @@ And finally, run Netbox with the SLM plugin: ``docker compose up``
 
 To draft a release;
 
-update the setup.py file to reflect the new version, then from the *src*
+update the `netbox_slm/__init__.py` file to reflect the new version, then from the *src*
 directory run
 
    ```
-   # make sure to update the version in netbox_slm/__init__.py
-   $ python setup.py sdist
+   $ python -m build
    $ twine upload dist/*
    ```
 
 On Github.com create a similar tag and version. These steps could be
 automated with a github workflow.
 
-n.b. Currently the plugin is configured to use a personal pypi account,
-this should be changed.
 
 ## Developer Guide (local installation)
 

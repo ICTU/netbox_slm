@@ -1,6 +1,6 @@
 PLUGINS = ['netbox_slm']
 DEBUG = True
-SECRET_KEY = 'dummy'
+SECRET_KEY = 'dummydummydummydummydummydummydummydummydummydummy'
 DEVELOPER = True
 PLUGINS_CONFIG = {
     'netbox_slm': dict(

@@ -10,3 +10,4 @@ ci/docker-compose.override.yml
 ci/reports
 out/production
 *.iml
+build/

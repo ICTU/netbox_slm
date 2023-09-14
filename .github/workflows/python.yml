@@ -1,0 +1,28 @@
+name: Python
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.0.0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+
+    - name: Install tools
+      run: pip install .[tools]
+
+    - name: Run ruff
+      run: ruff netbox_slm
+
+    - name: Run black
+      run: black netbox_slm

@@ -17,8 +17,10 @@ class ModelTestCase(TestCase):
             software_product=self.software_product, version=self.software_product_version
         )
         self.software_license = SoftwareLicense.objects.create(
-            name=self.l_name, software_product=self.software_product,
-            version=self.software_product_version, installation=self.software_product_installation
+            name=self.l_name,
+            software_product=self.software_product,
+            version=self.software_product_version,
+            installation=self.software_product_installation,
         )
 
     def test_model_name(self):

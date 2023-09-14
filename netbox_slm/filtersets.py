@@ -24,17 +24,17 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = SoftwareProductVersion
-        fields = (
-            "software_product",
-        )
+        fields = ("software_product",)
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
         if not value.strip():
             return queryset
-        qs_filter = Q(name__icontains=value) | \
-                    Q(software_product__name__icontains=value) | \
-                    Q(software_product__manufacturer__name__icontains=value)
+        qs_filter = (
+            Q(name__icontains=value)
+            | Q(software_product__name__icontains=value)
+            | Q(software_product__manufacturer__name__icontains=value)
+        )
         return queryset.filter(qs_filter)
 
 
@@ -43,17 +43,17 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = (
-            "software_product",
-        )
+        fields = ("software_product",)
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
         if not value.strip():
             return queryset
-        qs_filter = Q(software_product__name__icontains=value) | \
-                    Q(software_product__manufacturer__name__icontains=value) | \
-                    Q(version__name__icontains=value)
+        qs_filter = (
+            Q(software_product__name__icontains=value)
+            | Q(software_product__manufacturer__name__icontains=value)
+            | Q(version__name__icontains=value)
+        )
         return queryset.filter(qs_filter)
 
 
@@ -68,9 +68,11 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
         """Perform the filtered search."""
         if not value.strip():
             return queryset
-        qs_filter = Q(name__icontains=value) | \
-                    Q(software_product__name__icontains=value) | \
-                    Q(version__name__icontains=value) | \
-                    Q(installation__device__name__icontains=value) | \
-                    Q(installation__virtualmachine__name__icontains=value)
+        qs_filter = (
+            Q(name__icontains=value)
+            | Q(software_product__name__icontains=value)
+            | Q(version__name__icontains=value)
+            | Q(installation__device__name__icontains=value)
+            | Q(installation__virtualmachine__name__icontains=value)
+        )
         return queryset.filter(qs_filter)

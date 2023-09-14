@@ -3,8 +3,8 @@ from utilities.choices import ButtonColorChoices
 
 menu_items = (
     PluginMenuItem(
-        link='plugins:netbox_slm:softwareproduct_list',
-        link_text='Software Products',
+        link="plugins:netbox_slm:softwareproduct_list",
+        link_text="Software Products",
         buttons=(
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproduct_add",
@@ -20,11 +20,11 @@ menu_items = (
                 ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwareproduct"],
             ),
-        )
+        ),
     ),
     PluginMenuItem(
-        link='plugins:netbox_slm:softwareproductversion_list',
-        link_text='Versions',
+        link="plugins:netbox_slm:softwareproductversion_list",
+        link_text="Versions",
         buttons=(
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproductversion_add",
@@ -40,11 +40,11 @@ menu_items = (
                 ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwareproductversion"],
             ),
-        )
+        ),
     ),
     PluginMenuItem(
-        link='plugins:netbox_slm:softwareproductinstallation_list',
-        link_text='Installations',
+        link="plugins:netbox_slm:softwareproductinstallation_list",
+        link_text="Installations",
         buttons=(
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproductinstallation_add",
@@ -60,11 +60,11 @@ menu_items = (
                 ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwareproductinstallation"],
             ),
-        )
+        ),
     ),
     PluginMenuItem(
-        link='plugins:netbox_slm:softwarelicense_list',
-        link_text='Licenses',
+        link="plugins:netbox_slm:softwarelicense_list",
+        link_text="Licenses",
         buttons=(
             PluginMenuButton(
                 "plugins:netbox_slm:softwarelicense_add",
@@ -80,6 +80,6 @@ menu_items = (
                 ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwarelicense"],
             ),
-        )
+        ),
     ),
 )
