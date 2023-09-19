@@ -27,7 +27,11 @@
                     </tr>
                     <tr>
                         <th scope="row">Stored location</th>
-                        <td>{{ object.stored_location }}</td>
+{% if object.stored_location_url %}
+                        <td><a href="{{ object.stored_location_url }}">{{ object.stored_location_txt }}</a></td>
+{% else %}
+                        <td>{{ object.stored_location_txt }}</td>
+{% endif %}
                     </tr>
                     <tr>
                         <th scope="row">Start date</th>

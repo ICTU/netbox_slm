@@ -4,12 +4,14 @@ from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
-from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
+from utilities.forms.fields import DynamicModelChoiceField, TagFilterField, LaxURLField
 from utilities.forms.widgets import APISelect, DatePicker
 
 
 class SoftwareLicenseForm(NetBoxModelForm):
     """Form for creating a new SoftwareLicense object."""
+
+    stored_location_url = LaxURLField(required=False)
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
@@ -44,6 +46,7 @@ class SoftwareLicenseForm(NetBoxModelForm):
             "description",
             "type",
             "stored_location",
+            "stored_location_url",
             "start_date",
             "expiration_date",
             "software_product",
@@ -76,6 +79,7 @@ class SoftwareLicenseImportForm(NetBoxModelImportForm):
             "description",
             "type",
             "stored_location",
+            "stored_location_url",
             "start_date",
             "expiration_date",
         )
