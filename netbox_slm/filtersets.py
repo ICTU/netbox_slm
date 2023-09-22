@@ -74,5 +74,6 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
             | Q(version__name__icontains=value)
             | Q(installation__device__name__icontains=value)
             | Q(installation__virtualmachine__name__icontains=value)
+            | Q(installation__cluster__name__icontains=value)
         )
         return queryset.filter(qs_filter)

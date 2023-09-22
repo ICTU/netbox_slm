@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from django.db.models import Count
+from django.db.models import Count, F, Value
 
 from netbox.tables import NetBoxTable, ToggleColumn, columns
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
@@ -95,8 +95,10 @@ class SoftwareProductInstallationTable(NetBoxTable):
 
     pk = ToggleColumn()
     name = tables.LinkColumn()
+
     device = tables.Column(accessor="device", linkify=True)
     virtualmachine = tables.Column(accessor="virtualmachine", linkify=True)
+    cluster = tables.Column(accessor="cluster", linkify=True)
     platform = tables.Column(accessor="platform", linkify=True)
     type = tables.Column(accessor="render_type")
     software_product = tables.Column(accessor="software_product", linkify=True)
@@ -125,12 +127,18 @@ class SoftwareProductInstallationTable(NetBoxTable):
         )
 
     def order_platform(self, queryset, is_descending):
-        queryset = queryset.order_by(("device" if is_descending else "virtualmachine"))
-        return queryset, True
+        device_annotate = queryset.filter(device__isnull=False).annotate(platform_value=F("device__name"))
+        vm_annotate = queryset.filter(virtualmachine__isnull=False).annotate(platform_value=F("virtualmachine__name"))
+        cluster_annotate = queryset.filter(cluster__isnull=False).annotate(platform_value=F("cluster__name"))
+        queryset_union = device_annotate.union(vm_annotate).union(cluster_annotate)
+        return queryset_union.order_by(f"{'-' if is_descending else ''}platform_value"), True
 
     def order_type(self, queryset, is_descending):
-        queryset = queryset.order_by(("device" if is_descending else "virtualmachine"))
-        return queryset, True
+        device_annotate = queryset.filter(device__isnull=False).annotate(render_type=Value("device"))
+        vm_annotate = queryset.filter(virtualmachine__isnull=False).annotate(render_type=Value("virtualmachine"))
+        cluster_annotate = queryset.filter(cluster__isnull=False).annotate(render_type=Value("cluster"))
+        queryset_union = device_annotate.union(vm_annotate).union(cluster_annotate)
+        return queryset_union.order_by(f"{'-' if is_descending else ''}render_type"), True
 
     def render_software_product(self, value, **kwargs):
         return f"{kwargs['record'].software_product.manufacturer.name} - {value}"

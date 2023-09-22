@@ -7,7 +7,7 @@ from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulk
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
 from utilities.forms.widgets import APISelect
-from virtualization.models import VirtualMachine
+from virtualization.models import VirtualMachine, Cluster
 
 
 class SoftwareProductInstallationForm(NetBoxModelForm):
@@ -15,6 +15,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 
     device = DynamicModelChoiceField(queryset=Device.objects.all(), required=False)
     virtualmachine = DynamicModelChoiceField(queryset=VirtualMachine.objects.all(), required=False)
+    cluster = DynamicModelChoiceField(queryset=Cluster.objects.all(), required=False)
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=True,
@@ -31,7 +32,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = ("device", "virtualmachine", "software_product", "version", "tags")
+        fields = ("device", "virtualmachine", "cluster", "software_product", "version", "tags")
 
     def clean_version(self):
         version = self.cleaned_data["version"]
@@ -44,11 +45,6 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
                 )
             )
         return version
-
-    def clean(self):
-        if not any([self.cleaned_data["device"], self.cleaned_data["virtualmachine"]]):
-            raise forms.ValidationError(_("Installation requires atleast one virtualmachine or device destination."))
-        return super(SoftwareProductInstallationForm, self).clean()
 
 
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):

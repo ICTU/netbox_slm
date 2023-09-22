@@ -79,6 +79,7 @@ class SoftwareProductInstallation(NetBoxModel):
     virtualmachine = models.ForeignKey(
         to="virtualization.VirtualMachine", on_delete=models.PROTECT, null=True, blank=True
     )
+    cluster = models.ForeignKey(to="virtualization.Cluster", on_delete=models.PROTECT, null=True, blank=True)
     software_product = models.ForeignKey(to="netbox_slm.SoftwareProduct", on_delete=models.PROTECT)
     version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT)
 
@@ -87,15 +88,32 @@ class SoftwareProductInstallation(NetBoxModel):
     def __str__(self):
         return f"{self.pk} ({self.platform})"
 
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_platform",
+                check=(
+                    models.Q(device__isnull=False, virtualmachine__isnull=True, cluster__isnull=True)
+                    | models.Q(device__isnull=True, virtualmachine__isnull=False, cluster__isnull=True)
+                    | models.Q(device__isnull=True, virtualmachine__isnull=True, cluster__isnull=False)
+                ),
+                violation_error_message="Installation requires exactly one platform destination.",
+            )
+        ]
+
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproductinstallation", kwargs={"pk": self.pk})
 
     @property
     def platform(self):
-        return self.device or self.virtualmachine
+        return self.device or self.virtualmachine or self.cluster
 
     def render_type(self):
-        return "device" if self.device else "virtualmachine"
+        if self.device:
+            return "device"
+        if self.virtualmachine:
+            return "virtualmachine"
+        return "cluster"
 
 
 class SoftwareLicense(NetBoxModel):
@@ -111,7 +129,7 @@ class SoftwareLicense(NetBoxModel):
     software_product = models.ForeignKey(to="netbox_slm.SoftwareProduct", on_delete=models.PROTECT)
     version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT, null=True, blank=True)
     installation = models.ForeignKey(
-        to="netbox_slm.SoftwareProductInstallation", on_delete=models.PROTECT, null=True, blank=True
+        to="netbox_slm.SoftwareProductInstallation", on_delete=models.SET_NULL, null=True, blank=True
     )
 
     objects = RestrictedQuerySet.as_manager()
