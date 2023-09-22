@@ -4,6 +4,16 @@ from django.utils import safestring
 
 from netbox.models import NetBoxModel
 from utilities.querysets import RestrictedQuerySet
+from utilities.validators import EnhancedURLValidator
+
+
+class LaxURLField(models.URLField):
+    """
+    NetBox Custom Field approach, based on utilities.forms.fields.LaxURLField
+    Overriding default_validators is needed, as they are always added
+    """
+
+    default_validators = [EnhancedURLValidator()]
 
 
 class SoftwareProduct(NetBoxModel):
@@ -94,6 +104,7 @@ class SoftwareLicense(NetBoxModel):
     type = models.CharField(max_length=128)
 
     stored_location = models.CharField(max_length=255, null=True, blank=True)
+    stored_location_url = LaxURLField(max_length=1024, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
 
@@ -110,3 +121,9 @@ class SoftwareLicense(NetBoxModel):
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwarelicense", kwargs={"pk": self.pk})
+
+    @property
+    def stored_location_txt(self):
+        if self.stored_location_url and not self.stored_location:
+            return "Link"
+        return self.stored_location
