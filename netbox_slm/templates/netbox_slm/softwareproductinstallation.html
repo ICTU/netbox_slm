@@ -18,10 +18,15 @@
                         <th scope="row">Device</th>
                         <td>{{ object.device }}</td>
                     </tr>
-{% else %}
+{% elif object.virtualmachine %}
                     <tr>
                         <th scope="row">Virtualmachine</th>
                         <td>{{ object.virtualmachine }}</td>
+                    </tr>
+{% else %}
+                    <tr>
+                        <th scope="row">Cluster</th>
+                        <td>{{ object.cluster }}</td>
                     </tr>
 {% endif %}
                     <tr>

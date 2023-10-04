@@ -61,6 +61,7 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
             "url",
             "device",
             "virtualmachine",
+            "cluster",
             "software_product",
             "version",
             "tags",
