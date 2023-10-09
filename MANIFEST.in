@@ -1,4 +1,7 @@
-include ../LICENSE
-include ../README.md
-include ../SECURITY.md
-recursive-include netbox_slm/templates *
+include LICENSE
+include README.md
+include SECURITY.md
+graft netbox_slm
+prune netbox_slm/tests
+global-exclude *.py[cod]
+global-exclude __pycache__
