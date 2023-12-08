@@ -1,17 +1,19 @@
 from django import forms
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
 
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
-from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
-from utilities.forms.widgets import APISelect
+from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
+from utilities.forms.widgets import APISelect, DatePicker
 
 
 class SoftwareProductVersionForm(NetBoxModelForm):
     """Form for creating a new SoftwareProductVersion object."""
 
-    name = forms.CharField(label=_("Version"))
+    comments = CommentField()
+
+    release_date = forms.DateField(required=False, widget=DatePicker())
+    end_of_support = forms.DateField(required=False, widget=DatePicker())
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
@@ -20,13 +22,24 @@ class SoftwareProductVersionForm(NetBoxModelForm):
 
     class Meta:
         model = SoftwareProductVersion
-        fields = ("name", "software_product", "tags")
+        fields = (
+            "name",
+            "release_date",
+            "documentation_url",
+            "end_of_support",
+            "filename",
+            "file_checksum",
+            "file_link",
+            "release_type",
+            "software_product",
+            "tags",
+            "comments",
+        )
 
 
 class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductVersion
     fieldsets = ((None, ("q", "tag")),)
-
     tag = TagFilterField(model)
 
 

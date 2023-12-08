@@ -1,6 +1,6 @@
-<h1 align="center">NetBox SLM</h1>
+# NetBox SLM
 
-<p align="center"><i>Netbox SLM is a plugin for lifecycle management of software components, including versions and installations.</i></p>
+<p align="center"><i>NetBox SLM is a plugin for lifecycle management of software components, including versions and installations.</i></p>
 
 <div align="center">
 <a href="https://pypi.org/project/netbox_slm/"><img src="https://img.shields.io/pypi/v/netbox_slm" alt="PyPi"/></a>
@@ -15,16 +15,16 @@
 
 ## Known Issues
 
-- WARNING: This plugin is only tested with a single Netbox version at this time.
+- WARNING: This plugin is only tested with a single NetBox version at this time.
 - CSV/Bulk imports for SoftwareProduct, Version and Installation are currently broken (WIP)
 
 ## Installation Guide
 
-When using the Docker version of Netbox, first follow the netbox-docker [quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the netbox-docker repo and set up the ``docker-compose.override.yml``.
+When using the Docker version of NetBox, first follow the netbox-docker [quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the netbox-docker repo and set up the ``docker-compose.override.yml``.
 
-Next, follow these instructions (based on the Netbox docker variant
+Next, follow these instructions (based on the NetBox docker variant
 [instructions](https://github.com/netbox-community/netbox-docker/wiki/Configuration#custom-configuration-files))
-to install the Netbox SLM plugin:
+to install the NetBox SLM plugin:
 
 1. Add ``netbox_slm`` to the ``PLUGINS`` list in
    ``configuration/plugins.py``.
@@ -59,7 +59,7 @@ to install the Netbox SLM plugin:
 
 Now, build the image: ``docker compose build --no-cache``
 
-And finally, run Netbox with the SLM plugin: ``docker compose up``
+And finally, run NetBox with the SLM plugin: ``docker compose up``
 
 ## Releasing Guide
 
@@ -84,8 +84,8 @@ netbox_slm plugin in developer mode*
 
 ### Setup
 
-The goal below is to run all Netbox components in Docker and run a local
-Netbox Django copy with auto-reload to develop the plugin pointing to
+The goal below is to run all NetBox components in Docker and run a local
+NetBox Django copy with auto-reload to develop the plugin pointing to
 the Dockerized postgres and redis instances, basically ignoring the
 netbox docker runtime server.
 
@@ -116,7 +116,7 @@ netbox docker runtime server.
    ]
    ```
 
-The Netbox installation above will be used to run Django management
+The NetBox installation above will be used to run Django management
 commands like runserver, makemigrations and migrate, which will be
 explained in the next steps below;
 
@@ -128,7 +128,7 @@ explained in the next steps below;
    $ ./start-netbox.sh
    ```
    
-This will start Netbox locally (requires Docker) and forward the redis
+This will start NetBox locally (requires Docker) and forward the redis
 and postgres ports to the localhost (make sure there’s no processes
 using these ports or change the dockerfiles accordingly)
 
@@ -220,3 +220,8 @@ Now you can run commands from the netbox repository like this;
 
 Visit http://127.0.0.1:8001 in the browser to see the auto reloading
 version of the netbox UI. Port 8000 is taken by the docker ran variant.
+
+
+## Get in touch
+
+Point of contact for this repository is [Mart Visser](https://github.com/MartVisser), who can be reached by [opening a new issue in this repository's issue tracker](https://github.com/ICTU/netbox_slm/issues/new).

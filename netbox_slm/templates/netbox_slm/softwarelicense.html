@@ -50,6 +50,14 @@
                         <td>{{ object.version }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Support</th>
+                        <td>{{ object.support }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">License amount</th>
+                        <td>{{ object.license_amount }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Installation</th>
                         <td>{{ object.installation }}</td>
                     </tr>
@@ -58,6 +66,7 @@
         </div>
         {% include 'inc/panels/custom_fields.html' %}
         {% include 'inc/panels/tags.html' %}
+        {% include 'inc/panels/comments.html' %}
         {% plugin_left_page object %}
     </div>
 </div>

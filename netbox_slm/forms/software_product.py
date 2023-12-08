@@ -3,11 +3,13 @@ from django import forms
 from dcim.models import Manufacturer
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct
-from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
+from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 
 
 class SoftwareProductForm(NetBoxModelForm):
     """Form for creating a new SoftwareProduct object."""
+
+    comments = CommentField()
 
     manufacturer = DynamicModelChoiceField(
         queryset=Manufacturer.objects.all(),
@@ -16,13 +18,18 @@ class SoftwareProductForm(NetBoxModelForm):
 
     class Meta:
         model = SoftwareProduct
-        fields = ("name", "manufacturer", "description", "tags")
+        fields = (
+            "name",
+            "description",
+            "manufacturer",
+            "tags",
+            "comments",
+        )
 
 
 class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProduct
     fieldsets = ((None, ("q", "tag")),)
-
     tag = TagFilterField(model)
 
 
@@ -31,6 +38,7 @@ class SoftwareProductImportForm(NetBoxModelImportForm):
         model = SoftwareProduct
         fields = (
             "name",
+            "description",
             "manufacturer",
         )
 
