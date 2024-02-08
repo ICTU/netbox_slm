@@ -1,17 +1,18 @@
 from django import forms
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
 
 from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
-from utilities.forms.fields import DynamicModelChoiceField, TagFilterField
+from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 from utilities.forms.widgets import APISelect
 from virtualization.models import VirtualMachine, Cluster
 
 
 class SoftwareProductInstallationForm(NetBoxModelForm):
     """Form for creating a new SoftwareProductInstallation object."""
+
+    comments = CommentField()
 
     device = DynamicModelChoiceField(queryset=Device.objects.all(), required=False)
     virtualmachine = DynamicModelChoiceField(queryset=VirtualMachine.objects.all(), required=False)
@@ -32,33 +33,30 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = ("device", "virtualmachine", "cluster", "software_product", "version", "tags")
+        fields = (
+            "device",
+            "virtualmachine",
+            "cluster",
+            "software_product",
+            "version",
+            "tags",
+            "comments",
+        )
 
     def clean_version(self):
         version = self.cleaned_data["version"]
         software_product = self.cleaned_data["software_product"]
         if version not in software_product.softwareproductversion_set.all():
             raise forms.ValidationError(
-                _(
-                    f"Version `{version}` doesn't exist on {software_product}, make sure you've "
-                    f"selected a compatible version or first select the software product."
-                )
+                f"Version '{version}' doesn't exist on {software_product}, make sure you've "
+                f"selected a compatible version or first select the software product."
             )
         return version
 
 
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
-    fieldsets = (
-        (
-            None,
-            (
-                "q",
-                "tag",
-            ),
-        ),
-    )
-
+    fieldsets = ((None, ("q", "tag")),)
     tag = TagFilterField(model)
 
 

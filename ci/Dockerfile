@@ -11,7 +11,7 @@ RUN pip install -U .[build]
 RUN python -m build
 RUN pip install --no-index /build
 
-FROM netboxcommunity/netbox:v3.6.1
+FROM netboxcommunity/netbox:v3.7.2
 
 ARG PYTHON_VERSION=3.10
 COPY --from=compile-image /opt/netbox/venv/lib/python${PYTHON_VERSION}/site-packages/netbox_slm /opt/netbox/venv/lib/python${PYTHON_VERSION}/site-packages/netbox_slm

@@ -15,7 +15,12 @@ class SoftwareProductFilterSet(NetBoxModelFilterSet):
         """Perform the filtered search."""
         if not value.strip():
             return queryset
-        qs_filter = Q(name__icontains=value) | Q(manufacturer__name__icontains=value)
+        qs_filter = (
+            Q(name__icontains=value)
+            | Q(description__icontains=value)
+            | Q(manufacturer__name__icontains=value)
+            | Q(comments__icontains=value)
+        )
         return queryset.filter(qs_filter)
 
 
@@ -34,6 +39,7 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
             Q(name__icontains=value)
             | Q(software_product__name__icontains=value)
             | Q(software_product__manufacturer__name__icontains=value)
+            | Q(comments__icontains=value)
         )
         return queryset.filter(qs_filter)
 
@@ -53,6 +59,7 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
             Q(software_product__name__icontains=value)
             | Q(software_product__manufacturer__name__icontains=value)
             | Q(version__name__icontains=value)
+            | Q(comments__icontains=value)
         )
         return queryset.filter(qs_filter)
 
@@ -75,5 +82,6 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
             | Q(installation__device__name__icontains=value)
             | Q(installation__virtualmachine__name__icontains=value)
             | Q(installation__cluster__name__icontains=value)
+            | Q(comments__icontains=value)
         )
         return queryset.filter(qs_filter)

@@ -18,8 +18,9 @@ class LaxURLField(models.URLField):
 
 class SoftwareProduct(NetBoxModel):
     name = models.CharField(max_length=128)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    comments = models.TextField(blank=True)
 
+    description = models.CharField(max_length=255, null=True, blank=True)
     manufacturer = models.ForeignKey(to="dcim.Manufacturer", on_delete=models.PROTECT, null=True, blank=True)
 
     objects = RestrictedQuerySet.as_manager()
@@ -44,8 +45,29 @@ class SoftwareProduct(NetBoxModel):
         )
 
 
+class SoftwareReleaseTypes(models.TextChoices):
+    ALPHA = "A", "Alpha"
+    BETA = "B", "Beta"
+    RELEASE_CANDIDATE = "RC", "Release candidate"
+    STABLE = "S", "Stable release"
+
+
 class SoftwareProductVersion(NetBoxModel):
     name = models.CharField(max_length=64)
+    comments = models.TextField(blank=True)
+
+    release_date = models.DateField(null=True, blank=True)
+    documentation_url = LaxURLField(max_length=1024, null=True, blank=True)
+    end_of_support = models.DateField(null=True, blank=True)
+    filename = models.CharField(max_length=64, null=True, blank=True)
+    file_checksum = models.CharField(max_length=128, null=True, blank=True)
+    file_link = LaxURLField(max_length=1024, null=True, blank=True)
+
+    release_type = models.CharField(
+        max_length=3,
+        choices=SoftwareReleaseTypes.choices,
+        default=SoftwareReleaseTypes.STABLE,
+    )
 
     software_product = models.ForeignKey(
         to="netbox_slm.SoftwareProduct",
@@ -75,6 +97,8 @@ class SoftwareProductVersion(NetBoxModel):
 
 
 class SoftwareProductInstallation(NetBoxModel):
+    comments = models.TextField(blank=True)
+
     device = models.ForeignKey(to="dcim.Device", on_delete=models.PROTECT, null=True, blank=True)
     virtualmachine = models.ForeignKey(
         to="virtualization.VirtualMachine", on_delete=models.PROTECT, null=True, blank=True
@@ -118,13 +142,16 @@ class SoftwareProductInstallation(NetBoxModel):
 
 class SoftwareLicense(NetBoxModel):
     name = models.CharField(max_length=128)
+    comments = models.TextField(blank=True)
+
     description = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=128)
-
     stored_location = models.CharField(max_length=255, null=True, blank=True)
     stored_location_url = LaxURLField(max_length=1024, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
+    support = models.BooleanField(default=None, null=True, blank=True)
+    license_amount = models.PositiveIntegerField(default=None, null=True, blank=True)
 
     software_product = models.ForeignKey(to="netbox_slm.SoftwareProduct", on_delete=models.PROTECT)
     version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT, null=True, blank=True)

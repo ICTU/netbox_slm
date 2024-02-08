@@ -11,7 +11,7 @@ class SoftwareProductTable(NetBoxTable):
     pk = ToggleColumn()
     name = tables.LinkColumn()
     manufacturer = tables.Column(accessor="manufacturer", linkify=True)
-    installations = tables.Column(accessor="get_installation_count", verbose_name="Installations")
+    installations = tables.Column(accessor="get_installation_count")
 
     tags = columns.TagColumn(url_name="plugins:netbox_slm:softwareproduct_list")
 
@@ -51,10 +51,10 @@ class SoftwareProductVersionTable(NetBoxTable):
     """Table for displaying SoftwareProductVersion objects."""
 
     pk = ToggleColumn()
-    name = tables.LinkColumn(verbose_name="Version")
+    name = tables.LinkColumn()
     software_product = tables.Column(accessor="software_product", linkify=True)
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
-    installations = tables.Column(accessor="get_installation_count", verbose_name="Installations")
+    installations = tables.Column(accessor="get_installation_count")
 
     tags = columns.TagColumn(url_name="plugins:netbox_slm:softwareproductversion_list")
 
@@ -65,6 +65,9 @@ class SoftwareProductVersionTable(NetBoxTable):
             "name",
             "software_product",
             "manufacturer",
+            "release_date",
+            "end_of_support",
+            "release_type",
             "installations",
             "tags",
         )
@@ -73,6 +76,7 @@ class SoftwareProductVersionTable(NetBoxTable):
             "name",
             "software_product",
             "manufacturer",
+            "release_date",
             "installations",
             "tags",
         )
@@ -172,6 +176,8 @@ class SoftwareLicenseTable(NetBoxTable):
             "software_product",
             "version",
             "installation",
+            "support",
+            "license_amount",
             "tags",
         )
         default_columns = (
