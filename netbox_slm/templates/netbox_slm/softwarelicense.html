@@ -11,58 +11,56 @@
             <h5 class="card-header">
                 Software License
             </h5>
-            <div class="card-body">
-                <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">Name</th>
-                        <td>{{ object.name }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Description</th>
-                        <td>{{ object.description }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Type</th>
-                        <td>{{ object.type }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Stored location</th>
+            <table class="table table-hover attr-table">
+                <tr>
+                    <th scope="row">Name</th>
+                    <td>{{ object.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Description</th>
+                    <td>{{ object.description }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td>{{ object.type }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Stored location</th>
 {% if object.stored_location_url %}
-                        <td><a href="{{ object.stored_location_url }}">{{ object.stored_location_txt }}</a></td>
+                    <td><a href="{{ object.stored_location_url }}">{{ object.stored_location_txt }}</a></td>
 {% else %}
-                        <td>{{ object.stored_location_txt }}</td>
+                    <td>{{ object.stored_location_txt }}</td>
 {% endif %}
-                    </tr>
-                    <tr>
-                        <th scope="row">Start date</th>
-                        <td>{{ object.start_date }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Expiration date</th>
-                        <td>{{ object.expiration_date }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Software Product</th>
-                        <td>{{ object.software_product }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Version</th>
-                        <td>{{ object.version }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Support</th>
-                        <td>{{ object.support }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">License amount</th>
-                        <td>{{ object.license_amount }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Installation</th>
-                        <td>{{ object.installation }}</td>
-                    </tr>
-                </table>
-            </div>
+                </tr>
+                <tr>
+                    <th scope="row">Start date</th>
+                    <td>{{ object.start_date }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Expiration date</th>
+                    <td>{{ object.expiration_date }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Software Product</th>
+                    <td>{{ object.software_product }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Version</th>
+                    <td>{{ object.version }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Support</th>
+                    <td>{{ object.support }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">License amount</th>
+                    <td>{{ object.license_amount }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Installation</th>
+                    <td>{{ object.installation }}</td>
+                </tr>
+            </table>
         </div>
         {% include 'inc/panels/custom_fields.html' %}
         {% include 'inc/panels/tags.html' %}

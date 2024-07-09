@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.10
+ARG PYTHON_VERSION=3.11
 FROM python:${PYTHON_VERSION}-alpine AS compile-image
 
 WORKDIR /build
@@ -11,7 +11,7 @@ RUN pip install -U .[build]
 RUN python -m build
 RUN pip install --no-index /build
 
-FROM netboxcommunity/netbox:v3.7.2
+FROM netboxcommunity/netbox:v4.0.6
 
-ARG PYTHON_VERSION=3.10
+ARG PYTHON_VERSION=3.11
 COPY --from=compile-image /opt/netbox/venv/lib/python${PYTHON_VERSION}/site-packages/netbox_slm /opt/netbox/venv/lib/python${PYTHON_VERSION}/site-packages/netbox_slm

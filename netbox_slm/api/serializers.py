@@ -10,7 +10,7 @@ class SoftwareLicenseSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = SoftwareLicense
-        fields = [
+        fields = (
             "id",
             "display",
             "url",
@@ -31,7 +31,8 @@ class SoftwareLicenseSerializer(NetBoxModelSerializer):
             "custom_field_data",
             "created",
             "last_updated",
-        ]
+        )
+        brief_fields = ("id", "display", "url", "name", "description")
 
     def get_display(self, obj):
         return f"{obj}"
@@ -43,7 +44,7 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = SoftwareProduct
-        fields = [
+        fields = (
             "id",
             "display",
             "url",
@@ -55,7 +56,8 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
             "custom_field_data",
             "created",
             "last_updated",
-        ]
+        )
+        brief_fields = ("id", "display", "url", "name", "description")
 
     def get_display(self, obj):
         return f"{obj.manufacturer} - {obj}"
@@ -69,7 +71,7 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = [
+        fields = (
             "id",
             "display",
             "url",
@@ -83,7 +85,8 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
             "custom_field_data",
             "created",
             "last_updated",
-        ]
+        )
+        brief_fields = ("id", "display", "url", "name")
 
     def get_display(self, obj):
         return f"{obj}"
@@ -95,7 +98,7 @@ class SoftwareProductVersionSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = SoftwareProductVersion
-        fields = [
+        fields = (
             "id",
             "display",
             "url",
@@ -113,7 +116,8 @@ class SoftwareProductVersionSerializer(NetBoxModelSerializer):
             "custom_field_data",
             "created",
             "last_updated",
-        ]
+        )
+        brief_fields = ("id", "display", "url", "name")
 
     def get_display(self, obj):
         return f"{obj}"

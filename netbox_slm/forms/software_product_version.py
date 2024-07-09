@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
+from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect, DatePicker
 
 
@@ -39,7 +40,7 @@ class SoftwareProductVersionForm(NetBoxModelForm):
 
 class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductVersion
-    fieldsets = ((None, ("q", "tag")),)
+    fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
 
 

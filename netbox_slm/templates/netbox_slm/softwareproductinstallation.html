@@ -11,34 +11,32 @@
             <h5 class="card-header">
                 Software Product Installation
             </h5>
-            <div class="card-body">
-                <table class="table table-hover attr-table">
+            <table class="table table-hover attr-table">
 {% if object.device %}
-                    <tr>
-                        <th scope="row">Device</th>
-                        <td>{{ object.device }}</td>
-                    </tr>
+                <tr>
+                    <th scope="row">Device</th>
+                    <td>{{ object.device }}</td>
+                </tr>
 {% elif object.virtualmachine %}
-                    <tr>
-                        <th scope="row">Virtualmachine</th>
-                        <td>{{ object.virtualmachine }}</td>
-                    </tr>
+                <tr>
+                    <th scope="row">Virtualmachine</th>
+                    <td>{{ object.virtualmachine }}</td>
+                </tr>
 {% else %}
-                    <tr>
-                        <th scope="row">Cluster</th>
-                        <td>{{ object.cluster }}</td>
-                    </tr>
+                <tr>
+                    <th scope="row">Cluster</th>
+                    <td>{{ object.cluster }}</td>
+                </tr>
 {% endif %}
-                    <tr>
-                        <th scope="row">Software Product</th>
-                        <td>{{ object.software_product }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Version</th>
-                        <td>{{ object.version }}</td>
-                    </tr>
-                </table>
-            </div>
+                <tr>
+                    <th scope="row">Software Product</th>
+                    <td>{{ object.software_product }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Version</th>
+                    <td>{{ object.version }}</td>
+                </tr>
+            </table>
         </div>
         {% include 'inc/panels/custom_fields.html' %}
         {% include 'inc/panels/tags.html' %}

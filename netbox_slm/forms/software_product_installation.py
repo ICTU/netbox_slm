@@ -5,6 +5,7 @@ from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
+from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect
 from virtualization.models import VirtualMachine, Cluster
 
@@ -56,7 +57,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
-    fieldsets = ((None, ("q", "tag")),)
+    fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
 
 
@@ -70,12 +71,4 @@ class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
     software_product = DynamicModelChoiceField(queryset=SoftwareProduct.objects.all(), required=False)
     version = DynamicModelChoiceField(queryset=SoftwareProductVersion.objects.all(), required=False)
     model = SoftwareProductInstallation
-    fieldsets = (
-        (
-            None,
-            (
-                "software_product",
-                "version",
-            ),
-        ),
-    )
+    fieldsets = (FieldSet(None, ("software_product", "version")),)
