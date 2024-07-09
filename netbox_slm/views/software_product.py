@@ -35,20 +35,6 @@ class SoftwareProductDeleteView(generic.ObjectDeleteView):
     queryset = SoftwareProduct.objects.all()
 
 
-class SoftwareProductBulkImportView(generic.BulkImportView):
-    queryset = SoftwareProduct.objects.all()
-    model_form = forms.SoftwareProductImportForm
-    table = tables.SoftwareProductTable
-
-
-class SoftwareProductBulkEditView(generic.BulkEditView):
-    queryset = SoftwareProduct.objects.all()
-    filterset = filtersets.SoftwareProductFilterSet
-    filterset_form = forms.SoftwareProductFilterForm
-    table = tables.SoftwareProductTable
-    form = forms.SoftwareProductBulkEditForm
-
-
 class SoftwareProductBulkDeleteView(generic.BulkDeleteView):
     queryset = SoftwareProduct.objects.all()
     table = tables.SoftwareProductTable

@@ -8,8 +8,6 @@ urlpatterns = [
     # SoftwareProduct
     path("software-products/", views.SoftwareProductListView.as_view(), name="softwareproduct_list"),
     path("software-products/add/", views.SoftwareProductEditView.as_view(), name="softwareproduct_add"),
-    path("software-products/import/", views.SoftwareProductBulkImportView.as_view(), name="softwareproduct_import"),
-    path("software-products/edit/", views.SoftwareProductBulkEditView.as_view(), name="softwareproduct_bulk_edit"),
     path(
         "software-products/delete/", views.SoftwareProductBulkDeleteView.as_view(), name="softwareproduct_bulk_delete"
     ),
@@ -27,10 +25,6 @@ urlpatterns = [
     # SoftwareProductVersion
     path("versions/", views.SoftwareProductVersionListView.as_view(), name="softwareproductversion_list"),
     path("versions/add/", views.SoftwareProductVersionEditView.as_view(), name="softwareproductversion_add"),
-    path(
-        "versions/import/", views.SoftwareProductVersionBulkImportView.as_view(), name="softwareproductversion_import"
-    ),
-    path("versions/edit/", views.SoftwareProductVersionBulkEditView.as_view(), name="softwareproductversion_bulk_edit"),
     path(
         "versions/delete/",
         views.SoftwareProductVersionBulkDeleteView.as_view(),
@@ -61,16 +55,6 @@ urlpatterns = [
         name="softwareproductinstallation_add",
     ),
     path(
-        "installations/import/",
-        views.SoftwareProductInstallationBulkImportView.as_view(),
-        name="softwareproductinstallation_import",
-    ),
-    path(
-        "installations/edit/",
-        views.SoftwareProductInstallationBulkEditView.as_view(),
-        name="softwareproductinstallation_bulk_edit",
-    ),
-    path(
         "installations/delete/",
         views.SoftwareProductInstallationBulkDeleteView.as_view(),
         name="softwareproductinstallation_bulk_delete",
@@ -99,8 +83,6 @@ urlpatterns = [
     # SoftwareLicense
     path("licenses/", views.SoftwareLicenseListView.as_view(), name="softwarelicense_list"),
     path("licenses/add/", views.SoftwareLicenseEditView.as_view(), name="softwarelicense_add"),
-    path("licenses/import/", views.SoftwareLicenseBulkImportView.as_view(), name="softwarelicense_import"),
-    path("licenses/edit/", views.SoftwareLicenseBulkEditView.as_view(), name="softwarelicense_bulk_edit"),
     path("licenses/delete/", views.SoftwareLicenseBulkDeleteView.as_view(), name="softwarelicense_bulk_delete"),
     path("licenses/<int:pk>/", views.SoftwareLicenseView.as_view(), name="softwarelicense"),
     path("licenses/<int:pk>/delete/", views.SoftwareLicenseDeleteView.as_view(), name="softwarelicense_delete"),

@@ -1,7 +1,7 @@
-from django import forms
+from django.forms import DateField
 from django.urls import reverse_lazy
 
-from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -13,8 +13,8 @@ class SoftwareProductVersionForm(NetBoxModelForm):
 
     comments = CommentField()
 
-    release_date = forms.DateField(required=False, widget=DatePicker())
-    end_of_support = forms.DateField(required=False, widget=DatePicker())
+    release_date = DateField(required=False, widget=DatePicker())
+    end_of_support = DateField(required=False, widget=DatePicker())
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
@@ -42,20 +42,3 @@ class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductVersion
     fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
-
-
-class SoftwareProductVersionImportForm(NetBoxModelImportForm):
-    class Meta:
-        model = SoftwareProductVersion
-        fields = ("name",)
-
-
-class SoftwareProductVersionBulkEditForm(NetBoxModelBulkEditForm):
-    pk = forms.ModelMultipleChoiceField(
-        queryset=SoftwareProduct.objects.all(),
-        widget=forms.MultipleHiddenInput(),
-    )
-
-    class Meta:
-        model = SoftwareProductVersion
-        nullable_fields = []
