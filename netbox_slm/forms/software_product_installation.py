@@ -1,8 +1,8 @@
-from django import forms
+from django.forms import ValidationError
 from django.urls import reverse_lazy
 
 from dcim.models import Device
-from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -48,7 +48,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         version = self.cleaned_data["version"]
         software_product = self.cleaned_data["software_product"]
         if version not in software_product.softwareproductversion_set.all():
-            raise forms.ValidationError(
+            raise ValidationError(
                 f"Version '{version}' doesn't exist on {software_product}, make sure you've "
                 f"selected a compatible version or first select the software product."
             )
@@ -59,16 +59,3 @@ class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
     fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
-
-
-class SoftwareProductInstallationImportForm(NetBoxModelImportForm):
-    class Meta:
-        model = SoftwareProductInstallation
-        fields = tuple()
-
-
-class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
-    software_product = DynamicModelChoiceField(queryset=SoftwareProduct.objects.all(), required=False)
-    version = DynamicModelChoiceField(queryset=SoftwareProductVersion.objects.all(), required=False)
-    model = SoftwareProductInstallation
-    fieldsets = (FieldSet(None, ("software_product", "version")),)

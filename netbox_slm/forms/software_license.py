@@ -1,7 +1,7 @@
 from django.forms import DateField
 from django.urls import reverse_lazy
 
-from netbox.forms import NetBoxModelForm, NetBoxModelImportForm, NetBoxModelBulkEditForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField, LaxURLField
 from utilities.forms.rendering import FieldSet
@@ -65,25 +65,3 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareLicense
     fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
-
-
-class SoftwareLicenseImportForm(NetBoxModelImportForm):
-    class Meta:
-        model = SoftwareLicense
-        fields = (
-            "name",
-            "description",
-            "type",
-            "stored_location",
-            "stored_location_url",
-            "start_date",
-            "expiration_date",
-        )
-
-
-class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
-    software_product = DynamicModelChoiceField(queryset=SoftwareProduct.objects.all(), required=False)
-    version = DynamicModelChoiceField(queryset=SoftwareProductVersion.objects.all(), required=False)
-    installation = DynamicModelChoiceField(queryset=SoftwareProductInstallation.objects.all(), required=False)
-    model = SoftwareLicense
-    fieldsets = (FieldSet(None, ("software_product", "version", "installation")),)
