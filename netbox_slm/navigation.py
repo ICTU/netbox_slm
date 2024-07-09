@@ -1,5 +1,4 @@
-from extras.plugins import PluginMenuButton, PluginMenuItem
-from utilities.choices import ButtonColorChoices
+from netbox.plugins import PluginMenuButton, PluginMenuItem
 
 menu_items = (
     PluginMenuItem(
@@ -10,14 +9,12 @@ menu_items = (
                 "plugins:netbox_slm:softwareproduct_add",
                 "Add",
                 "mdi mdi-plus-thick",
-                ButtonColorChoices.GREEN,
                 permissions=["netbox_slm.add_softwareproduct"],
             ),
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproduct_import",
                 "Import",
                 "mdi mdi-upload",
-                ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwareproduct"],
             ),
         ),
@@ -30,14 +27,12 @@ menu_items = (
                 "plugins:netbox_slm:softwareproductversion_add",
                 "Add",
                 "mdi mdi-plus-thick",
-                ButtonColorChoices.GREEN,
                 permissions=["netbox_slm.add_softwareproductversion"],
             ),
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproductversion_import",
                 "Import",
                 "mdi mdi-upload",
-                ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwareproductversion"],
             ),
         ),
@@ -50,14 +45,12 @@ menu_items = (
                 "plugins:netbox_slm:softwareproductinstallation_add",
                 "Add",
                 "mdi mdi-plus-thick",
-                ButtonColorChoices.GREEN,
                 permissions=["netbox_slm.add_softwareproductinstallation"],
             ),
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproductinstallation_import",
                 "Import",
                 "mdi mdi-upload",
-                ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwareproductinstallation"],
             ),
         ),
@@ -70,14 +63,12 @@ menu_items = (
                 "plugins:netbox_slm:softwarelicense_add",
                 "Add",
                 "mdi mdi-plus-thick",
-                ButtonColorChoices.GREEN,
                 permissions=["netbox_slm.add_softwarelicense"],
             ),
             PluginMenuButton(
                 "plugins:netbox_slm:softwarelicense_import",
                 "Import",
                 "mdi mdi-upload",
-                ButtonColorChoices.CYAN,
                 permissions=["netbox_slm.add_softwarelicense"],
             ),
         ),

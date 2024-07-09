@@ -1,4 +1,4 @@
-FROM netboxcommunity/netbox:v3.7.2
+FROM netboxcommunity/netbox:v4.0.6
 
 RUN mkdir /ci && chmod go+w /ci
 COPY ../ci/requirements_ci.txt /ci/

@@ -11,50 +11,48 @@
             <h5 class="card-header">
                 Software Product Version
             </h5>
-            <div class="card-body">
-                <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">Name</th>
-                        <td>{{ object.name }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Release date</th>
-                        <td>{{ object.release_date }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Documentation url</th>
+            <table class="table table-hover attr-table">
+                <tr>
+                    <th scope="row">Name</th>
+                    <td>{{ object.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Release date</th>
+                    <td>{{ object.release_date }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Documentation url</th>
 {% if object.documentation_url %}
-                        <td><a href="{{ object.documentation_url }}">{{ object.documentation_url }}</a></td>
+                    <td><a href="{{ object.documentation_url }}">{{ object.documentation_url }}</a></td>
 {% else %}
-                        <td>{{ object.documentation_url }}</td>
+                    <td>{{ object.documentation_url }}</td>
 {% endif %}
-                    </tr>
-                    <tr>
-                        <th scope="row">End of support</th>
-                        <td>{{ object.end_of_support }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Filename</th>
+                </tr>
+                <tr>
+                    <th scope="row">End of support</th>
+                    <td>{{ object.end_of_support }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Filename</th>
 {% if object.file_link %}
-                        <td><a href="{{ object.file_link }}">{{ object.filename }}</a></td>
+                    <td><a href="{{ object.file_link }}">{{ object.filename }}</a></td>
 {% else %}
-                        <td>{{ object.filename }}</td>
+                    <td>{{ object.filename }}</td>
 {% endif %}
-                    </tr>
-                    <tr>
-                        <th scope="row">File checksum</th>
-                        <td>{{ object.file_checksum }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Release type</th>
-                        <td>{{ object.get_release_type_display }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Installations</th>
-                        <td>{{ object.get_installation_count }}</td>
-                    </tr>
-                </table>
-            </div>
+                </tr>
+                <tr>
+                    <th scope="row">File checksum</th>
+                    <td>{{ object.file_checksum }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Release type</th>
+                    <td>{{ object.get_release_type_display }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Installations</th>
+                    <td>{{ object.get_installation_count }}</td>
+                </tr>
+            </table>
         </div>
         {% include 'inc/panels/custom_fields.html' %}
         {% include 'inc/panels/tags.html' %}
