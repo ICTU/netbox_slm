@@ -93,4 +93,9 @@ urlpatterns = [
         name="softwarelicense_changelog",
         kwargs={"model": SoftwareLicense},
     ),
+    path('software-products/import/', views.SoftwareProductBulkImportView.as_view(), name='softwareproduct_import'),
+    path('installations/import/', views.SoftwareProductInstallationBulkImportView.as_view(), name='softwareproductinstallation_import'),
+    path('versions/import/', views.SoftwareProductVersionBulkImportView.as_view(), name='softwareproductversion_import'),
+    path('licenses/import/', views.SoftwareLicenseBulkImportView.as_view(), name='softwarelicense_import'),
+
 ]

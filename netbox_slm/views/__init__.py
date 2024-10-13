@@ -4,6 +4,8 @@ from .software_license import (
     SoftwareLicenseEditView,
     SoftwareLicenseDeleteView,
     SoftwareLicenseBulkDeleteView,
+    SoftwareLicenseBulkImportView,
+
 )
 from .software_product import (
     SoftwareProductListView,
@@ -11,6 +13,8 @@ from .software_product import (
     SoftwareProductEditView,
     SoftwareProductDeleteView,
     SoftwareProductBulkDeleteView,
+    SoftwareProductBulkImportView,
+
 )
 from .software_product_installation import (
     SoftwareProductInstallationListView,
@@ -18,6 +22,8 @@ from .software_product_installation import (
     SoftwareProductInstallationEditView,
     SoftwareProductInstallationDeleteView,
     SoftwareProductInstallationBulkDeleteView,
+    SoftwareProductInstallationBulkImportView,
+
 )
 from .software_product_version import (
     SoftwareProductVersionListView,
@@ -25,4 +31,6 @@ from .software_product_version import (
     SoftwareProductVersionEditView,
     SoftwareProductVersionDeleteView,
     SoftwareProductVersionBulkDeleteView,
+    SoftwareProductVersionBulkImportView,
+
 )

@@ -2,7 +2,7 @@ from django.forms import ValidationError
 from django.urls import reverse_lazy
 
 from dcim.models import Device
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -59,3 +59,17 @@ class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
     fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
+
+class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):
+ class Meta:
+        model = SoftwareProductInstallation
+        fields = (
+            "device",
+            "virtualmachine",
+            "cluster",
+            "software_product",
+            "version",
+            "tags",
+            "comments",
+        )
+    

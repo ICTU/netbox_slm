@@ -1,7 +1,7 @@
 from django.forms import DateField
 from django.urls import reverse_lazy
 
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -25,6 +25,7 @@ class SoftwareProductVersionForm(NetBoxModelForm):
         model = SoftwareProductVersion
         fields = (
             "name",
+            "software_product",
             "release_date",
             "documentation_url",
             "end_of_support",
@@ -32,7 +33,6 @@ class SoftwareProductVersionForm(NetBoxModelForm):
             "file_checksum",
             "file_link",
             "release_type",
-            "software_product",
             "tags",
             "comments",
         )
@@ -42,3 +42,20 @@ class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductVersion
     fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
+
+class SoftwareProductVersionBulkImportForm(NetBoxModelImportForm):
+    class Meta:
+        model = SoftwareProductVersion
+        fields = (
+            "name",
+            "software_product",
+            "release_date",
+            "documentation_url",
+            "end_of_support",
+            "filename",
+            "file_checksum",
+            "file_link",
+            "release_type",
+            "tags",
+            "comments",
+        )

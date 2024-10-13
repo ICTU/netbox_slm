@@ -1,5 +1,5 @@
 from netbox.views import generic
-from netbox_slm import filtersets, forms, tables
+from netbox_slm import filtersets, forms, tables, models
 from netbox_slm.models import SoftwareProductVersion
 
 
@@ -36,5 +36,13 @@ class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
 
 
 class SoftwareProductVersionBulkDeleteView(generic.BulkDeleteView):
+    
     queryset = SoftwareProductVersion.objects.all()
     table = tables.SoftwareProductVersionTable
+
+
+class SoftwareProductVersionBulkImportView(generic.BulkImportView):
+    
+    queryset = SoftwareProductVersion.objects.all()
+    table = tables.SoftwareProductVersionTable
+    model_form = forms.SoftwareProductVersionBulkImportForm

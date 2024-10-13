@@ -1,5 +1,5 @@
 from netbox.views import generic
-from netbox_slm import filtersets, forms, tables
+from netbox_slm import filtersets, forms, tables, models
 from netbox_slm.models import SoftwareProduct
 
 
@@ -31,10 +31,17 @@ class SoftwareProductEditView(generic.ObjectEditView):
 
 class SoftwareProductDeleteView(generic.ObjectDeleteView):
     """View for deleting a SoftwareProduct instance"""
-
     queryset = SoftwareProduct.objects.all()
 
 
 class SoftwareProductBulkDeleteView(generic.BulkDeleteView):
+    
     queryset = SoftwareProduct.objects.all()
     table = tables.SoftwareProductTable
+
+
+class SoftwareProductBulkImportView(generic.BulkImportView):
+    
+    queryset = SoftwareProduct.objects.all()
+    table = tables.SoftwareProductTable
+    model_form = forms.SoftwareProductBulkImportForm
