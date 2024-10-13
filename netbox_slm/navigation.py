@@ -37,7 +37,7 @@ items = (
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproductversion_import",
                 "Import",
-                "mdi mdiupload",
+                "mdi mdi-upload",
                 permissions=["netbox_slm.import_softwareproductversion"],
             ),
         ),
@@ -56,7 +56,7 @@ items = (
             PluginMenuButton(
                 "plugins:netbox_slm:softwareproductinstallation_import",
                 "Import",
-                "mdi mdis-upload",
+                "mdi mdi-upload",
                 permissions=["netbox_slm.import_softwareproductinstallation"],
             ),
         ),

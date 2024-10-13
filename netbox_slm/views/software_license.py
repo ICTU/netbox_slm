@@ -1,5 +1,5 @@
 from netbox.views import generic
-from netbox_slm import filtersets, forms, tables, models
+from netbox_slm import filtersets, forms, tables
 from netbox_slm.models import SoftwareLicense
 
 
@@ -41,3 +41,4 @@ class SoftwareLicenseBulkImportView(generic.BulkImportView):
     
     queryset = SoftwareLicense.objects.all()
     table = tables.SoftwareLicenseTable
+    model_form = forms.SoftwareLienseBulkImportForm
