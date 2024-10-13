@@ -41,4 +41,4 @@ class SoftwareLicenseBulkImportView(generic.BulkImportView):
     
     queryset = SoftwareLicense.objects.all()
     table = tables.SoftwareLicenseTable
-    model_form = forms.SoftwareLienseBulkImportForm
+    model_form = forms.SoftwareLicenseBulkImportForm
