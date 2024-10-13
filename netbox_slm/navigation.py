@@ -1,4 +1,7 @@
-from netbox.plugins import PluginMenuButton, PluginMenuItem, PluginMenu
+from netbox.plugins import PluginMenuButton, PluginMenuItem, PluginMenu, config
+from django.conf import settings
+
+plugin_settings = settings.PLUGINS_CONFIG["netbox_slm"]
 
 items = (
     PluginMenuItem(
@@ -55,8 +58,13 @@ items = (
     ),
 )
 
-menu = PluginMenu(
-    label="Software",
-    groups=(("SOFTWARE MANAGMENT", items),),
-    icon_class="mdi mdi-content-save",
-)
+
+
+if plugin_settings.get("top_level_menu"):
+    menu = PluginMenu(
+       label="Software",
+       groups=(("SOFTWARE MANAGMENT", items),),
+       icon_class="mdi mdi-content-save",
+   )
+else:
+    menu_items = items
