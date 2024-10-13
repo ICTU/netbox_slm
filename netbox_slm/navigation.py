@@ -86,8 +86,8 @@ items = (
 
 if plugin_settings.get("top_level_menu"):
     menu = PluginMenu(
-       label="Software",
-       groups=(("SOFTWARE MANAGMENT", items),),
+       label="Software Lifecycle",
+       groups=(("SOFTWARE Lifecycle", items),),
        icon_class="mdi mdi-content-save",
    )
 else:
