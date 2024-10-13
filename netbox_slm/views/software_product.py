@@ -40,7 +40,7 @@ class SoftwareProductBulkDeleteView(generic.BulkDeleteView):
     table = tables.SoftwareProductTable
 
 
-class SoftwareProductBulkImportView(generic.BulkImportiew):
+class SoftwareProductBulkImportView(generic.BulkImportView):
     
     queryset = SoftwareProduct.objects.all()
     table = tables.SoftwareProductTable
