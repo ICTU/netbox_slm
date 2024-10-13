@@ -45,3 +45,4 @@ class SoftwareProductVersionBulkImportView(generic.BulkImportView):
     
     queryset = SoftwareProductVersion.objects.all()
     table = tables.SoftwareProductVersionTable
+    model_form = forms.SoftwareProductVersionBulkImportForm

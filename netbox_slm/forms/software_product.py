@@ -1,5 +1,5 @@
 from dcim.models import Manufacturer
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProduct
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -30,3 +30,14 @@ class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProduct
     fieldsets = (FieldSet(None, ("q", "tag")),)
     tag = TagFilterField(model)
+
+class SoftwareProductBulkImportForm(NetBoxModelImportForm):
+    class Meta:
+        model = SoftwareProduct
+        fields = (
+            "name",
+            "description",
+            "manufacturer",
+            "tags",
+            "comments",
+        )

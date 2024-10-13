@@ -40,3 +40,4 @@ class SoftwareProductInstallationBulkImportView(generic.BulkImportView):
     
     queryset = SoftwareProductInstallation.objects.all()
     table = tables.SoftwareProductInstallationTable
+    model_form = forms.SoftwareProductInstallationBulkImportForm
