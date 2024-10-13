@@ -1,6 +1,6 @@
 from netbox.plugins import PluginMenuButton, PluginMenuItem
 
-menu_items = (
+items = (
     PluginMenuItem(
         link="plugins:netbox_slm:softwareproduct_list",
         link_text="Software Products",
@@ -53,4 +53,10 @@ menu_items = (
             ),
         ),
     ),
+)
+
+menu = PluginMenu(
+    label="Software",
+    groups=(("SOFTWARE MANAGMENT", items),),
+    icon_class="mdi mdi-content-save",
 )
