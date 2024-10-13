@@ -46,6 +46,7 @@ class SoftwareLicenseForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "software_product",
             "type",
             "stored_location",
             "stored_location_url",
@@ -53,7 +54,6 @@ class SoftwareLicenseForm(NetBoxModelForm):
             "expiration_date",
             "support",
             "license_amount",
-            "software_product",
             "version",
             "installation",
             "tags",

@@ -25,6 +25,7 @@ class SoftwareProductVersionForm(NetBoxModelForm):
         model = SoftwareProductVersion
         fields = (
             "name",
+            "software_product",
             "release_date",
             "documentation_url",
             "end_of_support",
@@ -32,7 +33,6 @@ class SoftwareProductVersionForm(NetBoxModelForm):
             "file_checksum",
             "file_link",
             "release_type",
-            "software_product",
             "tags",
             "comments",
         )
