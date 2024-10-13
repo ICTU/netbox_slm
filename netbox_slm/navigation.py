@@ -1,4 +1,4 @@
-from netbox.plugins import PluginMenuButton, PluginMenuItem, PluginMenu, config
+from netbox.plugins import PluginMenuButton, PluginMenuItem, PluginMenu
 from django.conf import settings
 
 plugin_settings = settings.PLUGINS_CONFIG["netbox_slm"]
