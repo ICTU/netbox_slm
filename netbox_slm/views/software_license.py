@@ -1,5 +1,5 @@
 from netbox.views import generic
-from netbox_slm import filtersets, forms, tables
+from netbox_slm import filtersets, forms, tables, models
 from netbox_slm.models import SoftwareLicense
 
 
@@ -32,10 +32,12 @@ class SoftwareLicenseDeleteView(generic.ObjectDeleteView):
 
 
 class SoftwareLicenseBulkDeleteView(generic.BulkDeleteView):
+    
     queryset = SoftwareLicense.objects.all()
     table = tables.SoftwareLicenseTable
     
      
 class SoftwareLicenseBulkImportView(generic.BulkImportView):
+    
     queryset = SoftwareLicense.objects.all()
     table = tables.SoftwareLicenseTable
