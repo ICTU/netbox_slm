@@ -11,6 +11,7 @@ urlpatterns = [
     path(
         "software-products/delete/", views.SoftwareProductBulkDeleteView.as_view(), name="softwareproduct_bulk_delete"
     ),
+    path("software-products/import/", views.SoftwareProductBulkImportView.as_view(), name="softwareproduct_import"),
     path("software-products/<int:pk>/", views.SoftwareProductView.as_view(), name="softwareproduct"),
     path(
         "software-products/<int:pk>/delete/", views.SoftwareProductDeleteView.as_view(), name="softwareproduct_delete"
@@ -29,6 +30,9 @@ urlpatterns = [
         "versions/delete/",
         views.SoftwareProductVersionBulkDeleteView.as_view(),
         name="softwareproductversion_bulk_delete",
+    ),
+    path(
+        "versions/import/", views.SoftwareProductVersionBulkImportView.as_view(), name="softwareproductversion_import"
     ),
     path("versions/<int:pk>/", views.SoftwareProductVersionView.as_view(), name="softwareproductversion"),
     path(
@@ -60,6 +64,11 @@ urlpatterns = [
         name="softwareproductinstallation_bulk_delete",
     ),
     path(
+        "installations/import/",
+        views.SoftwareProductInstallationBulkImportView.as_view(),
+        name="softwareproductinstallation_import",
+    ),
+    path(
         "installations/<int:pk>/",
         views.SoftwareProductInstallationView.as_view(),
         name="softwareproductinstallation",
@@ -84,6 +93,7 @@ urlpatterns = [
     path("licenses/", views.SoftwareLicenseListView.as_view(), name="softwarelicense_list"),
     path("licenses/add/", views.SoftwareLicenseEditView.as_view(), name="softwarelicense_add"),
     path("licenses/delete/", views.SoftwareLicenseBulkDeleteView.as_view(), name="softwarelicense_bulk_delete"),
+    path("licenses/import/", views.SoftwareLicenseBulkImportView.as_view(), name="softwarelicense_import"),
     path("licenses/<int:pk>/", views.SoftwareLicenseView.as_view(), name="softwarelicense"),
     path("licenses/<int:pk>/delete/", views.SoftwareLicenseDeleteView.as_view(), name="softwarelicense_delete"),
     path("licenses/<int:pk>/edit/", views.SoftwareLicenseEditView.as_view(), name="softwarelicense_edit"),

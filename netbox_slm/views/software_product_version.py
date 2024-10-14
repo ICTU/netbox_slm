@@ -38,3 +38,9 @@ class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
 class SoftwareProductVersionBulkDeleteView(generic.BulkDeleteView):
     queryset = SoftwareProductVersion.objects.all()
     table = tables.SoftwareProductVersionTable
+
+
+class SoftwareProductVersionBulkImportView(generic.BulkImportView):
+    queryset = SoftwareProductVersion.objects.all()
+    table = tables.SoftwareProductVersionTable
+    model_form = forms.SoftwareProductVersionBulkImportForm
