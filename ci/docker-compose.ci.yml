@@ -8,13 +8,25 @@ services:
       dockerfile: ci/Dockerfile-CI
     image: netbox:slm
     environment:
-      - COVERAGE_FILE=/ci/.coverage
+      - COVERAGE_FILE=/tmp/.coverage
+    healthcheck:
+      disable: true
     volumes:
-      - ./reports:/ci/reports
+      - ./config:/etc/netbox/config:ro
+      - ./reports:/ci/reports:rw
+      - ../netbox_slm:/opt/netbox/netbox/netbox_slm:ro
   netbox-worker:
     image: netbox:slm
+    depends_on:
+      - netbox
+    healthcheck:
+      disable: true
   netbox-housekeeping:
     image: netbox:slm
+    depends_on:
+      - netbox
+    healthcheck:
+      disable: true
   postgres:
     ports:
       - "5432:5432"

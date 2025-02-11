@@ -20,7 +20,7 @@
 
 ## Installation Guide
 
-When using the Docker version of NetBox, first follow the netbox-docker [quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the netbox-docker repo and set up the ``docker-compose.override.yml``.
+When using the Docker version of NetBox, first follow the `netbox-docker` [quickstart](https://github.com/netbox-community/netbox-docker#quickstart) instructions to clone the `netbox-docker` repository and set up the ``docker-compose.override.yml``.
 
 Next, follow these instructions (based on the NetBox docker variant
 [instructions](https://github.com/netbox-community/netbox-docker/wiki/Configuration#custom-configuration-files))
@@ -73,54 +73,52 @@ directory run
    $ twine upload dist/*
    ```
 
-On Github.com create a similar tag and version. These steps could be
-automated with a github workflow.
+On GitHub create a similar tag and version.
 
 
 ## Developer Guide (local installation)
 
-*Follow the steps below on your local system to run netbox and the
-netbox_slm plugin in developer mode*
+*Follow the steps below on your local system to run NetBox and the
+`netbox_slm` plugin in developer mode*
 
 ### Setup
 
 The goal below is to run all NetBox components in Docker and run a local
 NetBox Django copy with auto-reload to develop the plugin pointing to
-the Dockerized postgres and redis instances, basically ignoring the
-netbox docker runtime server.
+the PostgreSQL and Redis container instances, basically ignoring the
+NetBox docker runtime server.
 
 ### Steps
 
-   from your projects directory clone the netbox repository
+from your projects directory clone the NetBox repository
 
    ```
    $ git clone https://github.com/netbox-community/netbox
    $ cd netbox
    ```
    
-   install the virtual environment
+install the virtual environment
    
    ```
    $ pipenv shell
    $ pipenv install
    ```
 
-   create and edit netbox/configuration.py (based on the template file) add these lines at the end of the file;
+create and edit `netbox/configuration.py` (based on the template file) add these lines at the end of the file;
    
    ```
    DEBUG = True
    SECRET_KEY = 'dummy'
-   DEVELOPER = True
    PLUGINS = [
        'netbox_slm',
    ]
    ```
 
 The NetBox installation above will be used to run Django management
-commands like runserver, makemigrations and migrate, which will be
+commands like `runserver`, `makemigrations` and `migrate`, which will be
 explained in the next steps below;
 
-   from your projects directory clone the netbox-slm repository
+from your projects directory clone the `netbox_slm` repository
 
    ```
    $ git clone https://github.com/ICTU/netbox_slm
@@ -128,37 +126,37 @@ explained in the next steps below;
    $ ./start-netbox.sh
    ```
    
-This will start NetBox locally (requires Docker) and forward the redis
-and postgres ports to the localhost (make sure there’s no processes
-using these ports or change the dockerfiles accordingly)
+This will start NetBox locally (requires Docker) and forward the Redis
+and PostgreSQL ports to the localhost (make sure there’s no processes
+using these ports or change the Dockerfile(s) accordingly)
 
-Note, you can also start and stop netbox by hand:
+Note, you can also start and stop NetBox by hand:
 
    ```
    $ cd netbox-docker
-   $ docker-compose up -d
+   $ docker compose up -d
    ```
    
-   or stop the stack with
+or stop the stack with
 
    ```
-   $ docker-compose down
+   $ docker compose down
    ```
    
-   # to start fresh:
+# to start fresh:
 
    ```
-   $ docker-compose down
+   $ docker compose down
    $ docker volume rm netbox-docker_netbox-postgres-data  # et cetera
-   $ docker-compose up -d --force-recreate
+   $ docker compose up -d --force-recreate
    ```
    
-   this will require you to re-run the migrate commando's for netbox-slm, see further down below
+this will require you to re-run the migrate commando's for `netbox_slm`, see further down below
 
-Go back to the netbox configuration.py file and update the postgres and
-redis connection strings (username, password) to the ones the netbox
-docker backend is using, for example (using default user and passwords
-from the netbox docker example):
+Go back to the NetBox `configuration.py` file and update the PostgreSQL and
+Redis connection strings (username, password) to the ones the NetBox
+Docker backend is using, for example (using default user and passwords
+from the NetBox Docker example):
 
    ```
    <<collapsed>>
@@ -209,7 +207,7 @@ from the netbox docker example):
    <<collapsed>>
    ```
    
-Now you can run commands from the netbox repository like this;
+Now you can run commands from the NetBox repository like this;
 
    ```
    $ cd netbox/netbox
@@ -218,8 +216,8 @@ Now you can run commands from the netbox repository like this;
    $ python3 manage.py runserver 8001
    ```
 
-Visit http://127.0.0.1:8001 in the browser to see the auto reloading
-version of the netbox UI. Port 8000 is taken by the docker ran variant.
+Visit http://127.0.0.1:8001 in the browser to see the auto reloading version of the NetBox UI.
+Port 8000 is taken by the Docker ran variant.
 
 
 ## Get in touch

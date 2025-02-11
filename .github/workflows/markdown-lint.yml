@@ -1,0 +1,21 @@
+---
+name: Markdown lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  vale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: errata-ai/vale-action@v2.1.1
+        with:
+          fail_on_error: true
+          filter_mode: nofilter
+          vale_flags: "--glob=*.md --config=ci/.vale.ini"
