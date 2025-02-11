@@ -30,12 +30,13 @@ dependencies = []
 
 [project.optional-dependencies]
 build = [
-    "build == 1.2.1",
-    "setuptools == 70.3.0",
-    "twine == 5.1.1",
+    "build ==  1.2.2.post1",
+    "setuptools == 75.8.0",
+    "twine == 6.1.0",
 ]
-tools = [
-    "ruff == 0.5.1",
+ci = [
+    "coverage == 7.6.11",
+    "ruff == 0.9.6",
 ]
 
 [tool.setuptools.dynamic]
@@ -46,7 +47,7 @@ include = ["netbox_slm"]
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py312"
 src = ["netbox_slm"]
 
 [tool.ruff.lint.per-file-ignores]

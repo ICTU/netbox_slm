@@ -1,7 +1,5 @@
-FROM netboxcommunity/netbox:v4.0.6
+FROM netboxcommunity/netbox:v4.2.3
+ARG PYTHON_VERSION=3.12
 
-RUN mkdir /ci && chmod go+w /ci
-COPY ../ci/requirements_ci.txt /ci/
-RUN pip install -r /ci/requirements_ci.txt
-
-COPY ../netbox_slm /opt/netbox/netbox/netbox_slm
+COPY ../pyproject.toml /tmp/
+RUN uv pip install -r /tmp/pyproject.toml --extra ci

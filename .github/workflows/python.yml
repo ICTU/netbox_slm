@@ -1,3 +1,4 @@
+---
 name: Python
 
 on:
@@ -10,16 +11,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - python-version: 3.11
+          - python-version: 3.12
+          - python-version: 3.13
     steps:
     - uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: ${{ matrix.python-version }}
 
-    - name: Install tools
-      run: pip install .[tools]
+    - name: Install ci tools
+      run: pip install .[ci]
 
     - name: Run ruff lint
       run: ruff check netbox_slm
