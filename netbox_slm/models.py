@@ -1,6 +1,6 @@
 from django.db import models
-from django.urls import reverse, reverse_lazy
-from django.utils import safestring
+from django.urls import reverse
+from django.utils.html import format_html, urlencode
 
 from netbox.models import NetBoxModel
 from utilities.querysets import RestrictedQuerySet
@@ -33,16 +33,10 @@ class SoftwareProduct(NetBoxModel):
 
     def get_installation_count(self):
         count = SoftwareProductInstallation.objects.filter(software_product_id=self.pk).count()
-        return (
-            safestring.mark_safe(
-                '<a href="{url}">{count}</a>'.format(
-                    url=reverse_lazy("plugins:netbox_slm:softwareproductinstallation_list") + f"?q={self.name}",
-                    count=count,
-                )
-            )
-            if count
-            else "0"
-        )
+        query_string = urlencode(dict(software_product=self.pk))
+        search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list")
+        # Can be composed directly with reverse(query=) in Django 5.2, see https://code.djangoproject.com/ticket/25582
+        return format_html(f"<a href='{search_target}?{query_string}'>{count}</a>") if count else "0"
 
 
 class SoftwareReleaseTypes(models.TextChoices):
@@ -84,16 +78,10 @@ class SoftwareProductVersion(NetBoxModel):
 
     def get_installation_count(self):
         count = SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
-        return (
-            safestring.mark_safe(
-                '<a href="{url}">{count}</a>'.format(
-                    url=reverse_lazy("plugins:netbox_slm:softwareproductinstallation_list") + f"?q={self.name}",
-                    count=count,
-                )
-            )
-            if count
-            else "0"
-        )
+        query_string = urlencode(dict(version=self.pk))
+        search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list")
+        # Can be composed directly with reverse(query=) in Django 5.2, see https://code.djangoproject.com/ticket/25582
+        return format_html(f"<a href='{search_target}?{query_string}'>{count}</a>") if count else "0"
 
 
 class SoftwareProductInstallation(NetBoxModel):

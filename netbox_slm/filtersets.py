@@ -1,9 +1,15 @@
-from django_filters import CharFilter, ModelMultipleChoiceFilter, MultipleChoiceFilter
 from django.db.models import Q
+from django_filters import CharFilter, ModelMultipleChoiceFilter, MultipleChoiceFilter
 
 from dcim.models import Device, Manufacturer
 from netbox.filtersets import NetBoxModelFilterSet
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense, SoftwareReleaseTypes
+from netbox_slm.models import (
+    SoftwareProduct,
+    SoftwareProductVersion,
+    SoftwareProductInstallation,
+    SoftwareLicense,
+    SoftwareReleaseTypes,
+)
 from virtualization.models import VirtualMachine, Cluster
 
 
@@ -13,9 +19,7 @@ class SoftwareProductFilterSet(NetBoxModelFilterSet):
     name = CharFilter(lookup_expr="icontains")
     description = CharFilter(lookup_expr="icontains")
 
-    manufacturer = ModelMultipleChoiceFilter(
-        queryset=Manufacturer.objects.all()
-    )
+    manufacturer = ModelMultipleChoiceFilter(queryset=Manufacturer.objects.all())
 
     class Meta:
         model = SoftwareProduct
@@ -72,23 +76,17 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
 class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProductInstallation instances."""
 
-    device = ModelMultipleChoiceFilter(
-        queryset=Device.objects.all()
-    )
+    device = ModelMultipleChoiceFilter(queryset=Device.objects.all())
     virtualmachine = ModelMultipleChoiceFilter(
         queryset=VirtualMachine.objects.all(),
         label="Virtual Machine",
     )
-    cluster = ModelMultipleChoiceFilter(
-        queryset=Cluster.objects.all()
-    )
+    cluster = ModelMultipleChoiceFilter(queryset=Cluster.objects.all())
     software_product = ModelMultipleChoiceFilter(
         queryset=SoftwareProduct.objects.all(),
         label="Software Product",
     )
-    version = ModelMultipleChoiceFilter(
-        queryset=SoftwareProductVersion.objects.all()
-    )
+    version = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
 
     class Meta:
         model = SoftwareProductInstallation
@@ -119,12 +117,8 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
         queryset=SoftwareProduct.objects.all(),
         label="Software Product",
     )
-    version = ModelMultipleChoiceFilter(
-        queryset=SoftwareProductVersion.objects.all()
-    )
-    installation = ModelMultipleChoiceFilter(
-        queryset=SoftwareProductInstallation.objects.all()
-    )
+    version = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
+    installation = ModelMultipleChoiceFilter(queryset=SoftwareProductInstallation.objects.all())
 
     class Meta:
         model = SoftwareLicense

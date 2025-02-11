@@ -4,7 +4,13 @@ from django.urls import reverse_lazy
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 from utilities.forms.constants import BOOLEAN_WITH_BLANK_CHOICES
-from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField, LaxURLField, DynamicModelMultipleChoiceField
+from utilities.forms.fields import (
+    CommentField,
+    DynamicModelChoiceField,
+    TagFilterField,
+    LaxURLField,
+    DynamicModelMultipleChoiceField,
+)
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect, DatePicker
 
@@ -67,7 +73,9 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareLicense
     fieldsets = (
         FieldSet("q", "filter_id", "tag"),
-        FieldSet("name", "description", "type", "stored_location", "support", "software_product", "version", "installation"),
+        FieldSet(
+            "name", "description", "type", "stored_location", "support", "software_product", "version", "installation"
+        ),
     )
     selector_fields = ("q", "filter_id", "name")
 

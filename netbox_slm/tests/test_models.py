@@ -1,8 +1,8 @@
 from django.test import TestCase
 
 from dcim.models import Device, DeviceRole, DeviceType, Manufacturer, Site
-from virtualization.models import Cluster, ClusterType, VirtualMachine
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
+from virtualization.models import Cluster, ClusterType, VirtualMachine
 
 
 class ModelTestCase(TestCase):
@@ -49,9 +49,14 @@ class ModelTestCase(TestCase):
         self.assertEqual("/plugins/slm/licenses/1/", self.software_license.get_absolute_url())
 
     def test_get_installation_count(self):
-        installation_ss = '<a href="/plugins/slm/installations/?q={}">1</a>'
-        self.assertEqual(installation_ss.format(self.p_name), self.software_product.get_installation_count())
-        self.assertEqual(installation_ss.format(self.v_name), self.software_product_version.get_installation_count())
+        self.assertEqual(
+            f"<a href='/plugins/slm/installations/?software_product={self.software_product.pk}'>1</a>",
+            self.software_product.get_installation_count(),
+        )
+        self.assertEqual(
+            f"<a href='/plugins/slm/installations/?version={self.software_product_version.pk}'>1</a>",
+            self.software_product_version.get_installation_count(),
+        )
 
     def test_product_installation_methods(self):
         self.assertEqual("virtualmachine", self.software_product_installation.render_type())
