@@ -60,6 +60,7 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
         brief_fields = ("id", "display", "url", "name", "description")
 
     def get_display(self, obj):
+        # TODO - does not match form and filter views, display manufacturer separately?
         return f"{obj.manufacturer} - {obj}"
 
 

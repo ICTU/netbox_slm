@@ -17,12 +17,12 @@
                     <td>{{ object.name }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Software Product</th>
-                    <td>{{ object.software_product|linkify }}</td>
-                </tr>
-                <tr>
                     <th scope="row">Manufacturer</th>
                     <td>{{ object.software_product.manufacturer|linkify }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Software Product</th>
+                    <td>{{ object.software_product|linkify }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Release date</th>
