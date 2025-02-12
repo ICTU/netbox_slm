@@ -17,6 +17,14 @@
                     <td>{{ object.name }}</td>
                 </tr>
                 <tr>
+                    <th scope="row">Software Product</th>
+                    <td>{{ object.software_product|linkify }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Manufacturer</th>
+                    <td>{{ object.software_product.manufacturer|linkify }}</td>
+                </tr>
+                <tr>
                     <th scope="row">Release date</th>
                     <td>{{ object.release_date }}</td>
                 </tr>
@@ -50,19 +58,39 @@
                 </tr>
                 <tr>
                     <th scope="row">Installations</th>
-                    <td>{{ object.get_installation_count }}</td>
+                    <td>
+{% for installation in object.softwareproductinstallation_set.all %}
+                        <a href="{% url 'plugins:netbox_slm:softwareproductinstallation' pk=installation.pk %}" class="btn btn-sm">
+                            {{ installation }}
+                        </a>
+{% empty %}
+                        None
+{% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Licenses</th>
+                    <td>
+{% for license in object.softwarelicense_set.all %}
+                        <a href="{% url 'plugins:netbox_slm:softwarelicense' pk=license.pk %}" class="btn btn-sm">
+                            {{ license }}
+                        </a>
+{% empty %}
+                        None
+{% endfor %}
+                    </td>
                 </tr>
             </table>
         </div>
-        {% include 'inc/panels/custom_fields.html' %}
-        {% include 'inc/panels/tags.html' %}
-        {% include 'inc/panels/comments.html' %}
-        {% plugin_left_page object %}
+{% include 'inc/panels/custom_fields.html' %}
+{% include 'inc/panels/tags.html' %}
+{% include 'inc/panels/comments.html' %}
+{% plugin_left_page object %}
     </div>
 </div>
 <div class="row">
     <div class="col col-md-12">
-        {% plugin_full_width_page object %}
+{% plugin_full_width_page object %}
     </div>
 </div>
 {% endblock %}

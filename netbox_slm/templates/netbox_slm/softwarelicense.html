@@ -42,11 +42,11 @@
                 </tr>
                 <tr>
                     <th scope="row">Software Product</th>
-                    <td>{{ object.software_product }}</td>
+                    <td>{{ object.software_product|linkify }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Version</th>
-                    <td>{{ object.version }}</td>
+                    <td>{{ object.version|linkify }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Support</th>
@@ -58,19 +58,19 @@
                 </tr>
                 <tr>
                     <th scope="row">Installation</th>
-                    <td>{{ object.installation }}</td>
+                    <td>{{ object.installation|linkify }}</td>
                 </tr>
             </table>
         </div>
-        {% include 'inc/panels/custom_fields.html' %}
-        {% include 'inc/panels/tags.html' %}
-        {% include 'inc/panels/comments.html' %}
-        {% plugin_left_page object %}
+{% include 'inc/panels/custom_fields.html' %}
+{% include 'inc/panels/tags.html' %}
+{% include 'inc/panels/comments.html' %}
+{% plugin_left_page object %}
     </div>
 </div>
 <div class="row">
     <div class="col col-md-12">
-        {% plugin_full_width_page object %}
+{% plugin_full_width_page object %}
     </div>
 </div>
 {% endblock %}
