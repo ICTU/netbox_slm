@@ -16,6 +16,7 @@
 ### Fixed
 
 * Model detail view listing of linked objects (#55)
+* Search link of installations table cells (#48)
 
 ## [1.7.0](https://github.com/ICTU/netbox_slm/releases/tag/1.7.0) - 2024-07-09
 

@@ -21,6 +21,9 @@ services:
       - netbox
     healthcheck:
       disable: true
+    volumes:
+      - ./config:/etc/netbox/config:ro
+      - ../netbox_slm:/opt/netbox/netbox/netbox_slm:ro
   netbox-housekeeping:
     image: netbox:slm
     depends_on:

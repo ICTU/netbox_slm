@@ -50,6 +50,15 @@ line-length = 120
 target-version = "py312"
 src = ["netbox_slm"]
 
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle
+    "F",    # Pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+]
+
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = [
     "D104",  # https://beta.ruff.rs/docs/rules/#pydocstyle-d - don't require doc strings in __init__.py files

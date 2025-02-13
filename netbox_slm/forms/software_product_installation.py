@@ -4,7 +4,12 @@ from django.urls import reverse_lazy
 from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
-from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField, DynamicModelMultipleChoiceField
+from utilities.forms.fields import (
+    CommentField,
+    DynamicModelChoiceField,
+    TagFilterField,
+    DynamicModelMultipleChoiceField,
+)
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect
 from virtualization.models import VirtualMachine, Cluster
