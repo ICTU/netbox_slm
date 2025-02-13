@@ -42,6 +42,7 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProductVersion instances."""
 
     name = CharFilter(lookup_expr="icontains")
+    description = CharFilter(lookup_expr="icontains")
     filename = CharFilter(lookup_expr="icontains")
 
     release_type = MultipleChoiceFilter(choices=SoftwareReleaseTypes.choices)
@@ -66,6 +67,7 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
             return queryset
         qs_filter = (
             Q(name__icontains=value)
+            | Q(description__icontains=value)
             | Q(software_product__name__icontains=value)
             | Q(software_product__manufacturer__name__icontains=value)
             | Q(comments__icontains=value)
@@ -130,6 +132,7 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
             return queryset
         qs_filter = (
             Q(name__icontains=value)
+            | Q(description__icontains=value)
             | Q(software_product__name__icontains=value)
             | Q(version__name__icontains=value)
             | Q(installation__device__name__icontains=value)

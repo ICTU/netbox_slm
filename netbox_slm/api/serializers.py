@@ -49,6 +49,7 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
             "display",
             "url",
             "name",
+            "description",
             "manufacturer",
             "description",
             "tags",
@@ -60,8 +61,7 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
         brief_fields = ("id", "display", "url", "name", "description")
 
     def get_display(self, obj):
-        # TODO - does not match form and filter views, display manufacturer separately?
-        return f"{obj.manufacturer} - {obj}"
+        return f"{obj}"
 
 
 class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
@@ -87,7 +87,7 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
             "created",
             "last_updated",
         )
-        brief_fields = ("id", "display", "url", "name")
+        brief_fields = ("id", "display", "url")
 
     def get_display(self, obj):
         return f"{obj}"
@@ -104,6 +104,7 @@ class SoftwareProductVersionSerializer(NetBoxModelSerializer):
             "display",
             "url",
             "name",
+            "description",
             "release_date",
             "documentation_url",
             "end_of_support",
@@ -118,7 +119,7 @@ class SoftwareProductVersionSerializer(NetBoxModelSerializer):
             "created",
             "last_updated",
         )
-        brief_fields = ("id", "display", "url", "name")
+        brief_fields = ("id", "display", "url", "name", "description")
 
     def get_display(self, obj):
         return f"{obj}"

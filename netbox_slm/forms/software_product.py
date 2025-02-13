@@ -37,7 +37,7 @@ class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProduct
     fieldsets = (
         FieldSet("q", "filter_id", "tag"),
-        FieldSet("name", "description", "manufacturer"),
+        FieldSet("name", "description", "manufacturer_id"),
     )
     selector_fields = ("q", "filter_id", "name")
 
@@ -45,9 +45,10 @@ class SoftwareProductFilterForm(NetBoxModelFilterSetForm):
 
     name = CharField(required=False)
     description = CharField(required=False)
-    manufacturer = DynamicModelMultipleChoiceField(
+    manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
+        label="Manufacturer",
     )
 
 
