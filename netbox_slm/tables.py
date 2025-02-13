@@ -145,6 +145,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
         return queryset_union.order_by(f"{'-' if is_descending else ''}render_type"), True
 
     def render_software_product(self, value, **kwargs):
+        # TODO - does not match form and filter views, display manufacturer separately?
         return f"{kwargs['record'].software_product.manufacturer.name} - {value}"
 
 
@@ -190,6 +191,7 @@ class SoftwareLicenseTable(NetBoxTable):
         )
 
     def render_software_product(self, value, **kwargs):
+        # TODO - does not match form and filter views, display manufacturer separately?
         return f"{kwargs['record'].software_product.manufacturer.name} - {value}"
 
     def render_installation(self, **kwargs):

@@ -21,6 +21,18 @@
                     <td>{{ object.description }}</td>
                 </tr>
                 <tr>
+                    <th scope="row">Software Product</th>
+                    <td>{{ object.software_product|linkify }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Version</th>
+                    <td>{{ object.version|linkify }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Installation</th>
+                    <td>{{ object.installation|linkify }}</td>
+                </tr>
+                <tr>
                     <th scope="row">Type</th>
                     <td>{{ object.type }}</td>
                 </tr>
@@ -41,24 +53,12 @@
                     <td>{{ object.expiration_date }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Software Product</th>
-                    <td>{{ object.software_product|linkify }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Version</th>
-                    <td>{{ object.version|linkify }}</td>
-                </tr>
-                <tr>
                     <th scope="row">Support</th>
                     <td>{{ object.support }}</td>
                 </tr>
                 <tr>
                     <th scope="row">License amount</th>
                     <td>{{ object.license_amount }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Installation</th>
-                    <td>{{ object.installation|linkify }}</td>
                 </tr>
             </table>
         </div>

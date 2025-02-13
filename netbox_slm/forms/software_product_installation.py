@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
-from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField
+from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField, DynamicModelMultipleChoiceField
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect
 from virtualization.models import VirtualMachine, Cluster
@@ -16,11 +16,16 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
     comments = CommentField()
 
     device = DynamicModelChoiceField(queryset=Device.objects.all(), required=False)
-    virtualmachine = DynamicModelChoiceField(queryset=VirtualMachine.objects.all(), required=False)
+    virtualmachine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        label="Virtual Machine",
+    )
     cluster = DynamicModelChoiceField(queryset=Cluster.objects.all(), required=False)
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=True,
+        label="Software Product",
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
     )
     version = DynamicModelChoiceField(
@@ -57,8 +62,36 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
 
 class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
-    fieldsets = (FieldSet(None, ("q", "tag")),)
+    fieldsets = (
+        FieldSet("q", "filter_id", "tag"),
+        FieldSet("device", "virtualmachine", "cluster", "software_product", "version"),
+    )
+    selector_fields = ("filter_id", "q")
+
     tag = TagFilterField(model)
+
+    device = DynamicModelMultipleChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+    )
+    virtualmachine = DynamicModelMultipleChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        label="Virtual Machine",
+    )
+    cluster = DynamicModelMultipleChoiceField(
+        queryset=Cluster.objects.all(),
+        required=False,
+    )
+    software_product = DynamicModelMultipleChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False,
+        label="Software Product",
+    )
+    version = DynamicModelMultipleChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False,
+    )
 
 
 class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):

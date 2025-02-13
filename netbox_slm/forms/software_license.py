@@ -1,9 +1,10 @@
-from django.forms import DateField
+from django.forms import CharField, DateField, ChoiceField
 from django.urls import reverse_lazy
 
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
-from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField, LaxURLField
+from utilities.forms.constants import BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms.fields import CommentField, DynamicModelChoiceField, TagFilterField, LaxURLField, DynamicModelMultipleChoiceField
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect, DatePicker
 
@@ -18,6 +19,7 @@ class SoftwareLicenseForm(NetBoxModelForm):
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=True,
+        label="Software Product",
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
     )
     version = DynamicModelChoiceField(
@@ -63,8 +65,33 @@ class SoftwareLicenseForm(NetBoxModelForm):
 
 class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareLicense
-    fieldsets = (FieldSet(None, ("q", "tag")),)
+    fieldsets = (
+        FieldSet("q", "filter_id", "tag"),
+        FieldSet("name", "description", "type", "stored_location", "support", "software_product", "version", "installation"),
+    )
+    selector_fields = ("q", "filter_id", "name")
+
     tag = TagFilterField(model)
+
+    name = CharField(required=False)
+    description = CharField(required=False)
+    type = CharField(required=False)
+    stored_location = CharField(required=False)
+    support = ChoiceField(required=False, choices=BOOLEAN_WITH_BLANK_CHOICES)
+
+    software_product = DynamicModelMultipleChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False,
+        label="Software Product",
+    )
+    version = DynamicModelMultipleChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False,
+    )
+    installation = DynamicModelMultipleChoiceField(
+        queryset=SoftwareProductInstallation.objects.all(),
+        required=False,
+    )
 
 
 class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
