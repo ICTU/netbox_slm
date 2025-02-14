@@ -1,6 +1,4 @@
-from django.conf import settings
-
-from netbox.plugins import PluginMenuButton, PluginMenuItem, PluginMenu
+from netbox.plugins import PluginMenuButton, PluginMenuItem, PluginMenu, get_plugin_config
 from . import SLMConfig
 
 slm_items = (
@@ -82,11 +80,12 @@ slm_items = (
     ),
 )
 
-if settings.PLUGINS_CONFIG["netbox_slm"].get("top_level_menu") is True:
+if get_plugin_config("netbox_slm", "top_level_menu"):
     menu = PluginMenu(
         label="Software Lifecycle",
         groups=((SLMConfig.verbose_name, slm_items),),
         icon_class="mdi mdi-content-save",
     )
 else:
+    # auto imported by default PluginConfig.menu_items = navigation.menu_items
     menu_items = slm_items

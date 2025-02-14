@@ -8,6 +8,7 @@
 * Bulk import and bulk edit (#4)
 * Changelog with backdated changes (#51)
 * List filtering (#54)
+* Show installations on native objects (#49)
 
 ### Changed
 
