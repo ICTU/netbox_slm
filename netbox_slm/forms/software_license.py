@@ -74,7 +74,14 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
     fieldsets = (
         FieldSet("q", "filter_id", "tag"),
         FieldSet(
-            "name", "description", "type", "stored_location", "support", "software_product", "version", "installation"
+            "name",
+            "description",
+            "type",
+            "stored_location",
+            "support",
+            "software_product_id",
+            "version_id",
+            "installation_id",
         ),
     )
     selector_fields = ("q", "filter_id", "name")
@@ -87,18 +94,20 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
     stored_location = CharField(required=False)
     support = ChoiceField(required=False, choices=BOOLEAN_WITH_BLANK_CHOICES)
 
-    software_product = DynamicModelMultipleChoiceField(
+    software_product_id = DynamicModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=False,
         label="Software Product",
     )
-    version = DynamicModelMultipleChoiceField(
+    version_id = DynamicModelMultipleChoiceField(
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
+        label="Version",
     )
-    installation = DynamicModelMultipleChoiceField(
+    installation_id = DynamicModelMultipleChoiceField(
         queryset=SoftwareProductInstallation.objects.all(),
         required=False,
+        label="Installation",
     )
 
 

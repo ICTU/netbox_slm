@@ -33,6 +33,7 @@ class SoftwareProductVersionForm(NetBoxModelForm):
         model = SoftwareProductVersion
         fields = (
             "name",
+            "description",
             "software_product",
             "release_date",
             "documentation_url",
@@ -50,22 +51,24 @@ class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductVersion
     fieldsets = (
         FieldSet("q", "filter_id", "tag"),
-        FieldSet("name", "filename", "release_type", "manufacturer", "software_product"),
+        FieldSet("name", "description", "filename", "release_type", "manufacturer_id", "software_product_id"),
     )
     selector_fields = ("q", "filter_id", "name")
 
     tag = TagFilterField(model)
 
     name = CharField(required=False)
+    description = CharField(required=False)
     filename = CharField(required=False)
 
     release_type = MultipleChoiceField(required=False, choices=SoftwareReleaseTypes.choices)
 
-    manufacturer = DynamicModelMultipleChoiceField(
+    manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
+        label="Manufacturer",
     )
-    software_product = DynamicModelMultipleChoiceField(
+    software_product_id = DynamicModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=False,
         label="Software Product",
@@ -77,6 +80,7 @@ class SoftwareProductVersionBulkImportForm(NetBoxModelImportForm):
         model = SoftwareProductVersion
         fields = (
             "name",
+            "description",
             "software_product",
             "release_date",
             "end_of_support",

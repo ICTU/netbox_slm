@@ -33,7 +33,7 @@ class SoftwareProduct(NetBoxModel):
 
     def get_installation_count(self):
         count = SoftwareProductInstallation.objects.filter(software_product_id=self.pk).count()
-        query_string = urlencode(dict(software_product=self.pk))
+        query_string = urlencode(dict(software_product_id=self.pk))
         search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list")
         # Can be composed directly with reverse(query=) in Django 5.2, see https://code.djangoproject.com/ticket/25582
         return format_html(f"<a href='{search_target}?{query_string}'>{count}</a>") if count else "0"
@@ -50,6 +50,7 @@ class SoftwareProductVersion(NetBoxModel):
     name = models.CharField(max_length=64)
     comments = models.TextField(blank=True)
 
+    description = models.CharField(max_length=255, null=True, blank=True)
     release_date = models.DateField(null=True, blank=True)
     documentation_url = LaxURLField(max_length=1024, null=True, blank=True)
     end_of_support = models.DateField(null=True, blank=True)
@@ -78,7 +79,7 @@ class SoftwareProductVersion(NetBoxModel):
 
     def get_installation_count(self):
         count = SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
-        query_string = urlencode(dict(version=self.pk))
+        query_string = urlencode(dict(version_id=self.pk))
         search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list")
         # Can be composed directly with reverse(query=) in Django 5.2, see https://code.djangoproject.com/ticket/25582
         return format_html(f"<a href='{search_target}?{query_string}'>{count}</a>") if count else "0"

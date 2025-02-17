@@ -50,11 +50,11 @@ class ModelTestCase(TestCase):
 
     def test_get_installation_count(self):
         self.assertEqual(
-            f"<a href='/plugins/slm/installations/?software_product={self.software_product.pk}'>1</a>",
+            f"<a href='/plugins/slm/installations/?software_product_id={self.software_product.pk}'>1</a>",
             self.software_product.get_installation_count(),
         )
         self.assertEqual(
-            f"<a href='/plugins/slm/installations/?version={self.software_product_version.pk}'>1</a>",
+            f"<a href='/plugins/slm/installations/?version_id={self.software_product_version.pk}'>1</a>",
             self.software_product_version.get_installation_count(),
         )
 

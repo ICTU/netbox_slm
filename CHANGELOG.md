@@ -12,6 +12,7 @@
 ### Changed
 
 * Support NetBox v4.2.3 (#51)
+* Render objects consistently (#58)
 
 ### Fixed
 

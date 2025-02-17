@@ -20,8 +20,8 @@ class SoftwareProductTable(NetBoxTable):
         fields = (
             "pk",
             "name",
-            "manufacturer",
             "description",
+            "manufacturer",
             "installations",
             "tags",
         )
@@ -29,15 +29,8 @@ class SoftwareProductTable(NetBoxTable):
             "pk",
             "name",
             "manufacturer",
-            "description",
             "installations",
             "tags",
-        )
-        sequence = (
-            "manufacturer",
-            "name",
-            "description",
-            "installations",
         )
 
     def order_installations(self, queryset, is_descending):
@@ -63,6 +56,7 @@ class SoftwareProductVersionTable(NetBoxTable):
         fields = (
             "pk",
             "name",
+            "description",
             "software_product",
             "manufacturer",
             "release_date",
@@ -74,17 +68,11 @@ class SoftwareProductVersionTable(NetBoxTable):
         default_columns = (
             "pk",
             "name",
-            "software_product",
             "manufacturer",
+            "software_product",
             "release_date",
             "installations",
             "tags",
-        )
-        sequence = (
-            "manufacturer",
-            "software_product",
-            "name",
-            "installations",
         )
 
     def order_installations(self, queryset, is_descending):
@@ -98,13 +86,9 @@ class SoftwareProductInstallationTable(NetBoxTable):
     """Table for displaying SoftwareProductInstallation objects."""
 
     pk = ToggleColumn()
-    name = tables.LinkColumn()
-
-    device = tables.Column(accessor="device", linkify=True)
-    virtualmachine = tables.Column(accessor="virtualmachine", linkify=True)
-    cluster = tables.Column(accessor="cluster", linkify=True)
     platform = tables.Column(accessor="platform", linkify=True)
     type = tables.Column(accessor="render_type")
+    manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     software_product = tables.Column(accessor="software_product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
 
@@ -114,9 +98,9 @@ class SoftwareProductInstallationTable(NetBoxTable):
         model = SoftwareProductInstallation
         fields = (
             "pk",
-            "name",
             "platform",
             "type",
+            "manufacturer",
             "software_product",
             "version",
             "tags",
@@ -125,6 +109,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
             "pk",
             "platform",
             "type",
+            "manufacturer",
             "software_product",
             "version",
             "tags",
@@ -144,10 +129,6 @@ class SoftwareProductInstallationTable(NetBoxTable):
         queryset_union = device_annotate.union(vm_annotate).union(cluster_annotate)
         return queryset_union.order_by(f"{'-' if is_descending else ''}render_type"), True
 
-    def render_software_product(self, value, **kwargs):
-        # TODO - does not match form and filter views, display manufacturer separately?
-        return f"{kwargs['record'].software_product.manufacturer.name} - {value}"
-
 
 class SoftwareLicenseTable(NetBoxTable):
     """Table for displaying SoftwareLicense objects."""
@@ -158,6 +139,7 @@ class SoftwareLicenseTable(NetBoxTable):
     type = tables.Column()
     stored_location = tables.Column(accessor="stored_location_txt", linkify=lambda record: record.stored_location_url)
 
+    manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     software_product = tables.Column(accessor="software_product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
     installation = tables.Column(accessor="installation", linkify=True)
@@ -174,6 +156,7 @@ class SoftwareLicenseTable(NetBoxTable):
             "stored_location",
             "start_date",
             "expiration_date",
+            "manufacturer",
             "software_product",
             "version",
             "installation",
@@ -184,15 +167,12 @@ class SoftwareLicenseTable(NetBoxTable):
         default_columns = (
             "pk",
             "name",
-            "expiration_date",
+            "manufacturer",
             "software_product",
             "installation",
+            "expiration_date",
             "tags",
         )
-
-    def render_software_product(self, value, **kwargs):
-        # TODO - does not match form and filter views, display manufacturer separately?
-        return f"{kwargs['record'].software_product.manufacturer.name} - {value}"
 
     def render_installation(self, **kwargs):
         return f"{kwargs['record'].installation.platform}"

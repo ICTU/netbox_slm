@@ -69,33 +69,36 @@ class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
     model = SoftwareProductInstallation
     fieldsets = (
         FieldSet("q", "filter_id", "tag"),
-        FieldSet("device", "virtualmachine", "cluster", "software_product", "version"),
+        FieldSet("device_id", "virtualmachine_id", "cluster_id", "software_product_id", "version_id"),
     )
     selector_fields = ("filter_id", "q")
 
     tag = TagFilterField(model)
 
-    device = DynamicModelMultipleChoiceField(
+    device_id = DynamicModelMultipleChoiceField(
         queryset=Device.objects.all(),
         required=False,
+        label="Device",
     )
-    virtualmachine = DynamicModelMultipleChoiceField(
+    virtualmachine_id = DynamicModelMultipleChoiceField(
         queryset=VirtualMachine.objects.all(),
         required=False,
         label="Virtual Machine",
     )
-    cluster = DynamicModelMultipleChoiceField(
+    cluster_id = DynamicModelMultipleChoiceField(
         queryset=Cluster.objects.all(),
         required=False,
+        label="Cluster",
     )
-    software_product = DynamicModelMultipleChoiceField(
+    software_product_id = DynamicModelMultipleChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=False,
         label="Software Product",
     )
-    version = DynamicModelMultipleChoiceField(
+    version_id = DynamicModelMultipleChoiceField(
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
+        label="Version",
     )
 
 
