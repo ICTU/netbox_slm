@@ -21,6 +21,10 @@
                     <td>{{ object.description }}</td>
                 </tr>
                 <tr>
+                    <th scope="row">Type</th>
+                    <td>{{ object.type }}</td>
+                </tr>
+                <tr>
                     <th scope="row">Software Product</th>
                     <td>{{ object.software_product|linkify }}</td>
                 </tr>
@@ -31,10 +35,6 @@
                 <tr>
                     <th scope="row">Installation</th>
                     <td>{{ object.installation|linkify }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Type</th>
-                    <td>{{ object.type }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Stored location</th>

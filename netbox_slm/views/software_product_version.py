@@ -1,20 +1,19 @@
 from netbox.views import generic
 from netbox_slm import filtersets, forms, tables
 from netbox_slm.models import SoftwareProductVersion
+from utilities.views import register_model_view
 
 
+@register_model_view(SoftwareProductVersion, "list", path="", detail=False)
 class SoftwareProductVersionListView(generic.ObjectListView):
-    """View for listing all existing SoftwareProductVersions."""
-
     queryset = SoftwareProductVersion.objects.all()
     filterset = filtersets.SoftwareProductVersionFilterSet
     filterset_form = forms.SoftwareProductVersionFilterForm
     table = tables.SoftwareProductVersionTable
 
 
+@register_model_view(SoftwareProductVersion)
 class SoftwareProductVersionView(generic.ObjectView):
-    """Display SoftwareProductVersion details"""
-
     queryset = SoftwareProductVersion.objects.all()
 
     def get_extra_context(self, request, instance):
@@ -22,25 +21,34 @@ class SoftwareProductVersionView(generic.ObjectView):
         return {"installations": installation_count}
 
 
+@register_model_view(SoftwareProductVersion, "add", detail=False)
+@register_model_view(SoftwareProductVersion, "edit")
 class SoftwareProductVersionEditView(generic.ObjectEditView):
-    """View for editing and creating a SoftwareProductVersion instance."""
-
     queryset = SoftwareProductVersion.objects.all()
     form = forms.SoftwareProductVersionForm
 
 
+@register_model_view(SoftwareProductVersion, "delete")
 class SoftwareProductVersionDeleteView(generic.ObjectDeleteView):
-    """View for deleting a SoftwareProductVersion instance"""
-
     queryset = SoftwareProductVersion.objects.all()
 
 
-class SoftwareProductVersionBulkDeleteView(generic.BulkDeleteView):
-    queryset = SoftwareProductVersion.objects.all()
-    table = tables.SoftwareProductVersionTable
-
-
+@register_model_view(SoftwareProductVersion, "bulk_import", detail=False)
 class SoftwareProductVersionBulkImportView(generic.BulkImportView):
     queryset = SoftwareProductVersion.objects.all()
-    table = tables.SoftwareProductVersionTable
     model_form = forms.SoftwareProductVersionBulkImportForm
+
+
+@register_model_view(SoftwareProductVersion, "bulk_edit", path="edit", detail=False)
+class SoftwareProductVersionBulkEditView(generic.BulkEditView):
+    queryset = SoftwareProductVersion.objects.all()
+    filterset = filtersets.SoftwareProductVersionFilterSet
+    table = tables.SoftwareProductVersionTable
+    form = forms.SoftwareProductVersionBulkEditForm
+
+
+@register_model_view(SoftwareProductVersion, "bulk_delete", path="delete", detail=False)
+class SoftwareProductVersionBulkDeleteView(generic.BulkDeleteView):
+    queryset = SoftwareProductVersion.objects.all()
+    filterset = filtersets.SoftwareProductVersionFilterSet
+    table = tables.SoftwareProductVersionTable

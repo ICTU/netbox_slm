@@ -1,7 +1,7 @@
 from django.forms import CharField
 
 from dcim.models import Manufacturer
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
 from netbox_slm.models import SoftwareProduct
 from utilities.forms.fields import (
     CommentField,
@@ -13,8 +13,6 @@ from utilities.forms.rendering import FieldSet
 
 
 class SoftwareProductForm(NetBoxModelForm):
-    """Form for creating a new SoftwareProduct object."""
-
     comments = CommentField()
 
     manufacturer = DynamicModelChoiceField(
@@ -60,5 +58,18 @@ class SoftwareProductBulkImportForm(NetBoxModelImportForm):
             "description",
             "manufacturer",
             "tags",
-            "comments",
         )
+
+
+class SoftwareProductBulkEditForm(NetBoxModelBulkEditForm):
+    model = SoftwareProduct
+    fieldsets = (FieldSet("manufacturer"),)
+    nullable_fields = ("manufacturer", "comments")
+
+    tag = TagFilterField(model)
+    comments = CommentField()
+
+    manufacturer = DynamicModelChoiceField(
+        queryset=Manufacturer.objects.all(),
+        required=False,
+    )

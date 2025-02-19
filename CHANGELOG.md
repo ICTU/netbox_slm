@@ -5,7 +5,7 @@
 ### Added
 
 * Toggle to show plugin as top level menu item (#42)
-* Bulk import except `LaxURLFields` (#4)
+* Bulk import and bulk edit (#4)
 * Changelog with backdated changes (#51)
 * List filtering (#54)
 

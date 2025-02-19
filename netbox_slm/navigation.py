@@ -16,7 +16,7 @@ slm_items = (
                 permissions=["netbox_slm.add_softwareproduct"],
             ),
             PluginMenuButton(
-                "plugins:netbox_slm:softwareproduct_import",
+                "plugins:netbox_slm:softwareproduct_bulk_import",
                 "Import",
                 "mdi mdi-upload",
                 permissions=["netbox_slm.import_softwareproduct"],
@@ -35,7 +35,7 @@ slm_items = (
                 permissions=["netbox_slm.add_softwareproductversion"],
             ),
             PluginMenuButton(
-                "plugins:netbox_slm:softwareproductversion_import",
+                "plugins:netbox_slm:softwareproductversion_bulk_import",
                 "Import",
                 "mdi mdi-upload",
                 permissions=["netbox_slm.import_softwareproductversion"],
@@ -54,7 +54,7 @@ slm_items = (
                 permissions=["netbox_slm.add_softwareproductinstallation"],
             ),
             PluginMenuButton(
-                "plugins:netbox_slm:softwareproductinstallation_import",
+                "plugins:netbox_slm:softwareproductinstallation_bulk_import",
                 "Import",
                 "mdi mdi-upload",
                 permissions=["netbox_slm.import_softwareproductinstallation"],
@@ -73,7 +73,7 @@ slm_items = (
                 permissions=["netbox_slm.add_softwarelicense"],
             ),
             PluginMenuButton(
-                "plugins:netbox_slm:softwarelicense_import",
+                "plugins:netbox_slm:softwarelicense_bulk_import",
                 "Import",
                 "mdi mdi-upload",
                 permissions=["netbox_slm.import_softwarelicense"],

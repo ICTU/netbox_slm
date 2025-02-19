@@ -1,7 +1,7 @@
-from django.forms import CharField, DateField, ChoiceField
+from django.forms import CharField, DateField, ChoiceField, IntegerField, NullBooleanField
 from django.urls import reverse_lazy
 
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 from utilities.forms.constants import BOOLEAN_WITH_BLANK_CHOICES
 from utilities.forms.fields import (
@@ -16,25 +16,22 @@ from utilities.forms.widgets import APISelect, DatePicker
 
 
 class SoftwareLicenseForm(NetBoxModelForm):
-    """Form for creating a new SoftwareLicense object."""
-
     comments = CommentField()
 
     stored_location_url = LaxURLField(required=False)
+    start_date = DateField(required=False, widget=DatePicker())
+    expiration_date = DateField(required=False, widget=DatePicker())
 
     software_product = DynamicModelChoiceField(
         queryset=SoftwareProduct.objects.all(),
         required=True,
         label="Software Product",
-        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
     )
     version = DynamicModelChoiceField(
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={
-            "software_product": "$software_product",
-        },
+        query_params=dict(software_product="$software_product"),
     )
     installation = DynamicModelChoiceField(
         queryset=SoftwareProductInstallation.objects.all(),
@@ -42,12 +39,8 @@ class SoftwareLicenseForm(NetBoxModelForm):
         widget=APISelect(
             attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductinstallation-list")}
         ),
-        query_params={
-            "software_product": "$software_product",
-        },
+        query_params=dict(software_product="$software_product"),
     )
-    start_date = DateField(required=False, widget=DatePicker())
-    expiration_date = DateField(required=False, widget=DatePicker())
 
     class Meta:
         model = SoftwareLicense
@@ -112,6 +105,8 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
 
 
 class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
+    support = NullBooleanField(required=False, help_text="Support (values other than 'True' and 'False' are ignored)")
+
     class Meta:
         model = SoftwareLicense
         fields = (
@@ -119,6 +114,7 @@ class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
             "description",
             "software_product",
             "type",
+            "stored_location",
             "start_date",
             "expiration_date",
             "support",
@@ -126,5 +122,64 @@ class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
             "version",
             "installation",
             "tags",
-            "comments",
         )
+
+
+class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
+    model = SoftwareLicense
+    fieldsets = (
+        FieldSet(
+            "type",
+            "stored_location",
+            "stored_location_url",
+            "start_date",
+            "expiration_date",
+            "support",
+            "license_amount",
+            "software_product",
+            "version",
+            "installation",
+        ),
+    )
+    nullable_fields = (
+        "type",
+        "stored_location",
+        "stored_location_url",
+        "start_date",
+        "expiration_date",
+        "support",
+        "license_amount",
+        "version",
+        "installation",
+    )
+
+    tag = TagFilterField(model)
+    comments = CommentField()
+
+    type = CharField(required=False)
+    stored_location = CharField(required=False)
+    stored_location_url = LaxURLField(required=False)
+    start_date = DateField(required=False, widget=DatePicker())
+    expiration_date = DateField(required=False, widget=DatePicker())
+    support = ChoiceField(required=False, choices=BOOLEAN_WITH_BLANK_CHOICES)
+    license_amount = IntegerField(required=False, min_value=0)
+
+    software_product = DynamicModelChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False,
+        label="Software Product",
+    )
+    version = DynamicModelChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False,
+        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
+        query_params=dict(software_product="$software_product"),
+    )
+    installation = DynamicModelChoiceField(
+        queryset=SoftwareProductInstallation.objects.all(),
+        required=False,
+        widget=APISelect(
+            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductinstallation-list")}
+        ),
+        query_params=dict(software_product="$software_product"),
+    )
