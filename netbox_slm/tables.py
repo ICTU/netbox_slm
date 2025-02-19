@@ -167,6 +167,7 @@ class SoftwareLicenseTable(NetBoxTable):
         default_columns = (
             "pk",
             "name",
+            "type",
             "manufacturer",
             "software_product",
             "installation",

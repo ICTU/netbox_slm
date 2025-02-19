@@ -2,7 +2,7 @@ from django.forms import ValidationError
 from django.urls import reverse_lazy
 
 from dcim.models import Device
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
 from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
 from utilities.forms.fields import (
     CommentField,
@@ -16,8 +16,6 @@ from virtualization.models import VirtualMachine, Cluster
 
 
 class SoftwareProductInstallationForm(NetBoxModelForm):
-    """Form for creating a new SoftwareProductInstallation object."""
-
     comments = CommentField()
 
     device = DynamicModelChoiceField(queryset=Device.objects.all(), required=False)
@@ -31,15 +29,12 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         queryset=SoftwareProduct.objects.all(),
         required=True,
         label="Software Product",
-        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
     )
     version = DynamicModelChoiceField(
         queryset=SoftwareProductVersion.objects.all(),
         required=True,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={
-            "software_product": "$software_product",
-        },
+        query_params=dict(software_product="$software_product"),
     )
 
     class Meta:
@@ -112,5 +107,32 @@ class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):
             "software_product",
             "version",
             "tags",
-            "comments",
         )
+
+
+class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
+    model = SoftwareProductInstallation
+    fieldsets = (FieldSet("device", "virtualmachine", "cluster", "software_product", "version"),)
+    nullable_fields = ("device", "virtualmachine", "cluster", "comments")
+
+    tag = TagFilterField(model)
+    comments = CommentField()
+
+    device = DynamicModelChoiceField(queryset=Device.objects.all(), required=False)
+    virtualmachine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        label="Virtual Machine",
+    )
+    cluster = DynamicModelChoiceField(queryset=Cluster.objects.all(), required=False)
+    software_product = DynamicModelChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False,
+        label="Software Product",
+    )
+    version = DynamicModelChoiceField(
+        queryset=SoftwareProductVersion.objects.all(),
+        required=False,
+        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
+        query_params=dict(software_product="$software_product"),
+    )

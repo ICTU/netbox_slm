@@ -2,7 +2,7 @@ from django.forms import DateField, CharField, MultipleChoiceField
 from django.urls import reverse_lazy
 
 from dcim.models import Manufacturer
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareReleaseTypes
 from utilities.forms.fields import (
     CommentField,
@@ -15,8 +15,6 @@ from utilities.forms.widgets import APISelect, DatePicker
 
 
 class SoftwareProductVersionForm(NetBoxModelForm):
-    """Form for creating a new SoftwareProductVersion object."""
-
     comments = CommentField()
 
     release_date = DateField(required=False, widget=DatePicker())
@@ -76,6 +74,8 @@ class SoftwareProductVersionFilterForm(NetBoxModelFilterSetForm):
 
 
 class SoftwareProductVersionBulkImportForm(NetBoxModelImportForm):
+    release_type = CharField(help_text=f"Release type (possible values: {SoftwareReleaseTypes.values})")
+
     class Meta:
         model = SoftwareProductVersion
         fields = (
@@ -88,5 +88,39 @@ class SoftwareProductVersionBulkImportForm(NetBoxModelImportForm):
             "file_checksum",
             "release_type",
             "tags",
-            "comments",
         )
+
+
+class SoftwareProductVersionBulkEditForm(NetBoxModelBulkEditForm):
+    model = SoftwareProductVersion
+    fieldsets = (
+        FieldSet(
+            "release_date",
+            "documentation_url",
+            "end_of_support",
+            "filename",
+            "file_checksum",
+            "file_link",
+            "release_type",
+            "software_product",
+        ),
+    )
+    nullable_fields = ("release_date", "documentation_url", "end_of_support", "filename", "file_checksum", "file_link")
+
+    tag = TagFilterField(model)
+    comments = CommentField()
+
+    release_date = DateField(required=False, widget=DatePicker())
+    documentation_url = CharField(required=False)
+    end_of_support = DateField(required=False, widget=DatePicker())
+    filename = CharField(required=False)
+    file_checksum = CharField(required=False)
+    file_link = CharField(required=False)
+
+    release_type = MultipleChoiceField(required=False, choices=SoftwareReleaseTypes.choices)
+
+    software_product = DynamicModelChoiceField(
+        queryset=SoftwareProduct.objects.all(),
+        required=False,
+        label="Software Product",
+    )
