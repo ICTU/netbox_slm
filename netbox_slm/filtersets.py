@@ -113,6 +113,7 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
     name = CharFilter(lookup_expr="icontains")
     description = CharFilter(lookup_expr="icontains")
     type = CharFilter(lookup_expr="icontains")
+    spdx_expression = CharFilter(lookup_expr="icontains", label="SPDX expression")
     stored_location = CharFilter(lookup_expr="icontains")
 
     software_product = ModelMultipleChoiceFilter(

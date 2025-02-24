@@ -1,12 +1,12 @@
-from rest_framework import serializers
+from rest_framework.serializers import SerializerMethodField, HyperlinkedIdentityField
 
 from netbox.api.serializers import NetBoxModelSerializer
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
 
 
 class SoftwareLicenseSerializer(NetBoxModelSerializer):
-    display = serializers.SerializerMethodField()
-    url = serializers.HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwarelicense-detail")
+    display = SerializerMethodField()
+    url = HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwarelicense-detail")
 
     class Meta:
         model = SoftwareLicense
@@ -17,6 +17,7 @@ class SoftwareLicenseSerializer(NetBoxModelSerializer):
             "name",
             "description",
             "type",
+            "spdx_expression",
             "stored_location",
             "stored_location_url",
             "start_date",
@@ -39,8 +40,8 @@ class SoftwareLicenseSerializer(NetBoxModelSerializer):
 
 
 class SoftwareProductSerializer(NetBoxModelSerializer):
-    display = serializers.SerializerMethodField()
-    url = serializers.HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwareproduct-detail")
+    display = SerializerMethodField()
+    url = HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwareproduct-detail")
 
     class Meta:
         model = SoftwareProduct
@@ -65,10 +66,8 @@ class SoftwareProductSerializer(NetBoxModelSerializer):
 
 
 class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
-    display = serializers.SerializerMethodField()
-    url = serializers.HyperlinkedIdentityField(
-        view_name="plugins-api:netbox_slm-api:softwareproductinstallation-detail"
-    )
+    display = SerializerMethodField()
+    url = HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwareproductinstallation-detail")
 
     class Meta:
         model = SoftwareProductInstallation
@@ -94,8 +93,8 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
 
 
 class SoftwareProductVersionSerializer(NetBoxModelSerializer):
-    display = serializers.SerializerMethodField()
-    url = serializers.HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwareproductversion-detail")
+    display = SerializerMethodField()
+    url = HyperlinkedIdentityField(view_name="plugins-api:netbox_slm-api:softwareproductversion-detail")
 
     class Meta:
         model = SoftwareProductVersion

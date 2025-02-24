@@ -2,7 +2,13 @@ from django.forms import CharField, DateField, ChoiceField, IntegerField, NullBo
 from django.urls import reverse_lazy
 
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
+from netbox_slm.models import (
+    SoftwareProduct,
+    SoftwareProductVersion,
+    SoftwareProductInstallation,
+    SoftwareLicense,
+    spdx_license_names,
+)
 from utilities.forms.constants import BOOLEAN_WITH_BLANK_CHOICES
 from utilities.forms.fields import (
     CommentField,
@@ -18,6 +24,7 @@ from utilities.forms.widgets import APISelect, DatePicker
 class SoftwareLicenseForm(NetBoxModelForm):
     comments = CommentField()
 
+    spdx_expression = ChoiceField(required=False, choices=spdx_license_names(), label="SPDX expression")
     stored_location_url = LaxURLField(required=False)
     start_date = DateField(required=False, widget=DatePicker())
     expiration_date = DateField(required=False, widget=DatePicker())
@@ -49,6 +56,7 @@ class SoftwareLicenseForm(NetBoxModelForm):
             "description",
             "software_product",
             "type",
+            "spdx_expression",
             "stored_location",
             "stored_location_url",
             "start_date",
@@ -70,6 +78,7 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
             "name",
             "description",
             "type",
+            "spdx_expression",
             "stored_location",
             "support",
             "software_product_id",
@@ -84,6 +93,7 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
     name = CharField(required=False)
     description = CharField(required=False)
     type = CharField(required=False)
+    spdx_expression = CharField(required=False, label="SPDX expression")
     stored_location = CharField(required=False)
     support = ChoiceField(required=False, choices=BOOLEAN_WITH_BLANK_CHOICES)
 
@@ -114,6 +124,7 @@ class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
             "description",
             "software_product",
             "type",
+            "spdx_expression",
             "stored_location",
             "start_date",
             "expiration_date",
@@ -130,6 +141,7 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
     fieldsets = (
         FieldSet(
             "type",
+            "spdx_expression",
             "stored_location",
             "stored_location_url",
             "start_date",
@@ -143,6 +155,7 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
     )
     nullable_fields = (
         "type",
+        "spdx_expression",
         "stored_location",
         "stored_location_url",
         "start_date",
@@ -157,6 +170,7 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
     comments = CommentField()
 
     type = CharField(required=False)
+    spdx_expression = ChoiceField(required=False, choices=spdx_license_names(), label="SPDX expression")
     stored_location = CharField(required=False)
     stored_location_url = LaxURLField(required=False)
     start_date = DateField(required=False, widget=DatePicker())

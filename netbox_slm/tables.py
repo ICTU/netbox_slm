@@ -45,7 +45,7 @@ class SoftwareProductVersionTable(NetBoxTable):
 
     pk = ToggleColumn()
     name = tables.LinkColumn()
-    software_product = tables.Column(accessor="software_product", linkify=True)
+    software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     installations = tables.Column(accessor="get_installation_count")
 
@@ -89,7 +89,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
     platform = tables.Column(accessor="platform", linkify=True)
     type = tables.Column(accessor="render_type")
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
-    software_product = tables.Column(accessor="software_product", linkify=True)
+    software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
 
     tags = columns.TagColumn(url_name="plugins:netbox_slm:softwareproductinstallation_list")
@@ -137,10 +137,11 @@ class SoftwareLicenseTable(NetBoxTable):
     name = tables.LinkColumn()
 
     type = tables.Column()
+    spdx_expression = tables.Column(verbose_name="SPDX expression")
     stored_location = tables.Column(accessor="stored_location_txt", linkify=lambda record: record.stored_location_url)
 
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
-    software_product = tables.Column(accessor="software_product", linkify=True)
+    software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
     installation = tables.Column(accessor="installation", linkify=True)
 
@@ -153,6 +154,7 @@ class SoftwareLicenseTable(NetBoxTable):
             "name",
             "description",
             "type",
+            "spdx_expression",
             "stored_location",
             "start_date",
             "expiration_date",
