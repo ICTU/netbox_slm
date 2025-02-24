@@ -30,6 +30,7 @@ jobs:
           /opt/netbox/venv/bin/coverage run --source='netbox_slm' manage.py test netbox_slm &&\
           /opt/netbox/venv/bin/coverage report --fail-under=0 &&\
           /opt/netbox/venv/bin/coverage xml -o /ci/reports/coverage.xml"
+        sed -i "s/<source>\/opt\/netbox\/netbox<\/source>/<source><\/source>/" ci/reports/coverage.xml
       timeout-minutes: 6
 
     - name: Sonar scan

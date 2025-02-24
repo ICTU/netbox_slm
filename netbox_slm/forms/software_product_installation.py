@@ -12,7 +12,7 @@ from utilities.forms.fields import (
 )
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect
-from virtualization.models import VirtualMachine, Cluster
+from virtualization.models import Cluster, VirtualMachine
 
 
 class SoftwareProductInstallationForm(NetBoxModelForm):

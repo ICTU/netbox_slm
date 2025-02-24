@@ -1,0 +1,21 @@
+{% load helpers %}
+
+<div class="card">
+    <h2 class="card-header">
+        Installations
+{% if perms.netbox_slm.add_installation %}
+        <div class="card-actions">
+            <a href="{% url 'plugins:netbox_slm:softwareproductinstallation_add' %}?{{ search_obj }}={{ object.pk }}" class="btn btn-ghost-primary btn-sm">
+                <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add an installation
+            </a>
+        </div>
+{% endif %}
+    </h2>
+{% if search_obj == "cluster" %}
+{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" cluster=object.pk %}
+{% elif search_obj == "device" %}
+{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" device=object.pk %}
+{% elif search_obj == "virtualmachine" %}
+{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" virtualmachine=object.pk %}
+{% endif %}
+</div>

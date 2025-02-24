@@ -10,7 +10,7 @@ from netbox_slm.models import (
     SoftwareLicense,
     SoftwareReleaseTypes,
 )
-from virtualization.models import VirtualMachine, Cluster
+from virtualization.models import Cluster, VirtualMachine
 
 
 class SoftwareProductFilterSet(NetBoxModelFilterSet):

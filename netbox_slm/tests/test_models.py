@@ -1,40 +1,8 @@
-from django.test import TestCase
-
-from dcim.models import Device, DeviceRole, DeviceType, Manufacturer, Site
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
-from virtualization.models import Cluster, ClusterType, VirtualMachine
+from .base import SlmBaseTestCase
 
 
-class ModelTestCase(TestCase):
-    def setUp(self):
-        self.p_name = "test product"
-        self.v_name = "test version"
-        self.l_name = "test license"
-
-        manufacturer = Manufacturer.objects.create(name="test manufacturer")
-        device_type = DeviceType.objects.create(model="test device type", manufacturer=manufacturer)
-        device_role = DeviceRole.objects.create(name="test device role")
-        site = Site.objects.create(name="test site")
-        self.device = Device.objects.create(name="test device", device_type=device_type, role=device_role, site=site)
-        self.vm = VirtualMachine.objects.create(name="test VM")
-        cluster_type = ClusterType.objects.create(name="test cluster type")
-        self.cluster = Cluster.objects.create(name="test cluster", type=cluster_type)
-        self.test_url = "https://github.com/ICTU/netbox_slm"
-
-        self.software_product = SoftwareProduct.objects.create(name=self.p_name)
-        self.software_product_version = SoftwareProductVersion.objects.create(
-            name=self.v_name, software_product=self.software_product
-        )
-        self.software_product_installation = SoftwareProductInstallation.objects.create(
-            virtualmachine=self.vm, software_product=self.software_product, version=self.software_product_version
-        )
-        self.software_license = SoftwareLicense.objects.create(
-            name=self.l_name,
-            software_product=self.software_product,
-            version=self.software_product_version,
-            installation=self.software_product_installation,
-            stored_location_url=self.test_url,
-        )
+class ModelTestCase(SlmBaseTestCase):
+    """Test basic model functionality and custom overrides"""
 
     def test_model_name(self):
         self.assertEqual(self.p_name, str(self.software_product))
@@ -43,10 +11,18 @@ class ModelTestCase(TestCase):
         self.assertEqual(self.l_name, str(self.software_license))
 
     def test_absolute_url(self):
-        self.assertEqual("/plugins/slm/software-products/1/", self.software_product.get_absolute_url())
-        self.assertEqual("/plugins/slm/versions/1/", self.software_product_version.get_absolute_url())
-        self.assertEqual("/plugins/slm/installations/1/", self.software_product_installation.get_absolute_url())
-        self.assertEqual("/plugins/slm/licenses/1/", self.software_license.get_absolute_url())
+        self.assertEqual(
+            f"/plugins/slm/software-products/{self.software_product.pk}/", self.software_product.get_absolute_url()
+        )
+        self.assertEqual(
+            f"/plugins/slm/versions/{self.software_product_version.pk}/",
+            self.software_product_version.get_absolute_url(),
+        )
+        self.assertEqual(
+            f"/plugins/slm/installations/{self.software_product_installation.pk}/",
+            self.software_product_installation.get_absolute_url(),
+        )
+        self.assertEqual(f"/plugins/slm/licenses/{self.software_license.pk}/", self.software_license.get_absolute_url())
 
     def test_get_installation_count(self):
         self.assertEqual(

@@ -19,11 +19,6 @@ DEBUG = environ.get('DEBUG', 'False').lower() == 'true'
 DEVELOPER = environ.get('DEVELOPER', 'False').lower() == 'true'
 
 PLUGINS = ["netbox_slm"]
-PLUGINS_CONFIG = {
-    "netbox_slm": {
-        "top_level_menu": environ.get('SLM_TOP_LEVEL_MENU', 'True').lower() == 'true',
-    },
-}
 
 REDIS = {
     'tasks': {
