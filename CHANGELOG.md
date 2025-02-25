@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.8.0](https://github.com/ICTU/netbox_slm/releases/tag/1.8.0) - 2025-02-25
+
 ### Added
 
 * Toggle to show plugin as top level menu item (#42)

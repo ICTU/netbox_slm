@@ -13,16 +13,20 @@ authors = [
     {name = "ICTU", email = "open-source-projects@ictu.nl"},
 ]
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
     "Environment :: Web Environment",
     "Framework :: Django",
     "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
@@ -40,6 +44,11 @@ ci = [
     "coverage == 7.6.11",
     "ruff == 0.9.6",
 ]
+
+[project.urls]
+Homepage = "https://github.com/ICTU/netbox_slm/"
+Changelog = "https://github.com/ICTU/netbox_slm/blob/master/CHANGELOG.md"
+Issues = "https://github.com/ICTU/netbox_slm/issues/"
 
 [tool.setuptools.dynamic]
 version = {attr = "netbox_slm.__version__"}
