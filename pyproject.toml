@@ -26,7 +26,9 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
-dependencies = []
+dependencies = [
+    "license-expression == 30.4.1",
+]
 
 [project.optional-dependencies]
 build = [

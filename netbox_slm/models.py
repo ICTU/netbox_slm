@@ -1,10 +1,14 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils.html import format_html, urlencode
+from license_expression import Licensing, get_spdx_licensing
 
 from netbox.models import NetBoxModel
 from utilities.querysets import RestrictedQuerySet
 from utilities.validators import EnhancedURLValidator
+
+spdx_licensing: Licensing = get_spdx_licensing()
 
 
 class LaxURLField(models.URLField):
@@ -129,12 +133,26 @@ class SoftwareProductInstallation(NetBoxModel):
         return "cluster"
 
 
+def spdx_license_names():
+    names = [(item[0], item[0]) for item in spdx_licensing.known_symbols.items() if not item[1].is_exception]
+    names.sort()
+    names.insert(0, ("", "---------"))  # set default value
+    return names
+
+
+def validate_spdx_expression(value):
+    expression_info = spdx_licensing.validate(value)
+    if expression_info.errors:
+        raise ValidationError(f"{value} is not a known SPDX license expression")
+
+
 class SoftwareLicense(NetBoxModel):
     name = models.CharField(max_length=128)
     comments = models.TextField(blank=True)
 
     description = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=128)
+    spdx_expression = models.CharField(max_length=64, null=True, blank=True, validators=[validate_spdx_expression])
     stored_location = models.CharField(max_length=255, null=True, blank=True)
     stored_location_url = LaxURLField(max_length=1024, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)

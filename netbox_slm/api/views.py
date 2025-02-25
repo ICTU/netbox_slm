@@ -13,14 +13,15 @@ from netbox_slm.filtersets import (
     SoftwareProductInstallationFilterSet,
     SoftwareLicenseFilterSet,
 )
-from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
+from netbox_slm.models import (
+    SoftwareProduct,
+    SoftwareProductVersion,
+    SoftwareProductInstallation,
+    SoftwareLicense,
+)
 
 
 class NetboxSLMRootView(APIRootView):
-    """
-    NetboxSLM API root view
-    """
-
     def get_view_name(self):
         return "NetboxSLM"
 
