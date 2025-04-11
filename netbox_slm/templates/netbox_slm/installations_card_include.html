@@ -12,10 +12,10 @@
 {% endif %}
     </h2>
 {% if search_obj == "cluster" %}
-{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" cluster=object.pk %}
+{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" cluster_id=object.pk %}
 {% elif search_obj == "device" %}
-{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" device=object.pk %}
+{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" device_id=object.pk %}
 {% elif search_obj == "virtualmachine" %}
-{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" virtualmachine=object.pk %}
+{% htmx_table "plugins:netbox_slm:softwareproductinstallation_list" virtualmachine_id=object.pk %}
 {% endif %}
 </div>
