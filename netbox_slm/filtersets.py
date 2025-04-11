@@ -19,7 +19,7 @@ class SoftwareProductFilterSet(NetBoxModelFilterSet):
     name = CharFilter(lookup_expr="icontains")
     description = CharFilter(lookup_expr="icontains")
 
-    manufacturer = ModelMultipleChoiceFilter(queryset=Manufacturer.objects.all())
+    manufacturer_id = ModelMultipleChoiceFilter(queryset=Manufacturer.objects.all())
 
     class Meta:
         model = SoftwareProduct
@@ -47,12 +47,12 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
 
     release_type = MultipleChoiceFilter(choices=SoftwareReleaseTypes.choices)
 
-    manufacturer = ModelMultipleChoiceFilter(
+    manufacturer_id = ModelMultipleChoiceFilter(
         field_name="software_product__manufacturer",
         queryset=Manufacturer.objects.all(),
     )
 
-    software_product = ModelMultipleChoiceFilter(
+    software_product_id = ModelMultipleChoiceFilter(
         queryset=SoftwareProduct.objects.all(),
         label="Software Product",
     )
@@ -78,17 +78,17 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
 class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProductInstallation instances."""
 
-    device = ModelMultipleChoiceFilter(queryset=Device.objects.all())
-    virtualmachine = ModelMultipleChoiceFilter(
+    device_id = ModelMultipleChoiceFilter(queryset=Device.objects.all())
+    virtualmachine_id = ModelMultipleChoiceFilter(
         queryset=VirtualMachine.objects.all(),
         label="Virtual Machine",
     )
-    cluster = ModelMultipleChoiceFilter(queryset=Cluster.objects.all())
-    software_product = ModelMultipleChoiceFilter(
+    cluster_id = ModelMultipleChoiceFilter(queryset=Cluster.objects.all())
+    software_product_id = ModelMultipleChoiceFilter(
         queryset=SoftwareProduct.objects.all(),
         label="Software Product",
     )
-    version = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
+    version_id = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
 
     class Meta:
         model = SoftwareProductInstallation
@@ -116,12 +116,12 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
     spdx_expression = CharFilter(lookup_expr="icontains", label="SPDX expression")
     stored_location = CharFilter(lookup_expr="icontains")
 
-    software_product = ModelMultipleChoiceFilter(
+    software_product_id = ModelMultipleChoiceFilter(
         queryset=SoftwareProduct.objects.all(),
         label="Software Product",
     )
-    version = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
-    installation = ModelMultipleChoiceFilter(queryset=SoftwareProductInstallation.objects.all())
+    version_id = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
+    installation_id = ModelMultipleChoiceFilter(queryset=SoftwareProductInstallation.objects.all())
 
     class Meta:
         model = SoftwareLicense
