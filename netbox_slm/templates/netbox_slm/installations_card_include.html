@@ -3,7 +3,7 @@
 <div class="card">
     <h2 class="card-header">
         Installations
-{% if perms.netbox_slm.add_installation %}
+{% if perms.netbox_slm.add_softwareproductinstallation %}
         <div class="card-actions">
             <a href="{% url 'plugins:netbox_slm:softwareproductinstallation_add' %}?{{ search_obj }}={{ object.pk }}" class="btn btn-ghost-primary btn-sm">
                 <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add an installation
