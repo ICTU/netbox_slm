@@ -2,11 +2,17 @@
 
 ## [Unreleased]
 
+## [1.8.2](https://github.com/ICTU/netbox_slm/releases/tag/1.8.2) - 2025-06-02
+
+### Fixed
+
+*  Permission check for adding software product installations (#70)
+
 ## [1.8.1](https://github.com/ICTU/netbox_slm/releases/tag/1.8.1) - 2025-04-11
 
 ### Fixed
 
-*  Fix filtering on foreign objects (#65)
+*  Filtering on foreign objects (#65)
 
 ## [1.8.0](https://github.com/ICTU/netbox_slm/releases/tag/1.8.0) - 2025-02-25
 
