@@ -64,5 +64,3 @@ NetBox
 NetBox SLM
 Mart
 Visser
-Suchow
-Redistributions
