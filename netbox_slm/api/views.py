@@ -27,24 +27,24 @@ class NetboxSLMRootView(APIRootView):
 
 
 class SoftwareProductViewSet(NetBoxModelViewSet):
-    queryset = SoftwareProduct.objects.all()
+    queryset = SoftwareProduct.objects.all().order_by("id")
     serializer_class = SoftwareProductSerializer
     filterset_class = SoftwareProductFilterSet
 
 
 class SoftwareProductVersionViewSet(NetBoxModelViewSet):
-    queryset = SoftwareProductVersion.objects.all()
+    queryset = SoftwareProductVersion.objects.all().order_by("id")
     serializer_class = SoftwareProductVersionSerializer
     filterset_class = SoftwareProductVersionFilterSet
 
 
 class SoftwareProductInstallationViewSet(NetBoxModelViewSet):
-    queryset = SoftwareProductInstallation.objects.all()
+    queryset = SoftwareProductInstallation.objects.all().order_by("id")
     serializer_class = SoftwareProductInstallationSerializer
     filterset_class = SoftwareProductInstallationFilterSet
 
 
 class SoftwareLicenseViewSet(NetBoxModelViewSet):
-    queryset = SoftwareLicense.objects.all()
+    queryset = SoftwareLicense.objects.all().order_by("id")
     serializer_class = SoftwareLicenseSerializer
     filterset_class = SoftwareLicenseFilterSet
