@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='softwareproductinstallation',
-            constraint=models.CheckConstraint(check=models.Q(models.Q(('cluster__isnull', True), ('device__isnull', False), ('virtualmachine__isnull', True)), models.Q(('cluster__isnull', True), ('device__isnull', True), ('virtualmachine__isnull', False)), models.Q(('cluster__isnull', False), ('device__isnull', True), ('virtualmachine__isnull', True)), _connector='OR'), name='netbox_slm_softwareproductinstallation_platform', violation_error_message='Installation requires exactly one platform destination.'),
+            constraint=models.CheckConstraint(condition=models.Q(models.Q(('cluster__isnull', True), ('device__isnull', False), ('virtualmachine__isnull', True)), models.Q(('cluster__isnull', True), ('device__isnull', True), ('virtualmachine__isnull', False)), models.Q(('cluster__isnull', False), ('device__isnull', True), ('virtualmachine__isnull', True)), _connector='OR'), name='netbox_slm_softwareproductinstallation_platform', violation_error_message='Installation requires exactly one platform destination.'),
         ),
     ]
