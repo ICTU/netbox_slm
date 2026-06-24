@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.9.0](https://github.com/ICTU/netbox_slm/releases/tag/1.9.0) - 2026-06-25
+
+### Changed
+
+* Support NetBox v4.6.3 (#76)
+* Support Python 3.14 (#76)
+
 ## [1.8.3](https://github.com/ICTU/netbox_slm/releases/tag/1.8.3) - 2025-12-18
 
 ### Fixed
