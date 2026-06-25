@@ -48,8 +48,6 @@ services:
     image: netbox:slm
   netbox-worker:
     image: netbox:slm
-  netbox-housekeeping:
-    image: netbox:slm
 ```
 
 Now, build the image: ``docker compose build --no-cache``
