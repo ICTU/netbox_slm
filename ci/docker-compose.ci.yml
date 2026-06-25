@@ -12,7 +12,7 @@ services:
     healthcheck:
       disable: true
     volumes:
-      - ./config:/etc/netbox/config:ro
+      - ./config:/etc/netbox/config:z,ro
       - ./reports:/ci/reports:rw
       - ../netbox_slm:/opt/netbox/netbox/netbox_slm:ro
   netbox-worker:
@@ -22,14 +22,8 @@ services:
     healthcheck:
       disable: true
     volumes:
-      - ./config:/etc/netbox/config:ro
+      - ./config:/etc/netbox/config:z,ro
       - ../netbox_slm:/opt/netbox/netbox/netbox_slm:ro
-  netbox-housekeeping:
-    image: netbox:slm
-    depends_on:
-      - netbox
-    healthcheck:
-      disable: true
   postgres:
     ports:
       - "5432:5432"

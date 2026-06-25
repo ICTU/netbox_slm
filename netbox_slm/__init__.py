@@ -16,7 +16,7 @@ limitations under the License.
 
 from netbox.plugins import PluginConfig
 
-__version__ = "1.8.3"
+__version__ = "1.9.0"
 
 
 class SLMConfig(PluginConfig):

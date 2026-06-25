@@ -4,6 +4,8 @@
 ## Version upgrade workflow
 
 1. Update version spec in `netbox_slm/__init__.py` and `sonar-project.properties`
+1. Update NetBox base image versions in `ci/Dockerfile`, `ci/Dockerfile-CI` and `ci/docker-compose.yml`
+1. Ensure that the `PYTHON_VERSION` in the `Dockerfile`s is the same as the NetBox community docker base image
 1. Check for any runtime errors and warnings in the `netbox-*` container logs
 1. Create new version tag on GitHub, following semantic versioning as: `MAJOR.MINOR.PATCH`
 1. Update the `CHANGELOG.md` with new version information and move `[Unreleased]` items to new version section

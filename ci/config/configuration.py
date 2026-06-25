@@ -1,18 +1,20 @@
 """
 Minimal NetBox config for NetBox SLM plugin testing, docs: https://netbox.readthedocs.io/en/stable/configuration/
-Based on https://github.com/netbox-community/netbox/blob/v4.2.3/netbox/netbox/configuration_testing.py
+Based on https://github.com/netbox-community/netbox/blob/v4.6.3/netbox/netbox/configuration_testing.py
 """
 from os import environ
 
 ALLOWED_HOSTS = ['*']
 
-DATABASE = {
-    'NAME': environ.get('DB_NAME', 'netbox'),
-    'USER': environ.get('DB_USER', ''),
-    'PASSWORD': environ.get('DB_PASSWORD', ''),
-    'HOST': environ.get('DB_HOST', 'localhost'),
-    'PORT': environ.get('DB_PORT', ''),
-    'CONN_MAX_AGE': int(environ.get('DB_CONN_MAX_AGE', '300')),
+DATABASES = {
+    'default': {
+        'NAME': environ.get('DB_NAME', 'netbox'),
+        'USER': environ.get('DB_USER', ''),
+        'PASSWORD': environ.get('DB_PASSWORD', ''),
+        'HOST': environ.get('DB_HOST', 'localhost'),
+        'PORT': environ.get('DB_PORT', ''),
+        'CONN_MAX_AGE': int(environ.get('DB_CONN_MAX_AGE', '300')),
+    }
 }
 
 DEBUG = environ.get('DEBUG', 'False').lower() == 'true'
@@ -38,3 +40,9 @@ REDIS = {
 }
 
 SECRET_KEY = 'dummydummydummydummydummydummydummydummydummydummy'
+
+DEFAULT_PERMISSIONS = {}
+
+API_TOKEN_PEPPERS = {
+    1: 'TEST-VALUE-DO-NOT-USE-TEST-VALUE-DO-NOT-USE-TEST-VALUE-DO-NOT-USE',
+}

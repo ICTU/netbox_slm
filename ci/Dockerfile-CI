@@ -1,5 +1,5 @@
-FROM netboxcommunity/netbox:v4.2.3
-ARG PYTHON_VERSION=3.12
+FROM netboxcommunity/netbox:v4.6.3
+ARG PYTHON_VERSION=3.14
 
 COPY ../pyproject.toml /tmp/
 RUN uv pip install -r /tmp/pyproject.toml --extra ci
