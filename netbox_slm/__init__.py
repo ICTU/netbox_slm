@@ -22,7 +22,7 @@ from netbox.plugins import PluginConfig
 class SLMConfig(PluginConfig):
     name = "netbox_slm"
     verbose_name = "Software Lifecycle Management"
-    version = version("netbox_slm")
+    version = version("netbox-slm")
     description = "Software Lifecycle Management Netbox Plugin."
     author = "ICTU"
     author_email = "open-source-projects@ictu.nl"

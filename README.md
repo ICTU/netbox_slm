@@ -21,17 +21,15 @@ Note that this plugin is only tested against a single NetBox version at this tim
 
 Next, follow these instructions (based on the NetBox docker variant [instructions](https://github.com/netbox-community/netbox-docker/wiki/Configuration#custom-configuration-files)) to install the NetBox SLM plugin:
 
-1. Add ``netbox_slm`` to the ``PLUGINS`` list in
-   ``configuration/plugins.py``.
-2. Create a ``plugin_requirements.txt`` with ``netbox-slm`` as
-   contents.
+1. Add ``netbox_slm`` to the ``PLUGINS`` list in ``configuration/plugins.py``.
+2. Create a ``plugin_requirements.txt`` with ``netbox-slm`` as contents.
 3. Create a ``Dockerfile-SLM`` with contents:
 
 ```dockerfile
 FROM netboxcommunity/netbox:vX.Y.Z
-
-COPY ../pyproject.toml /tmp/
-RUN uv pip install -r /tmp/pyproject.toml
+COPY ../LICENSE ../README.md ../SECURITY.md ../pyproject.toml ../uv.lock /tmp/
+COPY ../netbox_slm /tmp/netbox_slm
+RUN uv pip install /tmp/ netbox-slm
 ```
 
 4. Create a ``docker-compose.override.yml`` with contents:
