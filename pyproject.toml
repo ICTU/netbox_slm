@@ -37,13 +37,13 @@ dependencies = [
 
 [project.optional-dependencies]
 build = [
-    "build == 1.5.0",
-    "setuptools == 82.0.1",
-    "twine == 6.2.0",
+    "build == 1.6.0",
+    "setuptools == 84.0.0",
+    "twine == 7.0.0",
 ]
 ci = [
-    "coverage == 7.14.3",
-    "ruff == 0.15.19",
+    "coverage == 7.16.0",
+    "ruff == 0.16.6",
 ]
 
 [project.urls]
@@ -82,3 +82,6 @@ select = [
 
 [tool.ruff.format]
 exclude = ["netbox_slm/migrations/*.py"]
+
+[tool.uv]
+exclude-newer = "7 days" # managed by Update-time — remove this comment to prevent Update-time from changing it
