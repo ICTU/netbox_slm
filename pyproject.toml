@@ -8,7 +8,10 @@ dynamic = ["version"]
 description = "Software Lifecycle Management Netbox Plugin"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
+license-files = [
+    "LICENSE",
+]
 authors = [
     {name = "ICTU", email = "open-source-projects@ictu.nl"},
 ]
@@ -19,7 +22,6 @@ classifiers = [
     "Framework :: Django",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
