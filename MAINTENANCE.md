@@ -3,8 +3,10 @@
 
 ## Version upgrade workflow
 
-1. Update version spec in `netbox_slm/__init__.py` and `sonar-project.properties`
+1. Update version spec with `uv version X.Y.Z` or `uv version --bump minor|patch`
+1. Copy the new version spec from `pyproject.toml` to `sonar-project.properties`
 1. Update NetBox base image versions in `ci/Dockerfile`, `ci/Dockerfile-CI` and `ci/docker-compose.yml`
+1. When updating the NetBox version, verify `SLMConfig.min_version` in `netbox_slm/__init__.py`
 1. Ensure that the `PYTHON_VERSION` in the `Dockerfile`s is the same as the NetBox community docker base image
 1. Check for any runtime errors and warnings in the `netbox-*` container logs
 1. Create new version tag on GitHub, following semantic versioning as: `MAJOR.MINOR.PATCH`
@@ -15,8 +17,7 @@
 
 ## Developer Guide (local installation)
 
-*Follow the steps below on your local system to run NetBox and the
-`netbox_slm` plugin in developer mode*
+*Follow the steps below on your local system to run NetBox and the `netbox_slm` plugin in developer mode*
 
 ### Setup
 
