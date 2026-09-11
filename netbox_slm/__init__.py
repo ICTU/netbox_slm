@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from netbox.plugins import PluginConfig
+from importlib.metadata import version
 
-__version__ = "1.9.0"
+from netbox.plugins import PluginConfig
 
 
 class SLMConfig(PluginConfig):
     name = "netbox_slm"
     verbose_name = "Software Lifecycle Management"
-    version = __version__
+    version = version("netbox-slm")
     description = "Software Lifecycle Management Netbox Plugin."
     author = "ICTU"
     author_email = "open-source-projects@ictu.nl"
@@ -34,6 +34,7 @@ class SLMConfig(PluginConfig):
         "link_device_installations": "right",
         "link_virtualmachine_installations": "right",
     }
+    min_version = "4.6.0"
 
 
 config = SLMConfig

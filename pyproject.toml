@@ -1,84 +1,75 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+build-backend = "uv_build"
+requires = [ "uv-build>=0.12,<0.13" ]
 
 [project]
 name = "netbox-slm"
-dynamic = ["version"]
+version = "1.9.1"
 description = "Software Lifecycle Management Netbox Plugin"
 readme = "README.md"
-requires-python = ">=3.11"
-license = { text = "Apache-2.0" }
-authors = [
-    {name = "ICTU", email = "open-source-projects@ictu.nl"},
+license = "Apache-2.0"
+license-files = [
+  "LICENSE",
 ]
+authors = [
+  { name = "ICTU", email = "open-source-projects@ictu.nl" },
+]
+requires-python = ">=3.11"
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Plugins",
-    "Environment :: Web Environment",
-    "Framework :: Django",
-    "Intended Audience :: Developers",
-    "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: Apache Software License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
-    "Programming Language :: Python",
-    "Topic :: Internet :: WWW/HTTP",
-    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Plugins",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
 dependencies = [
-    "license-expression == 30.4.4",
+  "license-expression==30.4.4",
 ]
-
-[project.optional-dependencies]
-build = [
-    "build == 1.5.0",
-    "setuptools == 82.0.1",
-    "twine == 6.2.0",
+optional-dependencies.build = [
+  "twine==7",
 ]
-ci = [
-    "coverage == 7.14.3",
-    "ruff == 0.15.19",
+optional-dependencies.ci = [
+  "coverage==7.16",
+  "ruff==0.16.6",
 ]
+urls.Changelog = "https://github.com/ICTU/netbox_slm/blob/master/CHANGELOG.md"
+urls.Homepage = "https://github.com/ICTU/netbox_slm/"
+urls.Issues = "https://github.com/ICTU/netbox_slm/issues/"
 
-[project.urls]
-Homepage = "https://github.com/ICTU/netbox_slm/"
-Changelog = "https://github.com/ICTU/netbox_slm/blob/master/CHANGELOG.md"
-Issues = "https://github.com/ICTU/netbox_slm/issues/"
-
-[tool.setuptools.dynamic]
-version = {attr = "netbox_slm.__version__"}
-
-[tool.setuptools.packages.find]
-include = ["netbox_slm"]
+[tool.uv]
+exclude-newer = "7 days"  # managed by Update-time — remove this comment to prevent Update-time from changing it
+build-backend.module-name = "netbox_slm"
+build-backend.module-root = ""
+build-backend.source-exclude = [ "tests" ]
+build-backend.source-include = [ "SECURITY.md" ]
 
 [tool.ruff]
-line-length = 120
 target-version = "py312"
-src = ["netbox_slm"]
-
-[tool.ruff.lint]
-select = [
-    "E",    # pycodestyle
-    "F",    # Pyflakes
-    "UP",   # pyupgrade
-    "B",    # flake8-bugbear
-    "SIM",  # flake8-simplify
+line-length = 120
+src = [ "netbox_slm" ]
+format.exclude = [ "netbox_slm/migrations/*.py" ]
+lint.select = [
+  "B",   # flake8-bugbear
+  "E",   # pycodestyle
+  "F",   # Pyflakes
+  "SIM", # flake8-simplify
+  "UP",  # pyupgrade
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = [
-    "D104",  # https://beta.ruff.rs/docs/rules/#pydocstyle-d - don't require doc strings in __init__.py files
-    "F401",  # https://beta.ruff.rs/docs/rules/#pyflakes-f - don't complain about unused imports in __init__.py files
+lint.per-file-ignores."__init__.py" = [
+  "D104", # https://beta.ruff.rs/docs/rules/#pydocstyle-d - don't require doc strings in __init__.py files
+  "F401", # https://beta.ruff.rs/docs/rules/#pyflakes-f - don't complain about unused imports in __init__.py files
 ]
-"netbox_slm/migrations/*.py" = [
-    "E501",  # https://beta.ruff.rs/docs/rules/line-too-long/ - don't check on Django generated migration files
+lint.per-file-ignores."netbox_slm/migrations/*.py" = [
+  "E501", # https://beta.ruff.rs/docs/rules/line-too-long/ - don't check on Django generated migration files
 ]
-
-[tool.ruff.format]
-exclude = ["netbox_slm/migrations/*.py"]

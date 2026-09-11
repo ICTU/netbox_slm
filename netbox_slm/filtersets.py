@@ -23,7 +23,7 @@ class SoftwareProductFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = SoftwareProduct
-        fields = tuple()
+        fields = ()
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
@@ -59,7 +59,7 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = SoftwareProductVersion
-        fields = tuple()
+        fields = ()
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
@@ -92,7 +92,7 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = SoftwareProductInstallation
-        fields = tuple()
+        fields = ()
 
     def search(self, queryset, name, value):
         """Perform the filtered search."""
