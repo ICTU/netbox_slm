@@ -34,7 +34,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=True,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params=dict(software_product="$software_product"),
+        query_params={"software_product": "$software_product"},
     )
 
     class Meta:
@@ -134,5 +134,5 @@ class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params=dict(software_product="$software_product"),
+        query_params={"software_product": "$software_product"},
     )

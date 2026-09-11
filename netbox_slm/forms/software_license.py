@@ -38,7 +38,7 @@ class SoftwareLicenseForm(NetBoxModelForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params=dict(software_product="$software_product"),
+        query_params={"software_product": "$software_product"},
     )
     installation = DynamicModelChoiceField(
         queryset=SoftwareProductInstallation.objects.all(),
@@ -46,7 +46,7 @@ class SoftwareLicenseForm(NetBoxModelForm):
         widget=APISelect(
             attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductinstallation-list")}
         ),
-        query_params=dict(software_product="$software_product"),
+        query_params={"software_product": "$software_product"},
     )
 
     class Meta:
@@ -187,7 +187,7 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params=dict(software_product="$software_product"),
+        query_params={"software_product": "$software_product"},
     )
     installation = DynamicModelChoiceField(
         queryset=SoftwareProductInstallation.objects.all(),
@@ -195,5 +195,5 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
         widget=APISelect(
             attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductinstallation-list")}
         ),
-        query_params=dict(software_product="$software_product"),
+        query_params={"software_product": "$software_product"},
     )

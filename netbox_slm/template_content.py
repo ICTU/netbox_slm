@@ -1,10 +1,10 @@
 from netbox.plugins import PluginTemplateExtension, get_plugin_config
 
-installations = dict(
-    device=get_plugin_config("netbox_slm", "link_device_installations"),
-    cluster=get_plugin_config("netbox_slm", "link_cluster_installations"),
-    virtualmachine=get_plugin_config("netbox_slm", "link_virtualmachine_installations"),
-)
+installations = {
+    "device": get_plugin_config("netbox_slm", "link_device_installations"),
+    "cluster": get_plugin_config("netbox_slm", "link_cluster_installations"),
+    "virtualmachine": get_plugin_config("netbox_slm", "link_virtualmachine_installations"),
+}
 
 
 class InstallationsCard(PluginTemplateExtension):
