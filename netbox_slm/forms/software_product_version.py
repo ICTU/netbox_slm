@@ -1,5 +1,4 @@
 from django.forms import DateField, CharField, MultipleChoiceField
-from django.urls import reverse_lazy
 
 from dcim.models import Manufacturer
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
@@ -11,7 +10,7 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
 )
 from utilities.forms.rendering import FieldSet
-from utilities.forms.widgets import APISelect, DatePicker
+from utilities.forms.widgets import DatePicker
 
 
 class SoftwareProductVersionForm(NetBoxModelForm):
@@ -24,7 +23,6 @@ class SoftwareProductVersionForm(NetBoxModelForm):
         queryset=SoftwareProduct.objects.all(),
         required=True,
         label="Software Product",
-        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproduct-list")}),
     )
 
     class Meta:
