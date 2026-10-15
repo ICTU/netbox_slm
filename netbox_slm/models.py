@@ -32,6 +32,9 @@ class SoftwareProduct(NetBoxModel):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ("name",)
+
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproduct", kwargs={"pk": self.pk})
 
@@ -78,6 +81,9 @@ class SoftwareProductVersion(NetBoxModel):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ("name",)
+
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproductversion", kwargs={"pk": self.pk})
 
@@ -104,6 +110,7 @@ class SoftwareProductInstallation(NetBoxModel):
         return f"{self.pk} ({self.platform})"
 
     class Meta:
+        ordering = ("id",)
         constraints = [
             models.CheckConstraint(
                 name="%(app_label)s_%(class)s_platform",
@@ -168,6 +175,9 @@ class SoftwareLicense(NetBoxModel):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ("name",)
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwarelicense", kwargs={"pk": self.pk})

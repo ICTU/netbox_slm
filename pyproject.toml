@@ -40,8 +40,8 @@ optional-dependencies.build = [
   "twine==7",
 ]
 optional-dependencies.ci = [
-  "coverage==7.16",
-  "ruff==0.16.6",
+  "coverage==7.16.2",
+  "ruff==0.16.10",
 ]
 urls.Changelog = "https://github.com/ICTU/netbox_slm/blob/master/CHANGELOG.md"
 urls.Homepage = "https://github.com/ICTU/netbox_slm/"
