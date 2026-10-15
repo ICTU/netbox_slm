@@ -1,5 +1,6 @@
 import django_tables2 as tables
-from django.db.models import Count, F, Value
+from django.db.models import Case, Count, Value, When
+from django.db.models.functions import Coalesce
 
 from netbox.tables import NetBoxTable, ToggleColumn, columns
 from netbox_slm.models import SoftwareProduct, SoftwareProductVersion, SoftwareProductInstallation, SoftwareLicense
@@ -87,7 +88,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
 
     pk = ToggleColumn()
     platform = tables.Column(accessor="platform", linkify=True)
-    type = tables.Column(accessor="render_type")
+    type = tables.Column(accessor="type")
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
@@ -116,18 +117,18 @@ class SoftwareProductInstallationTable(NetBoxTable):
         )
 
     def order_platform(self, queryset, is_descending):
-        device_annotate = queryset.filter(device__isnull=False).annotate(platform_value=F("device__name"))
-        vm_annotate = queryset.filter(virtualmachine__isnull=False).annotate(platform_value=F("virtualmachine__name"))
-        cluster_annotate = queryset.filter(cluster__isnull=False).annotate(platform_value=F("cluster__name"))
-        queryset_union = device_annotate.union(vm_annotate).union(cluster_annotate)
-        return queryset_union.order_by(f"{'-' if is_descending else ''}platform_value"), True
+        return queryset.annotate(
+            platform_value=Coalesce("device__name", "virtualmachine__name", "cluster__name")
+        ).order_by(f"{'-' if is_descending else ''}platform_value"), True
 
     def order_type(self, queryset, is_descending):
-        device_annotate = queryset.filter(device__isnull=False).annotate(render_type=Value("device"))
-        vm_annotate = queryset.filter(virtualmachine__isnull=False).annotate(render_type=Value("virtualmachine"))
-        cluster_annotate = queryset.filter(cluster__isnull=False).annotate(render_type=Value("cluster"))
-        queryset_union = device_annotate.union(vm_annotate).union(cluster_annotate)
-        return queryset_union.order_by(f"{'-' if is_descending else ''}render_type"), True
+        return queryset.annotate(
+            type_value=Case(
+                When(device__isnull=False, then=Value("device")),
+                When(virtualmachine__isnull=False, then=Value("virtualmachine")),
+                When(cluster__isnull=False, then=Value("cluster")),
+            ),
+        ).order_by(f"{'-' if is_descending else ''}type_value"), True
 
 
 class SoftwareLicenseTable(NetBoxTable):

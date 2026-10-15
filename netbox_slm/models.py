@@ -130,7 +130,8 @@ class SoftwareProductInstallation(NetBoxModel):
     def platform(self):
         return self.device or self.virtualmachine or self.cluster
 
-    def render_type(self):
+    @property
+    def type(self):
         if self.device:
             return "device"
         if self.virtualmachine:

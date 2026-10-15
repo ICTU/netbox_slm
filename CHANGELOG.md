@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Changed
+
+* Set default ordering for all SLM models (#75)
+
+### Fixed
+
+* Filtering software product installations by platform and/or type (#30)
+* Filtering in dropdown widgets (#83)
+
 ## [1.9.0](https://github.com/ICTU/netbox_slm/releases/tag/1.9.0) - 2026-06-25
 
 ### Changed
