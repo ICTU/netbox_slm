@@ -35,19 +35,19 @@ class ModelTestCase(SlmBaseTestCase):
         )
 
     def test_product_installation_methods(self):
-        self.assertEqual("virtualmachine", self.software_product_installation.render_type())
+        self.assertEqual("virtualmachine", self.software_product_installation.type)
         self.assertEqual(self.vm, self.software_product_installation.platform)
 
         self.software_product_installation.virtualmachine = None
         self.software_product_installation.device = self.device
         self.software_product_installation.save()
-        self.assertEqual("device", self.software_product_installation.render_type())
+        self.assertEqual("device", self.software_product_installation.type)
         self.assertEqual(self.device, self.software_product_installation.platform)
 
         self.software_product_installation.device = None
         self.software_product_installation.cluster = self.cluster
         self.software_product_installation.save()
-        self.assertEqual("cluster", self.software_product_installation.render_type())
+        self.assertEqual("cluster", self.software_product_installation.type)
         self.assertEqual(self.cluster, self.software_product_installation.platform)
 
     def test_software_license_stored_location_txt(self):

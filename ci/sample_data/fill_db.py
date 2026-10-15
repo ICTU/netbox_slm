@@ -401,6 +401,7 @@ SoftwareLicense.objects.create(
     support=False,
     installation=server01_docker,
     spdx_expression="Apache-2.0",
+    stored_location_url="https://docs.docker.com/engine/#licensing",
 )
 
 SoftwareLicense.objects.create(
