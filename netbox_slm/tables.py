@@ -180,3 +180,7 @@ class SoftwareLicenseTable(NetBoxTable):
 
     def render_installation(self, **kwargs):
         return f"{kwargs['record'].installation.platform}"
+
+    def order_stored_location(self, queryset, is_descending):
+        # Filter on the original field, ignoring injected content "Link"
+        return queryset.order_by(f"{'-' if is_descending else ''}stored_location"), True
