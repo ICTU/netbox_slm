@@ -33,6 +33,10 @@ class SLMConfig(PluginConfig):
         "link_cluster_installations": "right",
         "link_device_installations": "right",
         "link_virtualmachine_installations": "right",
+        "tab_weight_software_product": 420,
+        "tab_weight_software_product_installation": 422,
+        "tab_weight_software_product_version": 421,
+        "tab_weight_software_license": 423,
     }
     min_version = "4.6.0"
 

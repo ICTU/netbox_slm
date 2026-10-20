@@ -8,7 +8,11 @@ installations = {
 
 
 class InstallationsCard(PluginTemplateExtension):
-    models = ["dcim.device", "virtualization.cluster", "virtualization.virtualmachine"]
+    models = (
+        "dcim.device",
+        "virtualization.cluster",
+        "virtualization.virtualmachine",
+    )
 
     def get_object_name(self):
         object_model_meta = self.context["object"]._meta  # one of the self.models defined above

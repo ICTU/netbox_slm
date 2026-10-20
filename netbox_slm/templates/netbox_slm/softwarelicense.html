@@ -5,7 +5,7 @@
 {% load plugins %}
 
 {% block content %}
-<div class="row my-3">
+<div class="row">
 	<div class="col col-md-6">
         <div class="card">
             <h5 class="card-header">
@@ -18,15 +18,15 @@
                 </tr>
                 <tr>
                     <th scope="row">Description</th>
-                    <td>{{ object.description }}</td>
+                    <td>{{ object.description|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Type</th>
-                    <td>{{ object.type }}</td>
+                    <td>{{ object.type|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">SPDX expression</th>
-                    <td>{{ object.spdx_expression }}</td>
+                    <td>{{ object.spdx_expression|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Software Product</th>
@@ -34,42 +34,45 @@
                 </tr>
                 <tr>
                     <th scope="row">Version</th>
-                    <td>{{ object.version|linkify }}</td>
+                    <td>{{ object.version|linkify|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Installation</th>
-                    <td>{{ object.installation|linkify }}</td>
+                    <td>{{ object.installation|linkify|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Stored location</th>
 {% if object.stored_location_url %}
                     <td><a href="{{ object.stored_location_url }}">{{ object.stored_location_txt }}</a></td>
 {% else %}
-                    <td>{{ object.stored_location_txt }}</td>
+                    <td>{{ object.stored_location_txt|placeholder }}</td>
 {% endif %}
                 </tr>
                 <tr>
                     <th scope="row">Start date</th>
-                    <td>{{ object.start_date }}</td>
+                    <td>{{ object.start_date|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Expiration date</th>
-                    <td>{{ object.expiration_date }}</td>
+                    <td>{{ object.expiration_date|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Support</th>
-                    <td>{{ object.support }}</td>
+                    <td>{% checkmark object.support %}</td>
                 </tr>
                 <tr>
                     <th scope="row">License amount</th>
-                    <td>{{ object.license_amount }}</td>
+                    <td>{{ object.license_amount|placeholder }}</td>
                 </tr>
             </table>
         </div>
 {% include 'inc/panels/custom_fields.html' %}
+{% plugin_left_page object %}
+    </div>
+    <div class="col col-md-6">
 {% include 'inc/panels/tags.html' %}
 {% include 'inc/panels/comments.html' %}
-{% plugin_left_page object %}
+{% plugin_right_page object %}
     </div>
 </div>
 <div class="row">

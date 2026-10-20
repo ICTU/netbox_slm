@@ -1,5 +1,3 @@
-from rest_framework.routers import APIRootView
-
 from netbox.api.viewsets import NetBoxModelViewSet
 from netbox_slm.api.serializers import (
     SoftwareProductSerializer,
@@ -19,11 +17,6 @@ from netbox_slm.models import (
     SoftwareProductInstallation,
     SoftwareLicense,
 )
-
-
-class NetboxSLMRootView(APIRootView):
-    def get_view_name(self):
-        return "NetboxSLM"
 
 
 class SoftwareProductViewSet(NetBoxModelViewSet):
