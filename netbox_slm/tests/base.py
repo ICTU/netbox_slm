@@ -10,14 +10,15 @@ class SlmBaseTestCase(TestCase):
     v_name: str = "test version"
     l_name: str = "test license"
     test_url: str = "https://github.com/ICTU/netbox_slm"
+    cluster: Cluster
+    device: Device
     vm: VirtualMachine
     software_product: SoftwareProduct
     software_product_version: SoftwareProductVersion
     software_product_installation: SoftwareProductInstallation
 
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         manufacturer = Manufacturer.objects.create(name="test manufacturer")
         device_type = DeviceType.objects.create(model="test device type", manufacturer=manufacturer)
         device_role = DeviceRole.objects.create(name="test device role")
@@ -27,33 +28,54 @@ class SlmBaseTestCase(TestCase):
         cluster_type = ClusterType.objects.create(name="test cluster type")
         cls.cluster = Cluster.objects.create(name="test cluster", type=cluster_type)
 
-        cls.software_product = SoftwareProduct.objects.create(name=cls.p_name)
-        cls.software_product_version = SoftwareProductVersion.objects.create(
-            name=cls.v_name, software_product=cls.software_product
-        )
-        cls.software_product_installation = SoftwareProductInstallation.objects.create(
-            virtualmachine=cls.vm, software_product=cls.software_product, version=cls.software_product_version
-        )
-        cls.software_license = SoftwareLicense.objects.create(
-            name=cls.l_name,
-            software_product=cls.software_product,
-            version=cls.software_product_version,
-            installation=cls.software_product_installation,
-            stored_location_url=cls.test_url,
-        )
+        cls.bulk_edit_data = {"comments": "Blah Blah"}
 
-    @classmethod
-    def tearDownClass(cls):
-        SoftwareLicense.objects.all().delete()
-        SoftwareProductInstallation.objects.all().delete()
-        SoftwareProductVersion.objects.all().delete()
-        SoftwareProduct.objects.all().delete()
-        Cluster.objects.all().delete()
-        ClusterType.objects.all().delete()
-        VirtualMachine.objects.all().delete()
-        Device.objects.all().delete()
-        Site.objects.all().delete()
-        DeviceRole.objects.all().delete()
-        DeviceType.objects.all().delete()
-        Manufacturer.objects.all().delete()
-        super().tearDownClass()
+        software_products = (
+            SoftwareProduct(name=cls.p_name),
+            SoftwareProduct(name=cls.p_name + "2"),
+            SoftwareProduct(name=cls.p_name + "3"),
+        )
+        cls.software_product = SoftwareProduct.objects.bulk_create(software_products)[0]
+
+        software_product_versions = (
+            SoftwareProductVersion(name=cls.v_name, software_product=cls.software_product),
+            SoftwareProductVersion(name=cls.v_name + "2", software_product=cls.software_product),
+            SoftwareProductVersion(name=cls.v_name + "3", software_product=cls.software_product),
+        )
+        cls.software_product_version = SoftwareProductVersion.objects.bulk_create(software_product_versions)[0]
+
+        software_product_installations = (
+            SoftwareProductInstallation(
+                virtualmachine=cls.vm, software_product=cls.software_product, version=cls.software_product_version
+            ),
+            SoftwareProductInstallation(
+                device=cls.device, software_product=cls.software_product, version=cls.software_product_version
+            ),
+            SoftwareProductInstallation(
+                cluster=cls.cluster, software_product=cls.software_product, version=cls.software_product_version
+            ),
+        )
+        cls.software_product_installation = SoftwareProductInstallation.objects.bulk_create(
+            software_product_installations
+        )[0]
+
+        software_licenses = (
+            SoftwareLicense(
+                name=cls.l_name,
+                software_product=cls.software_product,
+                version=cls.software_product_version,
+                installation=cls.software_product_installation,
+                stored_location_url=cls.test_url,
+            ),
+            SoftwareLicense(
+                name=cls.l_name + "2",
+                software_product=cls.software_product,
+                version=cls.software_product_version,
+            ),
+            SoftwareLicense(
+                name=cls.l_name + "3",
+                software_product=cls.software_product,
+                installation=cls.software_product_installation,
+            ),
+        )
+        cls.software_license = SoftwareLicense.objects.bulk_create(software_licenses)[0]
