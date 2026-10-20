@@ -6,7 +6,7 @@ from netbox_slm.api.views import (
     SoftwareLicenseViewSet,
 )
 
-app_name = 'netbox_slm'
+app_name = "netbox_slm"
 
 router = NetBoxRouter()
 router.register("softwareproducts", SoftwareProductViewSet)
