@@ -108,23 +108,11 @@ class SoftwareProductInstallationViewTestCase(
         cls.form_data = {
             "device": cls.device.pk,
             "software_product": cls.software_product.pk,
-            "software_product_version": cls.software_product_version.pk,
+            "version": cls.software_product_version.pk,
         }
 
     def _get_base_url(self):
         return "plugins:netbox_slm:softwareproductinstallation_{}"
-
-    @skip("Not yet working")
-    def test_create_object_with_permission(self): ...
-
-    @skip("Not yet working")
-    def test_create_object_with_constrained_permission(self): ...
-
-    @skip("Not yet working")
-    def test_edit_object_with_permission(self): ...
-
-    @skip("Not yet working")
-    def test_edit_object_with_constrained_permission(self): ...
 
 
 class SoftwareLicenseViewTestCase(
