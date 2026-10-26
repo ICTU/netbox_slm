@@ -28,7 +28,8 @@ class SlmBaseTestCase(TestCase):
         cluster_type = ClusterType.objects.create(name="test cluster type")
         cls.cluster = Cluster.objects.create(name="test cluster", type=cluster_type)
 
-        cls.bulk_edit_data = {"comments": "Blah Blah"}
+        cls.bulk_edit_data = {"comments": "Blah Blah for view tests"}
+        cls.bulk_update_data = {"comments": "Blah Blah for api tests"}
 
         software_products = (
             SoftwareProduct(name=cls.p_name),

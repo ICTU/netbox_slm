@@ -1,10 +1,10 @@
 {
-  "softwarelicense:api_list_objects": 3,
+  "softwarelicense:api_list_objects": 15,
   "softwarelicense:list_objects_with_permission": 24,
-  "softwareproduct:api_list_objects": 3,
+  "softwareproduct:api_list_objects": 12,
   "softwareproduct:list_objects_with_permission": 24,
-  "softwareproductinstallation:api_list_objects": 3,
+  "softwareproductinstallation:api_list_objects": 16,
   "softwareproductinstallation:list_objects_with_permission": 26,
-  "softwareproductversion:api_list_objects": 3,
+  "softwareproductversion:api_list_objects": 13,
   "softwareproductversion:list_objects_with_permission": 25
 }
