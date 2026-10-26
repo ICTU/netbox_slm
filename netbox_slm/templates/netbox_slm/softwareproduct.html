@@ -5,7 +5,7 @@
 {% load plugins %}
 
 {% block content %}
-<div class="row my-3">
+<div class="row">
 	<div class="col col-md-6">
         <div class="card">
             <h5 class="card-header">
@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Description</th>
-                    <td>{{ object.description }}</td>
+                    <td>{{ object.description|placeholder }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Manufacturer</th>
@@ -32,7 +32,7 @@
                             {{ version }}
                         </a>
 {% empty %}
-                        None
+                        {{ ""|placeholder }}
 {% endfor %}
                     </td>
                 </tr>
@@ -44,7 +44,7 @@
                             {{ installation }}
                         </a>
 {% empty %}
-                        None
+                        {{ ""|placeholder }}
 {% endfor %}
                     </td>
                 </tr>
@@ -56,16 +56,19 @@
                             {{ license }}
                         </a>
 {% empty %}
-                        None
+                        {{ ""|placeholder }}
 {% endfor %}
                     </td>
                 </tr>
             </table>
         </div>
 {% include 'inc/panels/custom_fields.html' %}
+{% plugin_left_page object %}
+    </div>
+    <div class="col col-md-6">
 {% include 'inc/panels/tags.html' %}
 {% include 'inc/panels/comments.html' %}
-{% plugin_left_page object %}
+{% plugin_right_page object %}
     </div>
 </div>
 <div class="row">

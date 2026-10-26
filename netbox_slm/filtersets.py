@@ -10,9 +10,11 @@ from netbox_slm.models import (
     SoftwareLicense,
     SoftwareReleaseTypes,
 )
+from utilities.filtersets import register_filterset
 from virtualization.models import Cluster, VirtualMachine
 
 
+@register_filterset
 class SoftwareProductFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProduct instances."""
 
@@ -38,6 +40,7 @@ class SoftwareProductFilterSet(NetBoxModelFilterSet):
         return queryset.filter(qs_filter)
 
 
+@register_filterset
 class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProductVersion instances."""
 
@@ -75,6 +78,7 @@ class SoftwareProductVersionFilterSet(NetBoxModelFilterSet):
         return queryset.filter(qs_filter)
 
 
+@register_filterset
 class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareProductInstallation instances."""
 
@@ -107,6 +111,7 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
         return queryset.filter(qs_filter)
 
 
+@register_filterset
 class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
     """Filter capabilities for SoftwareLicense instances."""
 

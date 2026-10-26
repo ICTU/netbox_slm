@@ -5,7 +5,7 @@
 {% load plugins %}
 
 {% block content %}
-<div class="row my-3">
+<div class="row">
 	<div class="col col-md-6">
         <div class="card">
             <h5 class="card-header">
@@ -44,16 +44,19 @@
                             {{ license }}
                         </a>
 {% empty %}
-                        None
+                        {{ ""|placeholder }}
 {% endfor %}
                     </td>
                 </tr>
             </table>
         </div>
 {% include 'inc/panels/custom_fields.html' %}
+{% plugin_left_page object %}
+    </div>
+    <div class="col col-md-6">
 {% include 'inc/panels/tags.html' %}
 {% include 'inc/panels/comments.html' %}
-{% plugin_left_page object %}
+{% plugin_right_page object %}
     </div>
 </div>
 <div class="row">

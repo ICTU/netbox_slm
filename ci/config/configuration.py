@@ -14,13 +14,16 @@ DATABASES = {
         'HOST': environ.get('DB_HOST', 'localhost'),
         'PORT': environ.get('DB_PORT', ''),
         'CONN_MAX_AGE': int(environ.get('DB_CONN_MAX_AGE', '300')),
+        'TEST': {
+            'MIGRATE': 'TEST_SKIP_MIGRATE' not in environ,
+        },
     }
 }
 
 DEBUG = environ.get('DEBUG', 'False').lower() == 'true'
 DEVELOPER = environ.get('DEVELOPER', 'False').lower() == 'true'
 
-PLUGINS = ["netbox_slm"]
+PLUGINS = ['netbox_slm']
 
 REDIS = {
     'tasks': {
