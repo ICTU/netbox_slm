@@ -80,6 +80,7 @@ class SoftwareProductInstallationSerializer(NetBoxModelSerializer):
             "cluster",
             "software_product",
             "version",
+            "license",
             "tags",
             "comments",
             "custom_field_data",

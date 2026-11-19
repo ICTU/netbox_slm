@@ -92,6 +92,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
+    license = tables.Column(accessor="license", linkify=True)
 
     tags = columns.TagColumn(url_name="plugins:netbox_slm:softwareproductinstallation_list")
 
@@ -104,6 +105,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
             "manufacturer",
             "software_product",
             "version",
+            "license",
             "tags",
         )
         default_columns = (
@@ -113,6 +115,7 @@ class SoftwareProductInstallationTable(NetBoxTable):
             "manufacturer",
             "software_product",
             "version",
+            "license",
             "tags",
         )
 
@@ -144,7 +147,8 @@ class SoftwareLicenseTable(NetBoxTable):
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
-    installation = tables.Column(accessor="installation", linkify=True)
+    installation = tables.Column(accessor="installation", linkify=True)  # TODO: remove
+    installations = tables.Column(accessor="get_installation_count")
 
     tags = columns.TagColumn(url_name="plugins:netbox_slm:softwarelicense_list")
 
@@ -162,7 +166,8 @@ class SoftwareLicenseTable(NetBoxTable):
             "manufacturer",
             "software_product",
             "version",
-            "installation",
+            "installation",  # TODO: remove
+            "installations",
             "support",
             "license_amount",
             "tags",
@@ -173,13 +178,20 @@ class SoftwareLicenseTable(NetBoxTable):
             "type",
             "manufacturer",
             "software_product",
-            "installation",
+            "installation",  # TODO: remove
+            "installations",
             "expiration_date",
             "tags",
         )
 
-    def render_installation(self, **kwargs):
+    def render_installation(self, **kwargs):  # TODO: remove
         return f"{kwargs['record'].installation.platform}"
+
+    def order_installations(self, queryset, is_descending):
+        queryset = queryset.annotate(count=Count("softwareproductinstallation__id")).order_by(
+            ("-" if is_descending else "") + "count"
+        )
+        return queryset, True
 
     def order_stored_location(self, queryset, is_descending):
         # Filter on the original field, ignoring injected content "Link"

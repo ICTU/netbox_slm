@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 
 from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
-from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
+from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion, SoftwareLicense
 from utilities.forms.fields import (
     CommentField,
     DynamicModelChoiceField,
@@ -36,6 +36,12 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
         query_params={"software_product_id": "$software_product"},
     )
+    license = DynamicModelChoiceField(
+        queryset=SoftwareLicense.objects.all(),
+        required=False,
+        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwarelicense-list")}),
+        query_params={"software_product_id": "$software_product"},
+    )  # TODO - also include version id to narrow widget list ?
 
     class Meta:
         model = SoftwareProductInstallation
@@ -45,6 +51,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
             "cluster",
             "software_product",
             "version",
+            "license",
             "tags",
             "comments",
         )
@@ -95,6 +102,11 @@ class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
         required=False,
         label="Version",
     )
+    license_id = DynamicModelMultipleChoiceField(
+        queryset=SoftwareLicense.objects.all(),
+        required=False,
+        label="License",
+    )
 
 
 class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):
@@ -106,13 +118,14 @@ class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):
             "cluster",
             "software_product",
             "version",
+            "license",
             "tags",
         )
 
 
 class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
     model = SoftwareProductInstallation
-    fieldsets = (FieldSet("device", "virtualmachine", "cluster", "software_product", "version"),)
+    fieldsets = (FieldSet("device", "virtualmachine", "cluster", "software_product", "version", "license"),)
     nullable_fields = ("device", "virtualmachine", "cluster", "comments")
 
     tag = TagFilterField(model)
@@ -136,3 +149,9 @@ class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
         query_params={"software_product_id": "$software_product"},
     )
+    license = DynamicModelChoiceField(
+        queryset=SoftwareLicense.objects.all(),
+        required=False,
+        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwarelicense-list")}),
+        query_params={"software_product_id": "$software_product"},
+    )  # TODO - also include version id to narrow widget list ?

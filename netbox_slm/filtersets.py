@@ -93,6 +93,7 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
         label="Software Product",
     )
     version_id = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
+    license_id = ModelMultipleChoiceFilter(queryset=SoftwareLicense.objects.all())
 
     class Meta:
         model = SoftwareProductInstallation
@@ -106,6 +107,7 @@ class SoftwareProductInstallationFilterSet(NetBoxModelFilterSet):
             Q(software_product__name__icontains=value)
             | Q(software_product__manufacturer__name__icontains=value)
             | Q(version__name__icontains=value)
+            | Q(license__name__icontains=value)
             | Q(comments__icontains=value)
         )
         return queryset.filter(qs_filter)

@@ -101,8 +101,10 @@ class SoftwareProductInstallation(NetBoxModel):
         to="virtualization.VirtualMachine", on_delete=models.PROTECT, null=True, blank=True
     )
     cluster = models.ForeignKey(to="virtualization.Cluster", on_delete=models.PROTECT, null=True, blank=True)
+
     software_product = models.ForeignKey(to="netbox_slm.SoftwareProduct", on_delete=models.PROTECT)
     version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT)
+    license = models.ForeignKey(to="netbox_slm.SoftwareLicense", on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = RestrictedQuerySet.as_manager()
 
@@ -182,6 +184,11 @@ class SoftwareLicense(NetBoxModel):
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwarelicense", kwargs={"pk": self.pk})
+
+    def get_installation_count(self):
+        count = SoftwareProductInstallation.objects.filter(license_id=self.pk).count()
+        search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list", query={"license_id": self.pk})
+        return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
 
     @property
     def stored_location_txt(self):

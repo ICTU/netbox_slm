@@ -33,6 +33,10 @@ class ModelTestCase(SlmBaseTestCase):
             f"<a href='/plugins/slm/installations/?version_id={self.software_product_version.pk}'>3</a>",
             self.software_product_version.get_installation_count(),
         )
+        self.assertEqual(
+            f"<a href='/plugins/slm/installations/?license_id={self.software_license.pk}'>0</a>",
+            self.software_license.get_installation_count(),
+        )
 
     def test_product_installation_methods(self):
         self.assertEqual("virtualmachine", self.software_product_installation.type)

@@ -78,12 +78,6 @@ class SoftwareProductLicenseTabListView(SoftwareLicenseTabMixin):
     hide_column_names = ("software_product",)
 
 
-@register_model_view(models.SoftwareProductInstallation, name="licenses")
-class SoftwareProductInstallationLicenseTabListView(SoftwareLicenseTabMixin):
-    queryset = models.SoftwareProductInstallation.objects.all()
-    hide_column_names = ("installation",)
-
-
 @register_model_view(models.SoftwareProductVersion, name="licenses")
 class SoftwareProductVersionLicenseTabListView(SoftwareLicenseTabMixin):
     queryset = models.SoftwareProductVersion.objects.all()

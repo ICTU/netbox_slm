@@ -377,15 +377,6 @@ server20_vcenter = SoftwareProductInstallation.objects.create(
     device=device_server20, software_product=software_product_vcenter, version=vcenter_v9_0_1
 )
 
-for vm_num in vm_numbers:
-    vm_obj = VirtualMachine.objects.get(name=f"vm{vm_num}")
-    SoftwareProductInstallation.objects.create(
-        virtualmachine=vm_obj, software_product=software_product_rhel, version=rhel_9_8
-    )
-    SoftwareProductInstallation.objects.create(
-        virtualmachine=vm_obj, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
-    )
-
 installation_es1 = SoftwareProductInstallation.objects.create(
     cluster=cluster_es1, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
 )
@@ -532,7 +523,7 @@ SoftwareLicense.objects.create(
     stored_location="Red Hat Customer Portal",
     stored_location_url="https://access.redhat.com/",
 )
-SoftwareLicense.objects.create(
+software_license_rhel_virtual = SoftwareLicense.objects.create(
     name="Red Hat Enterprise Linux for Virtual Datacenters",
     software_product=software_product_rhel,
     type="Cluster-wide",
@@ -573,3 +564,13 @@ SoftwareLicense.objects.create(
     support=True,
     installation=server20_vcenter,
 )
+
+# Add some more installations with license link
+for vm_num in vm_numbers:
+    vm_obj = VirtualMachine.objects.get(name=f"vm{vm_num}")
+    SoftwareProductInstallation.objects.create(
+        virtualmachine=vm_obj, software_product=software_product_rhel, version=rhel_9_8, license=software_license_rhel_virtual
+    )
+    SoftwareProductInstallation.objects.create(
+        virtualmachine=vm_obj, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
+    )

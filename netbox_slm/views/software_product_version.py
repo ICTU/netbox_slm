@@ -38,7 +38,7 @@ class SoftwareProductVersionTabMixin(generic.ObjectChildrenView):
 class SoftwareProductVersionView(generic.ObjectView):
     queryset = models.SoftwareProductVersion.objects.all()
 
-    def get_extra_context(self, request, instance):
+    def get_extra_context(self, request, instance):  # TODO - is this used?
         installation_count = instance.get_installation_count()
         return {"installations": installation_count}
 

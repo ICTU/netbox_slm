@@ -37,6 +37,10 @@
                     <td>{{ object.version|linkify }}</td>
                 </tr>
                 <tr>
+                    <th scope="row">License</th>
+                    <td>{{ object.license|linkify }}</td>
+                </tr>
+                <tr>{# TODO: remove #}
                     <th scope="row">Licenses</th>
                     <td>
 {% for license in object.softwarelicense_set.all %}
