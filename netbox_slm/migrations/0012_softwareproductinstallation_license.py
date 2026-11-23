@@ -4,6 +4,14 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
+def copy_existing_installation_licenses(apps, schema_editor):
+    SoftwareLicense = apps.get_model("netbox_slm", "SoftwareLicense")
+    for license_with_installation in SoftwareLicense.objects.filter(installation__isnull=False):
+        installation = license_with_installation.installation
+        installation.license = license_with_installation
+        installation.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -16,4 +24,5 @@ class Migration(migrations.Migration):
             name='license',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='netbox_slm.softwarelicense'),
         ),
+        migrations.RunPython(copy_existing_installation_licenses, reverse_code=migrations.RunPython.noop),
     ]
