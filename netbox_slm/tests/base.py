@@ -16,6 +16,7 @@ class SlmBaseTestCase(TestCase):
     software_product: SoftwareProduct
     software_product_version: SoftwareProductVersion
     software_product_installation: SoftwareProductInstallation
+    software_license: SoftwareLicense
 
     @classmethod
     def setUpTestData(cls):
@@ -45,9 +46,31 @@ class SlmBaseTestCase(TestCase):
         )
         cls.software_product_version = SoftwareProductVersion.objects.bulk_create(software_product_versions)[0]
 
+        software_licenses = (
+            SoftwareLicense(
+                name=cls.l_name,
+                software_product=cls.software_product,
+                version=cls.software_product_version,
+                stored_location_url=cls.test_url,
+            ),
+            SoftwareLicense(
+                name=cls.l_name + "2",
+                software_product=cls.software_product,
+                version=cls.software_product_version,
+            ),
+            SoftwareLicense(
+                name=cls.l_name + "3",
+                software_product=cls.software_product,
+            ),
+        )
+        cls.software_license = SoftwareLicense.objects.bulk_create(software_licenses)[0]
+
         software_product_installations = (
             SoftwareProductInstallation(
-                virtualmachine=cls.vm, software_product=cls.software_product, version=cls.software_product_version
+                virtualmachine=cls.vm,
+                software_product=cls.software_product,
+                version=cls.software_product_version,
+                license=cls.software_license,
             ),
             SoftwareProductInstallation(
                 device=cls.device, software_product=cls.software_product, version=cls.software_product_version
@@ -59,24 +82,3 @@ class SlmBaseTestCase(TestCase):
         cls.software_product_installation = SoftwareProductInstallation.objects.bulk_create(
             software_product_installations
         )[0]
-
-        software_licenses = (
-            SoftwareLicense(
-                name=cls.l_name,
-                software_product=cls.software_product,
-                version=cls.software_product_version,
-                installation=cls.software_product_installation,
-                stored_location_url=cls.test_url,
-            ),
-            SoftwareLicense(
-                name=cls.l_name + "2",
-                software_product=cls.software_product,
-                version=cls.software_product_version,
-            ),
-            SoftwareLicense(
-                name=cls.l_name + "3",
-                software_product=cls.software_product,
-                installation=cls.software_product_installation,
-            ),
-        )
-        cls.software_license = SoftwareLicense.objects.bulk_create(software_licenses)[0]

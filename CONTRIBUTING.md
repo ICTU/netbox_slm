@@ -7,7 +7,7 @@ Additionally, review the [README](./README.md) document and [NetBox Plugin Devel
 
 ## How do I make a contribution?
 
-Never made an open source contribution before? Wondering how contributions work in the in our project? Here's a quick rundown!
+Never made an open source contribution before? Wondering how contributions work in the in our project? Here's a quick rundown:
 
 1. Find an issue that you are interested in addressing or a feature that you would like to add.
 2. Fork the repository associated with the issue to your local GitHub organization. This means that you will have a copy of the repository under **your-GitHub-username/repository-name**.
@@ -19,7 +19,7 @@ Never made an open source contribution before? Wondering how contributions work 
 8. Push the changes to the remote repository using `git push origin branch-name-here`.
 9. Submit a pull request to the upstream repository.
 10. Title the pull request with a short description of the changes made and the issue or bug number associated with your change. For example, you can title an issue like so "Added more log outputting to resolve #4352".
-11. In the description of the pull request, explain the changes that you made, any issues you think exist with the pull request you made, and any questions you have for the maintainer. It's OK if your pull request is not perfect (no pull request is), the reviewer will be able to help you fix any problems and improve it!
+11. In the description of the pull request, explain the changes that you made, any issues you think exist with the pull request you made, and any questions you have for the maintainer. It's OK if your pull request is not perfect (no pull request is), the reviewer will be able to help you fix any problems and improve it.
 12. Wait for the pull request to be reviewed by a maintainer.
 13. Make changes to the pull request if the reviewing maintainer recommends them.
 14. Celebrate your success after your pull request is merged!

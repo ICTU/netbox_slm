@@ -147,7 +147,6 @@ class SoftwareLicenseTable(NetBoxTable):
     manufacturer = tables.Column(accessor="software_product__manufacturer", linkify=True)
     software_product = tables.Column(accessor="software_product", verbose_name="Software Product", linkify=True)
     version = tables.Column(accessor="version", linkify=True)
-    installation = tables.Column(accessor="installation", linkify=True)  # TODO: remove
     installations = tables.Column(accessor="get_installation_count")
 
     tags = columns.TagColumn(url_name="plugins:netbox_slm:softwarelicense_list")
@@ -166,7 +165,6 @@ class SoftwareLicenseTable(NetBoxTable):
             "manufacturer",
             "software_product",
             "version",
-            "installation",  # TODO: remove
             "installations",
             "support",
             "license_amount",
@@ -178,14 +176,10 @@ class SoftwareLicenseTable(NetBoxTable):
             "type",
             "manufacturer",
             "software_product",
-            "installation",  # TODO: remove
             "installations",
             "expiration_date",
             "tags",
         )
-
-    def render_installation(self, **kwargs):  # TODO: remove
-        return f"{kwargs['record'].installation.platform}"
 
     def order_installations(self, queryset, is_descending):
         queryset = queryset.annotate(count=Count("softwareproductinstallation__id")).order_by(

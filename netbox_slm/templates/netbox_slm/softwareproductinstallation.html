@@ -40,18 +40,6 @@
                     <th scope="row">License</th>
                     <td>{{ object.license|linkify }}</td>
                 </tr>
-                <tr>{# TODO: remove #}
-                    <th scope="row">Licenses</th>
-                    <td>
-{% for license in object.softwarelicense_set.all %}
-                        <a href="{% url 'plugins:netbox_slm:softwarelicense' pk=license.pk %}" class="btn btn-sm">
-                            {{ license }}
-                        </a>
-{% empty %}
-                        {{ ""|placeholder }}
-{% endfor %}
-                    </td>
-                </tr>
             </table>
         </div>
 {% include 'inc/panels/custom_fields.html' %}
