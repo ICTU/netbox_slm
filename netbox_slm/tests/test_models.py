@@ -2,8 +2,7 @@ from .base import SlmBaseTestCase
 
 
 class ModelTestCase(SlmBaseTestCase):
-    """Test basic model functionality and custom overrides"""
-
+    # Test basic model functionality and custom overrides
     def test_model_name(self):
         self.assertEqual(self.p_name, str(self.software_product))
         self.assertEqual(self.v_name, str(self.software_product_version))
@@ -32,6 +31,10 @@ class ModelTestCase(SlmBaseTestCase):
         self.assertEqual(
             f"<a href='/plugins/slm/installations/?version_id={self.software_product_version.pk}'>3</a>",
             self.software_product_version.get_installation_count(),
+        )
+        self.assertEqual(
+            f"<a href='/plugins/slm/installations/?license_id={self.software_license.pk}'>1</a>",
+            self.software_license.get_installation_count(),
         )
 
     def test_product_installation_methods(self):

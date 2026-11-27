@@ -27,15 +27,19 @@ jobs:
         persist-credentials: false
 
     - name: Set up Python
-      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
       with:
         python-version: ${{ matrix.python-version }}
+        cache: pip
 
     - name: Install ci tools
-      run: pip install .[ci]
+      run: pip install --group ci
 
     - name: Run ruff lint
       run: ruff check netbox_slm
 
     - name: Run ruff format
       run: ruff format --check netbox_slm
+
+    - name: Run simplint
+      run: simplint check netbox_slm

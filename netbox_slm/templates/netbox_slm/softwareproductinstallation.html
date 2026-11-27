@@ -37,16 +37,8 @@
                     <td>{{ object.version|linkify }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Licenses</th>
-                    <td>
-{% for license in object.softwarelicense_set.all %}
-                        <a href="{% url 'plugins:netbox_slm:softwarelicense' pk=license.pk %}" class="btn btn-sm">
-                            {{ license }}
-                        </a>
-{% empty %}
-                        {{ ""|placeholder }}
-{% endfor %}
-                    </td>
+                    <th scope="row">License</th>
+                    <td>{{ object.license|linkify }}</td>
                 </tr>
             </table>
         </div>

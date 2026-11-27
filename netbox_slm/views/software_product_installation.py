@@ -86,6 +86,12 @@ class SoftwareProductVersionInstallationTabListView(SoftwareProductInstallationT
     hide_column_names = ("version",)
 
 
+@register_model_view(models.SoftwareLicense, name="installations")
+class SoftwareLicenseInstallationTabListView(SoftwareProductInstallationTabMixin):
+    queryset = models.SoftwareLicense.objects.all()
+    hide_column_names = ("license",)
+
+
 @register_model_view(Device, name="slm-installations")
 class DeviceInstallationTabListView(SoftwareProductInstallationTabMixin):
     queryset = Device.objects.all()

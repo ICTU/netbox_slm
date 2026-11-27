@@ -1,4 +1,4 @@
 FROM netboxcommunity/netbox:v4.6.3
 COPY ../LICENSE ../README.md ../SECURITY.md ../pyproject.toml ../uv.lock /tmp/
 COPY ../netbox_slm /tmp/netbox_slm
-RUN uv pip install /tmp/ netbox-slm[ci]
+RUN cd /tmp/ && uv pip install . netbox-slm --group ci

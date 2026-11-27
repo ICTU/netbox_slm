@@ -323,103 +323,30 @@ windows_server_2025 = SoftwareProductVersion.objects.create(
     documentation_url="https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0.html",
 )
 
-# SLM product installations
-installation_esxi = {}
-for server_num in server_numbers:
-    device_obj = Device.objects.get(name=f"server{server_num}")
-    SoftwareProductInstallation.objects.create(
-        device=device_obj,
-        software_product=software_product_bios,
-        version=bios_v2_27_0,
-    )
-    installation_esxi[server_num] = SoftwareProductInstallation.objects.create(
-        device=device_obj,
-        software_product=software_product_esxi,
-        version=esxi_v9_1_1_0,
-    )
-SoftwareProductInstallation.objects.create(
-    device=device_router01, software_product=software_product_ios_xe, version=ios_xe_v26_2_1
-)
-SoftwareProductInstallation.objects.create(
-    device=device_switch01, software_product=software_product_ios, version=ios_xe_v26_2_1
-)
-SoftwareProductInstallation.objects.create(
-    device=device_switch02, software_product=software_product_ios, version=ios_xe_v26_2_1
-)
-SoftwareProductInstallation.objects.create(
-    device=device_switch10, software_product=software_product_ios, version=ios_v15_9
-)
-server01_docker = SoftwareProductInstallation.objects.create(
-    device=device_server01, software_product=software_product_docker, version=docker_v29_9_1
-)
-server01_idrac = SoftwareProductInstallation.objects.create(
-    device=device_server01, software_product=software_product_idrac, version=idrac_v7_30_30_51
-)
-SoftwareProductInstallation.objects.create(
-    device=device_server01, software_product=software_product_netbox, version=netbox_v4_6_3
-)
-SoftwareProductInstallation.objects.create(
-    device=device_server01, software_product=software_product_quality_time, version=quality_time_v5_60_1
-)
-SoftwareProductInstallation.objects.create(
-    device=device_server01, software_product=software_product_rhel, version=rhel_9_8
-)
-server01_sonar = SoftwareProductInstallation.objects.create(
-    device=device_server01, software_product=software_product_sonarqube, version=sonarqube_v2026_4_1
-)
-SoftwareProductInstallation.objects.create(
-    device=device_server02, software_product=software_product_windows_server, version=windows_server_2025
-)
-server10_vcenter = SoftwareProductInstallation.objects.create(
-    device=device_server10, software_product=software_product_vcenter, version=vcenter_v9_0_2
-)
-server20_vcenter = SoftwareProductInstallation.objects.create(
-    device=device_server20, software_product=software_product_vcenter, version=vcenter_v9_0_1
-)
-
-for vm_num in vm_numbers:
-    vm_obj = VirtualMachine.objects.get(name=f"vm{vm_num}")
-    SoftwareProductInstallation.objects.create(
-        virtualmachine=vm_obj, software_product=software_product_rhel, version=rhel_9_8
-    )
-    SoftwareProductInstallation.objects.create(
-        virtualmachine=vm_obj, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
-    )
-
-installation_es1 = SoftwareProductInstallation.objects.create(
-    cluster=cluster_es1, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
-)
-installation_es2 = SoftwareProductInstallation.objects.create(
-    cluster=cluster_es2, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
-)
-
 # SLM licenses
-SoftwareLicense.objects.create(
+server01_docker = SoftwareLicense.objects.create(
     name="Docker Engine",
     software_product=software_product_docker,
     type="Free",
     support=False,
-    installation=server01_docker,
     spdx_expression="Apache-2.0",
     stored_location_url="https://docs.docker.com/engine/#licensing",
 )
 
-SoftwareLicense.objects.create(
+installation_es1 = SoftwareLicense.objects.create(
     name="ES1 - Basic",
     software_product=software_product_elasticsearch,
     type="Resource based",
     start_date=date(day=1, month=1, year=2025),
     support=False,
-    installation=installation_es1,
     spdx_expression="Elastic-2.0",
 )
-SoftwareLicense.objects.create(
+installation_es2 = SoftwareLicense.objects.create(
     name="ES2 - Basic",
     software_product=software_product_elasticsearch,
     type="Resource based",
     start_date=date(day=1, month=1, year=2025),
     support=False,
-    installation=installation_es2,
     spdx_expression="Elastic-2.0",
 )
 
@@ -439,7 +366,6 @@ SoftwareLicense.objects.create(
     type="Resource based",
     start_date=date(day=9, month=7, year=2025),
     support=True,
-    installation=installation_esxi[10],
     version=esxi_v9x,
     stored_location="Vault",
 )
@@ -449,7 +375,6 @@ SoftwareLicense.objects.create(
     type="Resource based",
     start_date=date(day=9, month=7, year=2025),
     support=True,
-    installation=installation_esxi[11],
     version=esxi_v9x,
     stored_location="Vault",
 )
@@ -459,7 +384,6 @@ SoftwareLicense.objects.create(
     type="Resource based",
     start_date=date(day=9, month=7, year=2025),
     support=True,
-    installation=installation_esxi[12],
     version=esxi_v9x,
     stored_location="Vault",
 )
@@ -469,7 +393,6 @@ SoftwareLicense.objects.create(
     type="Resource based",
     start_date=date(day=9, month=7, year=2025),
     support=True,
-    installation=installation_esxi[20],
     version=esxi_v9x,
     stored_location="Vault",
 )
@@ -479,7 +402,6 @@ SoftwareLicense.objects.create(
     type="Resource based",
     start_date=date(day=9, month=7, year=2025),
     support=True,
-    installation=installation_esxi[21],
     version=esxi_v9x,
     stored_location="Vault",
 )
@@ -489,7 +411,6 @@ SoftwareLicense.objects.create(
     type="Resource based",
     start_date=date(day=9, month=7, year=2025),
     support=True,
-    installation=installation_esxi[22],
     version=esxi_v9x,
     stored_location="Vault",
 )
@@ -512,13 +433,12 @@ SoftwareLicense.objects.create(
     stored_location="Dell Digital Locker",
     stored_location_url="https://www.dell.com/myaccount/en-us",
 )
-SoftwareLicense.objects.create(
+server01_idrac = SoftwareLicense.objects.create(
     name="Enterprise iDRAC",
     software_product=software_product_idrac,
     type="Features",
     start_date=date(day=21, month=7, year=2026),
     support=True,
-    installation=server01_idrac,
     stored_location="Dell Digital Locker",
     stored_location_url="https://www.dell.com/myaccount/en-us",
 )
@@ -532,7 +452,7 @@ SoftwareLicense.objects.create(
     stored_location="Red Hat Customer Portal",
     stored_location_url="https://access.redhat.com/",
 )
-SoftwareLicense.objects.create(
+software_license_rhel_virtual = SoftwareLicense.objects.create(
     name="Red Hat Enterprise Linux for Virtual Datacenters",
     software_product=software_product_rhel,
     type="Cluster-wide",
@@ -541,13 +461,12 @@ SoftwareLicense.objects.create(
     stored_location_url="https://console.redhat.com/",
 )
 
-SoftwareLicense.objects.create(
+server01_sonar = SoftwareLicense.objects.create(
     name="server01 - 100k LoC",
     software_product=software_product_sonarqube,
     type="Size based",
     start_date=date(day=4, month=12, year=2024),
     support=True,
-    installation=server01_sonar,
     stored_location="Vault",
 )
 
@@ -559,17 +478,86 @@ SoftwareLicense.objects.create(
     start_date=date(day=7, month=10, year=2024),
     expiration_date=date(day=7, month=10, year=2025),
 )
-SoftwareLicense.objects.create(
+server10_vcenter = SoftwareLicense.objects.create(
     name="vCenter Server Foundation",
     software_product=software_product_vcenter,
     type="Server instance",
     support=True,
-    installation=server10_vcenter,
 )
-SoftwareLicense.objects.create(
+server20_vcenter = SoftwareLicense.objects.create(
     name="vCenter Server Standard",
     software_product=software_product_vcenter,
     type="Server instance",
     support=True,
-    installation=server20_vcenter,
 )
+
+
+# SLM product installations
+for server_num in server_numbers:
+    device_obj = Device.objects.get(name=f"server{server_num}")
+    SoftwareProductInstallation.objects.create(
+        device=device_obj,
+        software_product=software_product_bios,
+        version=bios_v2_27_0,
+    )
+    SoftwareProductInstallation.objects.create(
+        device=device_obj,
+        software_product=software_product_esxi,
+        version=esxi_v9_1_1_0,
+        license=SoftwareLicense.objects.get(name__startswith=device_obj.name),
+    )
+SoftwareProductInstallation.objects.create(
+    device=device_router01, software_product=software_product_ios_xe, version=ios_xe_v26_2_1
+)
+SoftwareProductInstallation.objects.create(
+    device=device_switch01, software_product=software_product_ios, version=ios_xe_v26_2_1
+)
+SoftwareProductInstallation.objects.create(
+    device=device_switch02, software_product=software_product_ios, version=ios_xe_v26_2_1
+)
+SoftwareProductInstallation.objects.create(
+    device=device_switch10, software_product=software_product_ios, version=ios_v15_9
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server01, software_product=software_product_docker, version=docker_v29_9_1, license=server01_docker
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server01, software_product=software_product_idrac, version=idrac_v7_30_30_51, license=server01_idrac
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server01, software_product=software_product_netbox, version=netbox_v4_6_3
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server01, software_product=software_product_quality_time, version=quality_time_v5_60_1
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server01, software_product=software_product_rhel, version=rhel_9_8
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server01, software_product=software_product_sonarqube, version=sonarqube_v2026_4_1, license=server01_sonar
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server02, software_product=software_product_windows_server, version=windows_server_2025
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server10, software_product=software_product_vcenter, version=vcenter_v9_0_2, license=server10_vcenter
+)
+SoftwareProductInstallation.objects.create(
+    device=device_server20, software_product=software_product_vcenter, version=vcenter_v9_0_1, license=server20_vcenter
+)
+
+SoftwareProductInstallation.objects.create(
+    cluster=cluster_es1, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5, license=installation_es1
+)
+SoftwareProductInstallation.objects.create(
+    cluster=cluster_es2, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5, license=installation_es2
+)
+
+for vm_num in vm_numbers:
+    vm_obj = VirtualMachine.objects.get(name=f"vm{vm_num}")
+    SoftwareProductInstallation.objects.create(
+        virtualmachine=vm_obj, software_product=software_product_rhel, version=rhel_9_8, license=software_license_rhel_virtual
+    )
+    SoftwareProductInstallation.objects.create(
+        virtualmachine=vm_obj, software_product=software_product_elasticsearch, version=elasticsearch_v9_5_5
+    )

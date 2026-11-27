@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 
 from dcim.models import Device
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
-from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion
+from netbox_slm.models import SoftwareProductInstallation, SoftwareProduct, SoftwareProductVersion, SoftwareLicense
 from utilities.forms.fields import (
     CommentField,
     DynamicModelChoiceField,
@@ -13,6 +13,9 @@ from utilities.forms.fields import (
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import APISelect
 from virtualization.models import Cluster, VirtualMachine
+
+
+_software_product_query_params = {"software_product_id": "$software_product"}
 
 
 class SoftwareProductInstallationForm(NetBoxModelForm):
@@ -34,7 +37,13 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=True,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={"software_product_id": "$software_product"},
+        query_params=_software_product_query_params,
+    )
+    license = DynamicModelChoiceField(
+        queryset=SoftwareLicense.objects.all(),
+        required=False,
+        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwarelicense-list")}),
+        query_params=_software_product_query_params,
     )
 
     class Meta:
@@ -45,6 +54,7 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
             "cluster",
             "software_product",
             "version",
+            "license",
             "tags",
             "comments",
         )
@@ -95,6 +105,11 @@ class SoftwareProductInstallationFilterForm(NetBoxModelFilterSetForm):
         required=False,
         label="Version",
     )
+    license_id = DynamicModelMultipleChoiceField(
+        queryset=SoftwareLicense.objects.all(),
+        required=False,
+        label="License",
+    )
 
 
 class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):
@@ -106,13 +121,14 @@ class SoftwareProductInstallationBulkImportForm(NetBoxModelImportForm):
             "cluster",
             "software_product",
             "version",
+            "license",
             "tags",
         )
 
 
 class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
     model = SoftwareProductInstallation
-    fieldsets = (FieldSet("device", "virtualmachine", "cluster", "software_product", "version"),)
+    fieldsets = (FieldSet("device", "virtualmachine", "cluster", "software_product", "version", "license"),)
     nullable_fields = ("device", "virtualmachine", "cluster", "comments")
 
     tag = TagFilterField(model)
@@ -134,5 +150,11 @@ class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={"software_product_id": "$software_product"},
+        query_params=_software_product_query_params,
+    )
+    license = DynamicModelChoiceField(
+        queryset=SoftwareLicense.objects.all(),
+        required=False,
+        widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwarelicense-list")}),
+        query_params=_software_product_query_params,
     )

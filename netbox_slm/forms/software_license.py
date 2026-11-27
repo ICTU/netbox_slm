@@ -5,7 +5,6 @@ from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelI
 from netbox_slm.models import (
     SoftwareProduct,
     SoftwareProductVersion,
-    SoftwareProductInstallation,
     SoftwareLicense,
     spdx_license_names,
 )
@@ -40,14 +39,6 @@ class SoftwareLicenseForm(NetBoxModelForm):
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
         query_params={"software_product_id": "$software_product"},
     )
-    installation = DynamicModelChoiceField(
-        queryset=SoftwareProductInstallation.objects.all(),
-        required=False,
-        widget=APISelect(
-            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductinstallation-list")}
-        ),
-        query_params={"software_product_id": "$software_product"},
-    )
 
     class Meta:
         model = SoftwareLicense
@@ -64,7 +55,6 @@ class SoftwareLicenseForm(NetBoxModelForm):
             "support",
             "license_amount",
             "version",
-            "installation",
             "tags",
             "comments",
         )
@@ -83,7 +73,6 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
             "support",
             "software_product_id",
             "version_id",
-            "installation_id",
         ),
     )
     selector_fields = ("q", "filter_id", "name")
@@ -107,11 +96,6 @@ class SoftwareLicenseFilterForm(NetBoxModelFilterSetForm):
         required=False,
         label="Version",
     )
-    installation_id = DynamicModelMultipleChoiceField(
-        queryset=SoftwareProductInstallation.objects.all(),
-        required=False,
-        label="Installation",
-    )
 
 
 class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
@@ -131,7 +115,6 @@ class SoftwareLicenseBulkImportForm(NetBoxModelImportForm):
             "support",
             "license_amount",
             "version",
-            "installation",
             "tags",
         )
 
@@ -150,7 +133,6 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
             "license_amount",
             "software_product",
             "version",
-            "installation",
         ),
     )
     nullable_fields = (
@@ -163,7 +145,6 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
         "support",
         "license_amount",
         "version",
-        "installation",
     )
 
     tag = TagFilterField(model)
@@ -187,13 +168,5 @@ class SoftwareLicenseBulkEditForm(NetBoxModelBulkEditForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={"software_product_id": "$software_product"},
-    )
-    installation = DynamicModelChoiceField(
-        queryset=SoftwareProductInstallation.objects.all(),
-        required=False,
-        widget=APISelect(
-            attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductinstallation-list")}
-        ),
         query_params={"software_product_id": "$software_product"},
     )

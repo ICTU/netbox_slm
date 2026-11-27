@@ -6,8 +6,7 @@ from .base import SlmBaseTestCase
 
 
 class FunctionalTestCase(SlmBaseTestCase):
-    """Functional test cases that require a client and user with permissions"""
-
+    # Functional test cases that require a client and user with permissions
     def setUp(self):
         test_user, _ = get_user_model().objects.get_or_create(username="test", is_superuser=True)
         self.client.force_login(test_user)

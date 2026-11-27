@@ -24,8 +24,3 @@ class SoftwareProductInstallationTableTestCase(TableTestCases.StandardTableTestC
 
 class SoftwareLicenseTableTestCase(TableTestCases.StandardTableTestCase, SlmBaseTestCase):
     table = SoftwareLicenseTable
-
-    def test_render_installation(self):
-        for _, queryset in self.get_queryset_sources():
-            table = self.get_table(queryset)
-            self.assertEqual(str(self.vm), table.render_installation(record=self.software_license))
