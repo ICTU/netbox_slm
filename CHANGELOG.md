@@ -2,15 +2,24 @@
 
 ## [Unreleased]
 
+### Added
+
+* Supporting tables in object detail views (#91)
+
 ### Changed
 
 * Set default ordering for all SLM models (#75)
+* Allow multiple installations of a license (#97)
 
 ### Fixed
 
 * Sorting software product installations by platform and/or type (#30)
 * Sorting software licenses by stored location (#30)
 * Filtering in dropdown widgets (#83)
+
+### Deprecated
+
+* Foreign relation `SoftwareLicense.installation`; migrated to new field, will be removed in future version (#97)
 
 ## [1.9.0](https://github.com/ICTU/netbox_slm/releases/tag/1.9.0) - 2026-06-25
 
