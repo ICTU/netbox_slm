@@ -15,6 +15,9 @@ from utilities.forms.widgets import APISelect
 from virtualization.models import Cluster, VirtualMachine
 
 
+_software_product_query_params = {"software_product_id": "$software_product"}
+
+
 class SoftwareProductInstallationForm(NetBoxModelForm):
     comments = CommentField()
 
@@ -34,14 +37,14 @@ class SoftwareProductInstallationForm(NetBoxModelForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=True,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={"software_product_id": "$software_product"},
+        query_params=_software_product_query_params,
     )
     license = DynamicModelChoiceField(
         queryset=SoftwareLicense.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwarelicense-list")}),
-        query_params={"software_product_id": "$software_product"},
-    )  # TODO - also include version id to narrow widget list ?
+        query_params=_software_product_query_params,
+    )
 
     class Meta:
         model = SoftwareProductInstallation
@@ -147,11 +150,11 @@ class SoftwareProductInstallationBulkEditForm(NetBoxModelBulkEditForm):
         queryset=SoftwareProductVersion.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwareproductversion-list")}),
-        query_params={"software_product_id": "$software_product"},
+        query_params=_software_product_query_params,
     )
     license = DynamicModelChoiceField(
         queryset=SoftwareLicense.objects.all(),
         required=False,
         widget=APISelect(attrs={"data-url": reverse_lazy("plugins-api:netbox_slm-api:softwarelicense-list")}),
-        query_params={"software_product_id": "$software_product"},
-    )  # TODO - also include version id to narrow widget list ?
+        query_params=_software_product_query_params,
+    )

@@ -90,6 +90,9 @@ per-file-ignores."netbox_slm/__init__.py" = [
   "init-module-content",  # netbox plugin style
   "undeclared-dependency",  # avoid circular import
 ]
+per-file-ignores."netbox_slm/models.py" = [
+  "definition-before-use",  # prefer defining first, to avoid scattered methods between classes
+]
 per-file-ignores."netbox_slm/tests/*" = [
   "missing-override",  # tests can override
 ]

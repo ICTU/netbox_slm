@@ -20,6 +20,25 @@ class LaxURLField(models.URLField):
     default_validators = [EnhancedURLValidator()]
 
 
+def installation_count_from_pk(object_name, pk):
+    count = SoftwareProductInstallation.objects.filter(**{f"{object_name}_id": pk}).count()
+    search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list", query={f"{object_name}_id": pk})
+    return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
+
+
+def spdx_license_names():
+    names = [(item[0], item[0]) for item in spdx_licensing.known_symbols.items() if not item[1].is_exception]
+    names.sort()
+    names.insert(0, ("", "---------"))  # set default value
+    return names
+
+
+def validate_spdx_expression(value):
+    expression_info = spdx_licensing.validate(value)
+    if expression_info.errors:  # keep validation separate from check - simplint: ignore[single-use-variable]
+        raise ValidationError(f"{value} is not a known SPDX license expression")
+
+
 class SoftwareProduct(NetBoxModel):
     class Meta:
         ordering = ("name",)
@@ -39,11 +58,7 @@ class SoftwareProduct(NetBoxModel):
         return reverse("plugins:netbox_slm:softwareproduct", kwargs={"pk": self.pk})
 
     def get_installation_count(self):
-        count = SoftwareProductInstallation.objects.filter(software_product_id=self.pk).count()
-        search_target = reverse(
-            "plugins:netbox_slm:softwareproductinstallation_list", query={"software_product_id": self.pk}
-        )
-        return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
+        return installation_count_from_pk("software_product", self.pk)
 
 
 class SoftwareProductInstallation(NetBoxModel):
@@ -136,22 +151,7 @@ class SoftwareProductVersion(NetBoxModel):
         return reverse("plugins:netbox_slm:softwareproductversion", kwargs={"pk": self.pk})
 
     def get_installation_count(self):
-        count = SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
-        search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list", query={"version_id": self.pk})
-        return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
-
-
-def spdx_license_names():
-    names = [(item[0], item[0]) for item in spdx_licensing.known_symbols.items() if not item[1].is_exception]
-    names.sort()
-    names.insert(0, ("", "---------"))  # set default value
-    return names
-
-
-def validate_spdx_expression(value):
-    expression_info = spdx_licensing.validate(value)
-    if expression_info.errors:  # keep validation separate from check - simplint: ignore[single-use-variable]
-        raise ValidationError(f"{value} is not a known SPDX license expression")
+        return installation_count_from_pk("version", self.pk)
 
 
 class SoftwareLicense(NetBoxModel):
@@ -192,6 +192,4 @@ class SoftwareLicense(NetBoxModel):
         return reverse("plugins:netbox_slm:softwarelicense", kwargs={"pk": self.pk})
 
     def get_installation_count(self):
-        count = SoftwareProductInstallation.objects.filter(license_id=self.pk).count()
-        search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list", query={"license_id": self.pk})
-        return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
+        return installation_count_from_pk("license", self.pk)
