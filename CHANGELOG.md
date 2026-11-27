@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.10.0](https://github.com/ICTU/netbox_slm/releases/tag/1.10.0) - 2026-11-27
+
 ### Added
 
 * Supporting tables in object detail views (#91)

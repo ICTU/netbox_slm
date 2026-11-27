@@ -4,7 +4,7 @@ requires = [ "uv-build>=0.12,<0.13" ]
 
 [project]
 name = "netbox-slm"
-version = "1.9.1"
+version = "1.10.0"
 description = "Software Lifecycle Management Netbox Plugin"
 readme = "README.md"
 license = "Apache-2.0"
@@ -36,17 +36,19 @@ classifiers = [
 dependencies = [
   "license-expression==30.4.4",
 ]
-optional-dependencies.build = [
-  "twine==7",
-]
-optional-dependencies.ci = [
-  "coverage==7.16.2",
-  "ruff==0.16.10",
-  "simplint==0.14.7",
-]
 urls.Changelog = "https://github.com/ICTU/netbox_slm/blob/master/CHANGELOG.md"
 urls.Homepage = "https://github.com/ICTU/netbox_slm/"
 urls.Issues = "https://github.com/ICTU/netbox_slm/issues/"
+
+[dependency-groups]
+build = [
+  "twine==7",
+]
+ci = [
+  "coverage==7.17.3",
+  "ruff==0.17.6",
+  "simplint==0.14.4",
+]
 
 [tool.uv]
 exclude-newer = "7 days"  # managed by Update-time — remove this comment to prevent Update-time from changing it
@@ -78,21 +80,21 @@ lint.per-file-ignores."netbox_slm/migrations/*.py" = [
 [tool.simplint]
 select = [ "ALL" ]
 ignore = [
-  "absolute-sibling-import",  # prefer explicit path import
-  "missing-final",  # not (yet) using typing
-  "missing-from-all",  # not using __all__
-  "module-attribute-import",  # Django style and shorter import statements
-  "module-variable-case",  # NetBox / Django style
+  "absolute-sibling-import", # prefer explicit path import
+  "missing-final",           # not (yet) using typing
+  "missing-from-all",        # not using __all__
+  "module-attribute-import", # Django style and shorter import statements
+  "module-variable-case",    # NetBox / Django style
   "module-variable-prefix",  # Django style and not using __all__
-  "undocumented-public-api",  # not writing docstrings everywhere
+  "undocumented-public-api", # not writing docstrings everywhere
 ]
 per-file-ignores."netbox_slm/__init__.py" = [
-  "init-module-content",  # netbox plugin style
-  "undeclared-dependency",  # avoid circular import
+  "init-module-content",   # netbox plugin style
+  "undeclared-dependency", # avoid circular import
 ]
 per-file-ignores."netbox_slm/models.py" = [
-  "definition-before-use",  # prefer defining first, to avoid scattered methods between classes
+  "definition-before-use", # prefer defining first, to avoid scattered methods between classes
 ]
 per-file-ignores."netbox_slm/tests/*" = [
-  "missing-override",  # tests can override
+  "missing-override", # tests can override
 ]

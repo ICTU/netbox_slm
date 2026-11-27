@@ -29,7 +29,7 @@ jobs:
     - name: Run Django tests with coverage for netbox_slm
       run: |
         chmod go+w ci/reports
-        docker compose run netbox sh -c "\
+        docker compose run --remove-orphans netbox sh -c "\
           /opt/netbox/venv/bin/coverage run --source='netbox_slm' manage.py test netbox_slm &&\
           /opt/netbox/venv/bin/coverage report --fail-under=0 &&\
           /opt/netbox/venv/bin/coverage xml -o /ci/reports/coverage.xml"
@@ -38,6 +38,6 @@ jobs:
 
     - name: Sonar scan
       if: env.SONAR_TOKEN != null
-      uses: SonarSource/sonarqube-scan-action@d209202bc7d53ff1cc128f7f907dac145c9d6ae9 # v8.3.0
+      uses: SonarSource/sonarqube-scan-action@59202af334b4ba7b5db01b701b8e79f8b3bef0f4 # v8.5.0
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

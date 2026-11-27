@@ -36,7 +36,7 @@ services:
 
   # postgres
   postgres:
-    image: docker.io/postgres:18.6-alpine3.24@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+    image: docker.io/postgres:18.6-alpine3.24@sha256:9ba53c7d41ea093baf5c1ba635ba5434c4f979880527d49bb7d9237d3193085b
     healthcheck:
       test: pg_isready -q -t 2 -d $$POSTGRES_DB -U $$POSTGRES_USER
       start_period: 20s
@@ -49,7 +49,7 @@ services:
 
   # redis
   redis:
-    image: docker.io/valkey/valkey:9.2-alpine3.24@sha256:cdcb7b1c7b6f1c9cb9442c71ac6275e78184657448407b2c1fdde7ee8024f4fb
+    image: docker.io/valkey/valkey:9.2-alpine3.24@sha256:3ad5a213cb1bc2fd4a113c89b6248a88655a6bf1dda69519d04e03cd3e3d2742
     command:
       - sh
       - -c # this is to evaluate the $REDIS_PASSWORD from the env
@@ -64,7 +64,7 @@ services:
     volumes:
       - netbox-redis-data:/data
   redis-cache:
-    image: docker.io/valkey/valkey:9.2-alpine3.24@sha256:cdcb7b1c7b6f1c9cb9442c71ac6275e78184657448407b2c1fdde7ee8024f4fb
+    image: docker.io/valkey/valkey:9.2-alpine3.24@sha256:3ad5a213cb1bc2fd4a113c89b6248a88655a6bf1dda69519d04e03cd3e3d2742
     command:
       - sh
       - -c # this is to evaluate the $REDIS_PASSWORD from the env
