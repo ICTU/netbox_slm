@@ -34,15 +34,15 @@ class SlmBaseTestCase(TestCase):
 
         software_products = (
             SoftwareProduct(name=cls.p_name),
-            SoftwareProduct(name=cls.p_name + "2"),
-            SoftwareProduct(name=cls.p_name + "3"),
+            SoftwareProduct(name=f"{cls.p_name}2"),
+            SoftwareProduct(name=f"{cls.p_name}3"),
         )
         cls.software_product = SoftwareProduct.objects.bulk_create(software_products)[0]
 
         software_product_versions = (
             SoftwareProductVersion(name=cls.v_name, software_product=cls.software_product),
-            SoftwareProductVersion(name=cls.v_name + "2", software_product=cls.software_product),
-            SoftwareProductVersion(name=cls.v_name + "3", software_product=cls.software_product),
+            SoftwareProductVersion(name=f"{cls.v_name}2", software_product=cls.software_product),
+            SoftwareProductVersion(name=f"{cls.v_name}3", software_product=cls.software_product),
         )
         cls.software_product_version = SoftwareProductVersion.objects.bulk_create(software_product_versions)[0]
 
@@ -54,12 +54,12 @@ class SlmBaseTestCase(TestCase):
                 stored_location_url=cls.test_url,
             ),
             SoftwareLicense(
-                name=cls.l_name + "2",
+                name=f"{cls.l_name}2",
                 software_product=cls.software_product,
                 version=cls.software_product_version,
             ),
             SoftwareLicense(
-                name=cls.l_name + "3",
+                name=f"{cls.l_name}3",
                 software_product=cls.software_product,
             ),
         )

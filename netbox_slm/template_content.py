@@ -14,9 +14,8 @@ class InstallationsCard(PluginTemplateExtension):
         "virtualization.virtualmachine",
     )
 
-    def get_object_name(self):
-        object_model_meta = self.context["object"]._meta  # one of the self.models defined above
-        return object_model_meta.model_name
+    def left_page(self):
+        return self.render_card() if installations[self.get_object_name()] == "left" else ""
 
     def render_card(self):
         return self.render(
@@ -26,8 +25,9 @@ class InstallationsCard(PluginTemplateExtension):
             },
         )
 
-    def left_page(self):
-        return self.render_card() if installations[self.get_object_name()] == "left" else ""
+    def get_object_name(self):
+        object_model_meta = self.context["object"]._meta  # one of the self.models defined above
+        return object_model_meta.model_name
 
     def right_page(self):
         return self.render_card() if installations[self.get_object_name()] == "right" else ""

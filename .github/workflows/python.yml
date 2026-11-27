@@ -39,3 +39,6 @@ jobs:
 
     - name: Run ruff format
       run: ruff format --check netbox_slm
+
+    - name: Run simplint
+      run: simplint check netbox_slm

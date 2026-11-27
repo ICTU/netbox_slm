@@ -40,8 +40,7 @@ class SoftwareProductView(generic.ObjectView):
     queryset = models.SoftwareProduct.objects.all()
 
     def get_extra_context(self, request, instance):
-        versions = instance.softwareproductversion_set.all()
-        return {"versions": versions}
+        return {"versions": instance.softwareproductversion_set.all()}
 
 
 @register_model_view(models.SoftwareProduct, "add", detail=False)

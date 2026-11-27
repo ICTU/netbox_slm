@@ -21,6 +21,9 @@ class LaxURLField(models.URLField):
 
 
 class SoftwareProduct(NetBoxModel):
+    class Meta:
+        ordering = ("name",)
+
     name = models.CharField(max_length=128)
     comments = models.TextField(blank=True)
 
@@ -31,9 +34,6 @@ class SoftwareProduct(NetBoxModel):
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        ordering = ("name",)
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproduct", kwargs={"pk": self.pk})
@@ -46,6 +46,54 @@ class SoftwareProduct(NetBoxModel):
         return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
 
 
+class SoftwareProductInstallation(NetBoxModel):
+    class Meta:
+        ordering = ("id",)
+        constraints = [
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_platform",
+                condition=(
+                    models.Q(device__isnull=False, virtualmachine__isnull=True, cluster__isnull=True)
+                    | models.Q(device__isnull=True, virtualmachine__isnull=False, cluster__isnull=True)
+                    | models.Q(device__isnull=True, virtualmachine__isnull=True, cluster__isnull=False)
+                ),
+                violation_error_message="Installation requires exactly one platform destination.",
+            )
+        ]
+
+    comments = models.TextField(blank=True)
+
+    device = models.ForeignKey(to="dcim.Device", on_delete=models.PROTECT, null=True, blank=True)
+    virtualmachine = models.ForeignKey(
+        to="virtualization.VirtualMachine", on_delete=models.PROTECT, null=True, blank=True
+    )
+    cluster = models.ForeignKey(to="virtualization.Cluster", on_delete=models.PROTECT, null=True, blank=True)
+
+    software_product = models.ForeignKey(to="netbox_slm.SoftwareProduct", on_delete=models.PROTECT)
+    version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT)
+    license = models.ForeignKey(to="netbox_slm.SoftwareLicense", on_delete=models.SET_NULL, null=True, blank=True)
+
+    objects = RestrictedQuerySet.as_manager()
+
+    def __str__(self):
+        return f"{self.pk} ({self.platform})"
+
+    @property
+    def platform(self):
+        return self.device or self.virtualmachine or self.cluster
+
+    @property
+    def type(self):
+        if self.device:
+            return "device"
+        if self.virtualmachine:
+            return "virtualmachine"
+        return "cluster"
+
+    def get_absolute_url(self):
+        return reverse("plugins:netbox_slm:softwareproductinstallation", kwargs={"pk": self.pk})
+
+
 class SoftwareReleaseTypes(models.TextChoices):
     ALPHA = "A", "Alpha"
     BETA = "B", "Beta"
@@ -54,6 +102,9 @@ class SoftwareReleaseTypes(models.TextChoices):
 
 
 class SoftwareProductVersion(NetBoxModel):
+    class Meta:
+        ordering = ("name",)
+
     name = models.CharField(max_length=64)
     comments = models.TextField(blank=True)
 
@@ -81,9 +132,6 @@ class SoftwareProductVersion(NetBoxModel):
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ("name",)
-
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwareproductversion", kwargs={"pk": self.pk})
 
@@ -91,54 +139,6 @@ class SoftwareProductVersion(NetBoxModel):
         count = SoftwareProductInstallation.objects.filter(version_id=self.pk).count()
         search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list", query={"version_id": self.pk})
         return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
-
-
-class SoftwareProductInstallation(NetBoxModel):
-    comments = models.TextField(blank=True)
-
-    device = models.ForeignKey(to="dcim.Device", on_delete=models.PROTECT, null=True, blank=True)
-    virtualmachine = models.ForeignKey(
-        to="virtualization.VirtualMachine", on_delete=models.PROTECT, null=True, blank=True
-    )
-    cluster = models.ForeignKey(to="virtualization.Cluster", on_delete=models.PROTECT, null=True, blank=True)
-
-    software_product = models.ForeignKey(to="netbox_slm.SoftwareProduct", on_delete=models.PROTECT)
-    version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT)
-    license = models.ForeignKey(to="netbox_slm.SoftwareLicense", on_delete=models.SET_NULL, null=True, blank=True)
-
-    objects = RestrictedQuerySet.as_manager()
-
-    def __str__(self):
-        return f"{self.pk} ({self.platform})"
-
-    class Meta:
-        ordering = ("id",)
-        constraints = [
-            models.CheckConstraint(
-                name="%(app_label)s_%(class)s_platform",
-                condition=(
-                    models.Q(device__isnull=False, virtualmachine__isnull=True, cluster__isnull=True)
-                    | models.Q(device__isnull=True, virtualmachine__isnull=False, cluster__isnull=True)
-                    | models.Q(device__isnull=True, virtualmachine__isnull=True, cluster__isnull=False)
-                ),
-                violation_error_message="Installation requires exactly one platform destination.",
-            )
-        ]
-
-    def get_absolute_url(self):
-        return reverse("plugins:netbox_slm:softwareproductinstallation", kwargs={"pk": self.pk})
-
-    @property
-    def platform(self):
-        return self.device or self.virtualmachine or self.cluster
-
-    @property
-    def type(self):
-        if self.device:
-            return "device"
-        if self.virtualmachine:
-            return "virtualmachine"
-        return "cluster"
 
 
 def spdx_license_names():
@@ -150,11 +150,14 @@ def spdx_license_names():
 
 def validate_spdx_expression(value):
     expression_info = spdx_licensing.validate(value)
-    if expression_info.errors:
+    if expression_info.errors:  # keep validation separate from check - simplint: ignore[single-use-variable]
         raise ValidationError(f"{value} is not a known SPDX license expression")
 
 
 class SoftwareLicense(NetBoxModel):
+    class Meta:
+        ordering = ("name",)
+
     name = models.CharField(max_length=128)
     comments = models.TextField(blank=True)
 
@@ -179,8 +182,11 @@ class SoftwareLicense(NetBoxModel):
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ("name",)
+    @property
+    def stored_location_txt(self):
+        if self.stored_location_url and not self.stored_location:
+            return "Link"
+        return self.stored_location
 
     def get_absolute_url(self):
         return reverse("plugins:netbox_slm:softwarelicense", kwargs={"pk": self.pk})
@@ -189,9 +195,3 @@ class SoftwareLicense(NetBoxModel):
         count = SoftwareProductInstallation.objects.filter(license_id=self.pk).count()
         search_target = reverse("plugins:netbox_slm:softwareproductinstallation_list", query={"license_id": self.pk})
         return format_html("<a href='{}'>{}</a>", search_target, count) if count else "0"
-
-    @property
-    def stored_location_txt(self):
-        if self.stored_location_url and not self.stored_location:
-            return "Link"
-        return self.stored_location

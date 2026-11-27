@@ -42,6 +42,7 @@ optional-dependencies.build = [
 optional-dependencies.ci = [
   "coverage==7.16.2",
   "ruff==0.16.10",
+  "simplint==0.14.7",
 ]
 urls.Changelog = "https://github.com/ICTU/netbox_slm/blob/master/CHANGELOG.md"
 urls.Homepage = "https://github.com/ICTU/netbox_slm/"
@@ -72,4 +73,23 @@ lint.per-file-ignores."__init__.py" = [
 ]
 lint.per-file-ignores."netbox_slm/migrations/*.py" = [
   "E501", # https://beta.ruff.rs/docs/rules/line-too-long/ - don't check on Django generated migration files
+]
+
+[tool.simplint]
+select = [ "ALL" ]
+ignore = [
+  "absolute-sibling-import",  # prefer explicit path import
+  "missing-final",  # not (yet) using typing
+  "missing-from-all",  # not using __all__
+  "module-attribute-import",  # Django style and shorter import statements
+  "module-variable-case",  # NetBox / Django style
+  "module-variable-prefix",  # Django style and not using __all__
+  "undocumented-public-api",  # not writing docstrings everywhere
+]
+per-file-ignores."netbox_slm/__init__.py" = [
+  "init-module-content",  # netbox plugin style
+  "undeclared-dependency",  # avoid circular import
+]
+per-file-ignores."netbox_slm/tests/*" = [
+  "missing-override",  # tests can override
 ]

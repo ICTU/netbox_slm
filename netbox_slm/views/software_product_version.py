@@ -39,8 +39,7 @@ class SoftwareProductVersionView(generic.ObjectView):
     queryset = models.SoftwareProductVersion.objects.all()
 
     def get_extra_context(self, request, instance):  # TODO - is this used?
-        installation_count = instance.get_installation_count()
-        return {"installations": installation_count}
+        return {"installations": instance.get_installation_count()}
 
 
 @register_model_view(models.SoftwareProductVersion, "add", detail=False)

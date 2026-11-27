@@ -2,8 +2,7 @@ from .base import SlmBaseTestCase
 
 
 class ModelTestCase(SlmBaseTestCase):
-    """Test basic model functionality and custom overrides"""
-
+    # Test basic model functionality and custom overrides
     def test_model_name(self):
         self.assertEqual(self.p_name, str(self.software_product))
         self.assertEqual(self.v_name, str(self.software_product_version))

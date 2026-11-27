@@ -36,7 +36,7 @@ class SoftwareProductTable(NetBoxTable):
 
     def order_installations(self, queryset, is_descending):
         queryset = queryset.annotate(count=Count("softwareproductinstallation__id")).order_by(
-            ("-" if is_descending else "") + "count"
+            f"{'-' if is_descending else ''}count"
         )
         return queryset, True
 
@@ -78,7 +78,7 @@ class SoftwareProductVersionTable(NetBoxTable):
 
     def order_installations(self, queryset, is_descending):
         queryset = queryset.annotate(count=Count("softwareproductinstallation__id")).order_by(
-            ("-" if is_descending else "") + "count"
+            f"{'-' if is_descending else ''}count"
         )
         return queryset, True
 
@@ -183,7 +183,7 @@ class SoftwareLicenseTable(NetBoxTable):
 
     def order_installations(self, queryset, is_descending):
         queryset = queryset.annotate(count=Count("softwareproductinstallation__id")).order_by(
-            ("-" if is_descending else "") + "count"
+            f"{'-' if is_descending else ''}count"
         )
         return queryset, True
 
