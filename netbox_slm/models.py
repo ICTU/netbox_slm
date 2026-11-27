@@ -175,7 +175,7 @@ class SoftwareLicense(NetBoxModel):
     version = models.ForeignKey(to="netbox_slm.SoftwareProductVersion", on_delete=models.PROTECT, null=True, blank=True)
     installation = models.ForeignKey(
         to="netbox_slm.SoftwareProductInstallation", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    )  # To be removed in https://github.com/ICTU/netbox_slm/issues/96
 
     objects = RestrictedQuerySet.as_manager()
 

@@ -128,7 +128,6 @@ class SoftwareLicenseFilterSet(NetBoxModelFilterSet):
         label="Software Product",
     )
     version_id = ModelMultipleChoiceFilter(queryset=SoftwareProductVersion.objects.all())
-    installation_id = ModelMultipleChoiceFilter(queryset=SoftwareProductInstallation.objects.all())
 
     class Meta:
         model = SoftwareLicense

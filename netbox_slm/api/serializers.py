@@ -26,7 +26,6 @@ class SoftwareLicenseSerializer(NetBoxModelSerializer):
             "license_amount",
             "software_product",
             "version",
-            "installation",
             "tags",
             "comments",
             "custom_field_data",
